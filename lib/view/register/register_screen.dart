@@ -4,8 +4,10 @@ import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/services/auth_service/auth.dart';
 import 'package:job_board_app/view/login/login_screen.dart';
 
+import '../../model/company_model.dart';
 import '../../utils/utils.dart';
 import '../../utils/validation.dart';
+import '../common_widgets/custom_textfield.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -20,18 +22,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _confirmPassController = TextEditingController();
   final _userNameController = TextEditingController();
   final _fullNameController = TextEditingController();
+  final _companyNameController = TextEditingController();
+  final _companyEmailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isObscure = true;
 
-  final List<String> userRole = ["Company Admin", "Job Seeker"];
+  final List<String> userRoles = ["Company Admin", "Job Seeker"];
   late String selectedRole;
 
   @override
   void initState() {
-    selectedRole = userRole.last;
+    selectedRole = userRoles.last;
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,34 +61,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     color: Color(0xff1E1F20))),
             const SizedBox(height: 24),
 
-            // User Name Text Filed
-            const Text('User Name',
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    color: Color(0xff1E1F20))),
-            const SizedBox(height: 8),
-            _nameTextFiled(_userNameController),
-            const SizedBox(height: 16),
+            if (selectedRole == userRoles.last) ..._buildJobSeekerInput(),
+            if (selectedRole == userRoles.first) ..._buildCompanyAdminInput(),
 
-            // User Name Text Filed
-            const Text('Name',
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    color: Color(0xff1E1F20))),
-            const SizedBox(height: 8),
-            _nameTextFiled(_fullNameController, hint: 'Enter Name'),
-            const SizedBox(height: 16),
-
-            // Input Your Email
-            const Text('Email',
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    color: Color(0xff1E1F20))),
-            const SizedBox(height: 8),
-            _emailTextFiled(_emailController),
             const SizedBox(height: 16),
 
             // Input Your Password
@@ -120,11 +98,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     fontSize: 14,
                     color: Color(0xff1E1F20))),
             const SizedBox(height: 8),
-            _confirmPassordFiled(_confirmPassController),
+            _confirmPassword(_confirmPassController),
             const SizedBox(height: 24),
 
+            const Text('Role Type',
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: Color(0xff1E1F20))),
+            const SizedBox(height: 8),
             // Drop Down Role
-            CustomDropDown(selectedRole: selectedRole, userRole: userRole),
+            CustomDropDown(
+              selectedRole: selectedRole,
+              userRoles: userRoles,
+              onRoleChanged: (newRole) {
+                setState(() {
+                  selectedRole = newRole;
+                });
+              },
+            ),
             const SizedBox(height: 35),
 
             // Registration button to login with email and password
@@ -141,30 +133,73 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget _buildRegisterButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        UserModel userModel = UserModel(
-            id: '',
-            username: _userNameController.text.trim(),
-            email: _emailController.text.trim(),
-            password: _passwordController.text.trim(),
-            role: selectedRole);
+        try {
+          dynamic model;
 
-        User? user =
-            await AuthService.signUpWithEmailAndPass(userModel, context);
+          if (selectedRole == "Job Seeker") {
+            model = _createUserModel();
+          } else if (selectedRole == "Company Admin") {
+            model = _createCompanyModel();
+          }
+
+          User? user = await AuthService.signUpWithEmailAndPassword(
+              model, context, selectedRole);
+
+          // Handle successful registration
+          Utils.showSnackBar(context, 'Registration successful ✓');
+        } catch (e) {
+          // Handle registration failure
+          Utils.showSnackBar(context, 'Registration failed: $e');
+        }
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: Utils.scrHeight * .015),
         child: Text(
           'Register',
           style: TextStyle(
-              fontSize: Utils.scrHeight * .022, fontWeight: FontWeight.bold),
+            fontSize: Utils.scrHeight * .022,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
+    );
+  }
+
+  // Extracted method to create UserModel
+  UserModel _createUserModel() {
+    return UserModel(
+      id: '',
+      username: _userNameController.text.trim(),
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+      role: selectedRole,
+    );
+  }
+
+  // Extracted method to create CompanyModel
+  CompanyModel _createCompanyModel() {
+    return CompanyModel(
+      id: '',
+      userId: '',
+      // Set appropriate value
+      cityId: '',
+      // Set appropriate value
+      name: _companyNameController.text.trim(),
+      email: _companyEmailController.text.trim(),
+      phone: '',
+      teamSize: 0,
+      // Set appropriate value
+      address: '',
+      // Set appropriate value
+      status: CompanyStatus.active,
+      password: _passwordController.text.trim(),
     );
   }
 
   Row buildGoToLoginSection() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         const Text(
           "If have an account?",
@@ -217,16 +252,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         });
   }
 
-  TextFormField _emailTextFiled(TextEditingController controller) {
+  TextFormField _emailTextFiled(TextEditingController controller,
+      {String hint = 'Enter Email'}) {
     return TextFormField(
         controller: controller,
         keyboardType: TextInputType.emailAddress,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            border: OutlineInputBorder(borderSide: BorderSide(width: 5)),
-            hintText: 'Enter Email',
-            hintStyle: TextStyle(
+        decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            border: const OutlineInputBorder(borderSide: BorderSide(width: 5)),
+            hintText: hint,
+            hintStyle: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
                 color: Color(0xff1E1F20))),
@@ -278,7 +315,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  TextFormField _confirmPassordFiled(TextEditingController controller) {
+  TextFormField _confirmPassword(TextEditingController controller) {
     return TextFormField(
       controller: controller,
       keyboardType: TextInputType.text,
@@ -321,15 +358,83 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _userNameController.dispose();
+    _confirmPassController.dispose();
+    _fullNameController.dispose();
+    _companyEmailController.dispose();
     super.dispose();
+  }
+
+  List<Widget> _buildJobSeekerInput() => [
+        // User Name Text Filed
+        const Text('User Name',
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                color: Color(0xff1E1F20))),
+        const SizedBox(height: 8),
+        _nameTextFiled(_userNameController),
+        const SizedBox(height: 16),
+        // User Name Text Filed
+        const Text('Name',
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                color: Color(0xff1E1F20))),
+        const SizedBox(height: 8),
+        _nameTextFiled(_fullNameController, hint: 'Enter Name'),
+        const SizedBox(height: 16),
+
+        // Input Your Email
+        const Text('Email',
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                color: Color(0xff1E1F20))),
+        const SizedBox(height: 8),
+        _emailTextFiled(_emailController),
+      ];
+
+  List<Widget> _buildCompanyAdminInput() => [
+        // User Name Text Filed
+        const Text('Company Name',
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                color: Color(0xff1E1F20))),
+        const SizedBox(height: 8),
+        _buildTextField(
+            _companyNameController, 'Company Name', 'Enter Company Name'),
+
+        const SizedBox(height: 16),
+
+        // User Name Text Filed
+        const Text('Company Email',
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                color: Color(0xff1E1F20))),
+        const SizedBox(height: 8.0),
+        _buildTextField(
+            _companyEmailController, 'Company Email', 'Enter Company Email'),
+      ];
+
+  Widget _buildTextField(
+      TextEditingController controller, String label, String hint) {
+    return CustomTextField(controller: controller, label: label, hint: hint);
   }
 }
 
 class CustomDropDown extends StatefulWidget {
-   CustomDropDown({super.key, required this.selectedRole, required this.userRole});
+  CustomDropDown({
+    Key? key,
+    required this.selectedRole,
+    required this.userRoles,
+    required this.onRoleChanged,
+  }) : super(key: key);
 
   String selectedRole;
-  final List<String> userRole;
+  final List<String> userRoles;
+  final ValueChanged<String> onRoleChanged;
 
   @override
   State<CustomDropDown> createState() => _CustomDropDownState();
@@ -338,35 +443,30 @@ class CustomDropDown extends StatefulWidget {
 class _CustomDropDownState extends State<CustomDropDown> {
   @override
   Widget build(BuildContext context) {
-    return
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey),
-        ),
-        child: DropdownButton<String>(
-          value: widget.selectedRole,
-          onChanged: (String? newValue) {
-            setState(() {
-              widget.selectedRole = newValue!;
-            });
-          },
-          items: widget.userRole.map((String role) {
-            return DropdownMenuItem<String>(
-              value: role,
-              child: Text(
-                role,
-                style: const TextStyle(fontSize: 16),
-              ),
-            );
-          }).toList(),
-          isExpanded: true,
-          icon: const Icon(Icons.arrow_drop_down),
-          iconSize: 36,
-          underline: const SizedBox(), // Remove the default underline
-        ),
-      );
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey),
+      ),
+      child: DropdownButton<String>(
+        value: widget.selectedRole,
+        onChanged: (String? newValue) {
+          if (newValue != null) {
+            widget.onRoleChanged(newValue);
+          }
+        },
+        items: widget.userRoles.map((String role) {
+          return DropdownMenuItem<String>(
+            value: role,
+            child: Text(role, style: const TextStyle(fontSize: 16)),
+          );
+        }).toList(),
+        isExpanded: true,
+        icon: const Icon(Icons.arrow_drop_down),
+        iconSize: 36,
+        underline: const SizedBox(), // Remove the default underline
+      ),
+    );
   }
 }
-

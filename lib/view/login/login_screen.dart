@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/services/auth_service/auth.dart';
 import 'package:job_board_app/utils/utils.dart';
-import 'package:job_board_app/view/home/home_screen.dart';
+import 'package:job_board_app/view/profile/profile_screen.dart';
 import 'package:job_board_app/view/register/register_screen.dart';
 
 import '../../utils/validation.dart';
@@ -19,12 +19,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isObscure = true;
-  final List<String> userRole = ["Company Admin", "Job Seeker", "Super Admin"];
+  final List<String> userRoles = ["Company Admin", "Job Seeker"];
   late String selectedRole;
 
   @override
   void initState() {
-    selectedRole = userRole[1];
+    selectedRole = userRoles[1];
     super.initState();
   }
 
@@ -89,7 +89,21 @@ class _LoginScreenState extends State<LoginScreen> {
             buildPasswordSection(),
             const SizedBox(height: 26),
 
-            CustomDropDown(selectedRole: selectedRole, userRole: userRole),
+            const Text('Role Type',
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: Color(0xff1E1F20))),
+            const SizedBox(height: 8),
+            CustomDropDown(
+              selectedRole: selectedRole,
+              userRoles: userRoles,
+              onRoleChanged: (newRole) {
+                setState(() {
+                  selectedRole = newRole;
+                });
+              },
+            ),
             const SizedBox(height: 26),
 
             // Login button for login with email and password
@@ -108,15 +122,21 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        User? user = await AuthService.signInWithEmailAndPass(
+        User? user = await AuthService.signInWithEmailAndPassword(
                 _emailController.text.trim(),
                 _passwordController.text.trim(),
                 selectedRole,
                 context)
-            .then((value) => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => HomeScreen(user: value))));
+            .then((value) => Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    if (selectedRole == "Company Admin") {
+                      return ProfileScreen(companyModel: value, role: selectedRole);
+                    } else {
+                      return ProfileScreen(
+                          userModel: value, role: selectedRole);
+                    }
+                  },
+                )));
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: Utils.scrHeight * .015),

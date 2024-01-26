@@ -23,7 +23,20 @@ class Utils {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
           backgroundColor: Colors.deepOrangeAccent,
-          content: Text(message), duration: const Duration(seconds: 5)),
+          content: Text(message), duration: const Duration(seconds: 1)),
     );
+  }
+
+  static CollectionReference<Map<String, dynamic>> getRefPathBasedOnRole (String role) {
+    switch (role) {
+      case "Job Seeker":
+        return Utils.jobSeekersRef;
+      case "Super Admin":
+        return Utils.superAdminsRef;
+      case "Company Admin":
+        return Utils.companyAdminsRef;
+      default:
+        throw Exception('Invalid role');
+    }
   }
 }
