@@ -1,92 +1,85 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:job_board_app/model/company_model.dart';
 import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/utils/utils.dart';
 
 class AuthService {
-  static Future<User?> signUpWithEmailAndPass(
-      UserModel userModel, BuildContext context) async {
+  static Future<User?> signUpWithEmailAndPassword(
+      dynamic model, BuildContext context, String role) async {
     try {
-      UserCredential credential = await Utils.auth
-          .createUserWithEmailAndPassword(
-              email: userModel.email, password: userModel.password);
-      User? user = credential.user;
+      UserCredential authResult = await Utils.auth.createUserWithEmailAndPassword(
+          email: model.email, password: model.password);
+      User? user = authResult.user;
 
       // Create a user document in Firestore based on the role
-      if (user != null) {
-        CollectionReference userCollection;
-
-        switch (userModel.role) {
-          case 'Company Admin':
-            userCollection = Utils.companyAdminsRef;
-            break;
-          case 'Job Seeker':
-            userCollection = Utils.jobSeekersRef;
-            break;
-          default:
-            // Handle other roles or throw an exception
-            throw Exception('Invalid role');
-        }
-
-        userModel.id = user.uid;
-
-        await userCollection.doc(user.uid).set(userModel.toMap());
-      }
-
+      // if (user != null) {
+        await _createUserDocument(user!, model, role);
+      // }
       return user;
     } catch (e) {
-      Utils.showSnackBar(context, "signUpWithEmailAndPass: ${e.toString()}");
+      _handleError(context, "signUpWithEmailAndPassword: ${e.toString()}");
       return null;
     }
   }
 
-  static Future<dynamic> signInWithEmailAndPass(
+  static Future<dynamic> signInWithEmailAndPassword(
       String email, String password, String role, BuildContext context) async {
     try {
-      UserCredential credential = await Utils.auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      UserCredential authResult = await Utils.auth
+          .signInWithEmailAndPassword(email: email, password: password);
 
-      // Fetch additional user information from Firestore based on the role and authId
-      if (credential.user != null) {
-        String authId = credential.user!.uid;
+      if (authResult.user != null) {
+        String authId = authResult.user!.uid;
 
-        CollectionReference firestorePath;
-        switch (role) {
-          case "Job Seeker":
-            firestorePath = Utils.jobSeekersRef;
-            break;
-          case "Super Admin":
-            firestorePath = Utils.superAdminsRef;
-            break;
-          case "Company Admin":
-            firestorePath = Utils.companyAdminsRef;
-            break;
-          default:
-            firestorePath = Utils.jobSeekersRef;
-        }
+        final userModel = await fetchUserDataFromFireStore(authId, role);
 
-        DocumentSnapshot userSnapshot = await firestorePath.doc(authId).get();
-        Map<String, dynamic>? userData =
-            userSnapshot.data() as Map<String, dynamic>?;
-
-        late final userModel;
-        if (userData != null) {
-          userModel = UserModel.fromMap(userData);
-          Utils.showSnackBar(
-              context, "User successfully signed in: $userModel");
+        if (userModel != null) {
+          Utils.showSnackBar(context, "User successfully signed in ✓");
+          // Utils.showSnackBar(context, userModel.toString());
+          return userModel;
         } else {
-          Utils.showSnackBar(context, "User data not found in Firestore.");
+          Utils.showSnackBar(context, "User data not found in Firestore!");
         }
-
-        return userModel;
       } else {
-        Utils.showSnackBar(context, "Authentication failed.");
+        Utils.showSnackBar(context, "Authentication failed!");
       }
     } catch (e) {
-      Utils.showSnackBar(context, "signInWithEmailAndPass: ${e.toString()}");
+      _handleError(context, "signInWithEmailAndPassword: ${e.toString()}");
     }
+  }
+
+  // Private method to create a user document in Firestore
+  static Future<void> _createUserDocument(
+      User user, dynamic model, String role) async {
+    CollectionReference userCollection =
+    Utils.getRefPathBasedOnRole(role);
+    model.id = user.uid;
+
+    print("_createUserDoc: ${model.toString()}");
+
+    await userCollection.doc(user.uid).set((model).toMap());
+  }
+
+  // Private method to fetch user data from Firestsore based on the role
+  static Future<dynamic> fetchUserDataFromFireStore(String authId, String role) async {
+    CollectionReference fireStorePath = Utils.getRefPathBasedOnRole(role);
+
+    DocumentSnapshot userSnapshot = await fireStorePath.doc(authId).get();
+    Map<String, dynamic>? userData = userSnapshot.data() as Map<String, dynamic>?;
+
+    print(userData);
+
+    return userData != null
+        ? (role == "Company Admin"
+        ? CompanyModel.fromMap(userData)
+        : UserModel.fromMap(userData))
+        : null;
+  }
+
+  // Private method to handle errors and show a snackbar
+  static void _handleError(BuildContext context, String errorMessage) {
+    Utils.showSnackBar(context, errorMessage);
   }
 }
