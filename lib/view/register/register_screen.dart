@@ -136,9 +136,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         try {
           dynamic model;
 
-          if (selectedRole == "Job Seeker") {
+          if (selectedRole == userRoles.last) {
             model = _createUserModel();
-          } else if (selectedRole == "Company Admin") {
+          } else if (selectedRole == userRoles.first) {
             model = _createCompanyModel();
           }
 

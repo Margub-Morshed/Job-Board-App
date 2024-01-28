@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    selectedRole = userRoles[1];
+    selectedRole = userRoles.last;
     super.initState();
   }
 
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 context)
             .then((value) => Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                    if (selectedRole == "Company Admin") {
+                    if (selectedRole == userRoles.first) {
                       return ProfileScreen(companyModel: value, role: selectedRole);
                     } else {
                       return ProfileScreen(

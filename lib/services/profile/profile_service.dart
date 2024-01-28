@@ -1,11 +1,10 @@
 import '../../utils/utils.dart';
 
 class ProfileService {
-  static Future<void> updateProfile(dynamic model) async {
+  static Future<void> updateProfile(dynamic model, String role) async {
     try {
       if (model.id != null) {
-        print("Model ID: " + model.id);
-        await Utils.jobSeekersRef.doc(model.id).update(model.toMap());
+        await Utils.getRefPathBasedOnRole(role).doc(model.id).update(model.toMap());
       } else {
         // Handle the case where the model's id is null
         throw Exception('Model id is null');

@@ -44,6 +44,8 @@ import 'package:flutter/material.dart';
 import 'package:job_board_app/utils/utils.dart';
 
 class CompanyListScreen extends StatelessWidget {
+  const CompanyListScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

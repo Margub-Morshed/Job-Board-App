@@ -139,20 +139,14 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildTextField(
       TextEditingController controller, String label, String hint) {
-    return CustomTextField(
-      controller: controller,
-      label: label,
-      hint: hint,
-    );
+    return CustomTextField(controller: controller, label: label, hint: hint);
   }
 
   Widget _buildUpdateButton() {
     return ElevatedButton(
       onPressed: _updateProfile,
-      child: Text(
-        'Update Profile',
-        style: TextStyle(fontSize: Utils.scrHeight * .02),
-      ),
+      child: Text('Update Profile',
+          style: TextStyle(fontSize: Utils.scrHeight * .02)),
     );
   }
 
@@ -182,15 +176,15 @@ class ProfileScreenState extends State<ProfileScreen> {
       _isLoading = true;
     });
 
-    late dynamic userModel;
+    late dynamic model;
     try {
-      if(widget.role == "Company Admin") {
-        userModel = setUpdatedCompanyModel(widget.companyModel!);
+      if (widget.role == "Company Admin") {
+        model = setUpdatedCompanyModel(widget.companyModel!);
       } else {
-        userModel = setUpdatedUserModel(widget.userModel!);
+        model = setUpdatedUserModel(widget.userModel!);
       }
 
-      await ProfileService.updateProfile(userModel);
+      await ProfileService.updateProfile(model, widget.role);
 
       Utils.showSnackBar(context, 'Profile updated successfully ✓');
     } catch (e) {

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class CompanyModel {
   String id;
   String userId;
@@ -61,6 +59,7 @@ class CompanyModel {
   // Convert the CompanyModel instance to a Map
   Map<String, dynamic> toMap() {
     return {
+      'id' : id,
       'user_id': userId,
       'city_id': cityId,
       'password': password,
