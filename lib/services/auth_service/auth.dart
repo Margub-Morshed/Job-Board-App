@@ -14,9 +14,9 @@ class AuthService {
       User? user = authResult.user;
 
       // Create a user document in Firestore based on the role
-      // if (user != null) {
+      if (user != null) {
         await _createUserDocument(user!, model, role);
-      // }
+      }
       return user;
     } catch (e) {
       _handleError(context, "signUpWithEmailAndPassword: ${e.toString()}");

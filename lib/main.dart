@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/utils/utils.dart';
 import 'package:job_board_app/view/home/home_screen.dart';
+import 'package:job_board_app/view/input/input_screen.dart';
 import 'package:job_board_app/view/login/login_screen.dart';
 
 import 'firebase_options.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginScreen(),
+      home: const InputScreen(),
     );
   }
 }

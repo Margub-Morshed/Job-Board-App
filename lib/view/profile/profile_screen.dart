@@ -82,35 +82,35 @@ class ProfileScreenState extends State<ProfileScreen> {
       const TitleText(title: "Company Name"),
       const SizedBox(height: 8),
       _buildTextField(
-          _companyNameController, 'Company Name', 'Enter your company name'),
+          _companyNameController,  'Enter your company name'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Company Email"),
       const SizedBox(height: 8),
       _buildTextField(
-          _companyEmailController, 'Company Email', 'Enter your company email'),
+          _companyEmailController, 'Enter your company email'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Company Phone"),
       const SizedBox(height: 8),
       _buildTextField(
-          _companyPhoneController, 'Company Phone', 'Enter your company phone'),
+          _companyPhoneController,  'Enter your company phone'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Team Size"),
       const SizedBox(height: 8),
-      _buildTextField(_teamSizeController, 'Team Size', 'Enter your team size'),
+      _buildTextField(_teamSizeController,  'Enter your team size'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Short Description"),
       const SizedBox(height: 8),
-      _buildTextField(_shortDescriptionController, 'Short Description',
+      _buildTextField(_shortDescriptionController,
           'Enter your short description'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Long Description"),
       const SizedBox(height: 8),
-      _buildTextField(_longDescriptionController, 'Long Description',
+      _buildTextField(_longDescriptionController,
           'Enter your long description'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Address"),
       const SizedBox(height: 8),
-      _buildTextField(_addressController, 'Address', 'Enter your address'),
+      _buildTextField(_addressController,  'Enter your address'),
     ];
   }
 
@@ -138,8 +138,8 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildTextField(
-      TextEditingController controller, String label, String hint) {
-    return CustomTextField(controller: controller, label: label, hint: hint);
+      TextEditingController controller, String hint) {
+    return CustomTextField(controller: controller, hint: hint);
   }
 
   Widget _buildUpdateButton() {
@@ -226,6 +226,8 @@ class ProfileScreenState extends State<ProfileScreen> {
       email: _companyEmailController.text.trim(),
       phone: _companyPhoneController.text.trim(),
       address: _addressController.text.trim(),
+      shortDescription: _shortDescriptionController.text.trim(),
+      longDescription: _longDescriptionController.text.trim(),
       status: model.status,
       teamSize: int.parse(_teamSizeController.text),
     );
@@ -234,16 +236,16 @@ class ProfileScreenState extends State<ProfileScreen> {
   List<Widget> _buildJobSeekerFields() => [
         const TitleText(title: "User Name"),
         const SizedBox(height: 8),
-        _buildTextField(_usernameController, 'Username', 'Enter your username'),
+        _buildTextField(_usernameController, 'Enter your username'),
         const SizedBox(height: 16.0),
         const TitleText(title: "Name"),
         const SizedBox(height: 8),
-        _buildTextField(_nameController, 'Name', 'Enter your name'),
+        _buildTextField(_nameController,  'Enter your name'),
         const SizedBox(height: 16.0),
         const TitleText(title: "Phone Number"),
         const SizedBox(height: 8),
         _buildTextField(
-            _phoneNumberController, 'Phone Number', 'Enter your phone number'),
+            _phoneNumberController, 'Enter your phone number'),
       ];
 }
 
