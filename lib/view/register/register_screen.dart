@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/model/user_model.dart';
-import 'package:job_board_app/services/auth_service/auth.dart';
 import 'package:job_board_app/view/login/login_screen.dart';
 
 import '../../model/company_model.dart';
+import '../../services/auth/auth_service.dart';
 import '../../utils/utils.dart';
 import '../../utils/validation.dart';
 import '../common_widgets/custom_textfield.dart';
@@ -142,7 +142,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             model = _createCompanyModel();
           }
 
-          User? user = await AuthService.signUpWithEmailAndPassword(
+          await AuthService.signUpWithEmailAndPassword(
               model, context, selectedRole);
 
           // Handle successful registration
@@ -193,6 +193,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       // Set appropriate value
       status: CompanyStatus.active,
       password: _passwordController.text.trim(),
+      role: selectedRole,
     );
   }
 

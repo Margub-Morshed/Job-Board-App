@@ -3,6 +3,7 @@ import 'package:job_board_app/model/company_model.dart';
 import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/services/profile/profile_service.dart';
 import 'package:job_board_app/utils/utils.dart';
+import 'package:job_board_app/view/input/input_screen.dart';
 
 import '../common_widgets/custom_textfield.dart';
 
@@ -64,9 +65,9 @@ class ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: 16.0),
               if (widget.role == "Job Seeker") ..._buildJobSeekerFields(),
               if (widget.role == 'Company Admin') ..._buildCompanyFields(),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 22.0),
               _buildUpdateButton(),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 26.0),
             ],
           ),
           _isLoading
@@ -81,36 +82,33 @@ class ProfileScreenState extends State<ProfileScreen> {
     return [
       const TitleText(title: "Company Name"),
       const SizedBox(height: 8),
-      _buildTextField(
-          _companyNameController,  'Enter your company name'),
+      _buildTextField(_companyNameController, 'Enter your company name'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Company Email"),
       const SizedBox(height: 8),
-      _buildTextField(
-          _companyEmailController, 'Enter your company email'),
+      _buildTextField(_companyEmailController, 'Enter your company email'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Company Phone"),
       const SizedBox(height: 8),
-      _buildTextField(
-          _companyPhoneController,  'Enter your company phone'),
+      _buildTextField(_companyPhoneController, 'Enter your company phone'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Team Size"),
       const SizedBox(height: 8),
-      _buildTextField(_teamSizeController,  'Enter your team size'),
+      _buildTextField(_teamSizeController, 'Enter your team size'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Short Description"),
       const SizedBox(height: 8),
-      _buildTextField(_shortDescriptionController,
-          'Enter your short description'),
+      _buildTextField(
+          _shortDescriptionController, 'Enter your short description'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Long Description"),
       const SizedBox(height: 8),
-      _buildTextField(_longDescriptionController,
-          'Enter your long description'),
+      _buildTextField(
+          _longDescriptionController, 'Enter your long description'),
       const SizedBox(height: 16.0),
       const TitleText(title: "Address"),
       const SizedBox(height: 8),
-      _buildTextField(_addressController,  'Enter your address'),
+      _buildTextField(_addressController, 'Enter your address'),
     ];
   }
 
@@ -137,16 +135,20 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildTextField(
-      TextEditingController controller, String hint) {
+  Widget _buildTextField(TextEditingController controller, String hint) {
     return CustomTextField(controller: controller, hint: hint);
   }
 
   Widget _buildUpdateButton() {
     return ElevatedButton(
       onPressed: _updateProfile,
-      child: Text('Update Profile',
-          style: TextStyle(fontSize: Utils.scrHeight * .02)),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: Utils.scrHeight * .02,
+            horizontal: Utils.scrHeight * .025),
+        child: Text('Update Profile',
+            style: TextStyle(fontSize: Utils.scrHeight * .02)),
+      ),
     );
   }
 
@@ -184,7 +186,9 @@ class ProfileScreenState extends State<ProfileScreen> {
         model = setUpdatedUserModel(widget.userModel!);
       }
 
-      await ProfileService.updateProfile(model, widget.role);
+      await ProfileService.updateProfile(model, widget.role).then((value) {
+        Utils.navigateTo(context, const InputScreen());
+      });
 
       Utils.showSnackBar(context, 'Profile updated successfully ✓');
     } catch (e) {
@@ -218,7 +222,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     // Update the existing userModel with the new values
     final model = widget.companyModel!;
     return CompanyModel(
-      id: model.id!,
+      id: model.id,
       userId: model.userId,
       cityId: "",
       password: companyModel.password,
@@ -230,6 +234,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       longDescription: _longDescriptionController.text.trim(),
       status: model.status,
       teamSize: int.parse(_teamSizeController.text),
+      role: model.role,
     );
   }
 
@@ -240,12 +245,11 @@ class ProfileScreenState extends State<ProfileScreen> {
         const SizedBox(height: 16.0),
         const TitleText(title: "Name"),
         const SizedBox(height: 8),
-        _buildTextField(_nameController,  'Enter your name'),
+        _buildTextField(_nameController, 'Enter your name'),
         const SizedBox(height: 16.0),
         const TitleText(title: "Phone Number"),
         const SizedBox(height: 8),
-        _buildTextField(
-            _phoneNumberController, 'Enter your phone number'),
+        _buildTextField(_phoneNumberController, 'Enter your phone number'),
       ];
 }
 

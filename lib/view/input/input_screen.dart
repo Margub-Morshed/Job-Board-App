@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:job_board_app/services/job_post/job_post_service.dart';
 import 'package:job_board_app/view/common_widgets/custom_textfield.dart';
 
@@ -28,13 +30,10 @@ class InputScreenState extends State<InputScreen> {
   void _pushData() async {
     JobPostModel jobPost = createJobPostModel();
     await fireStoreService.addPost(jobPost);
-    _navigateTo(
-      DisplayScreen(
-        jobTitle: jobPost.jobTitle,
-        description: jobPost.description,
-        // ... pass other data
-      ),
-    );
+    Utils.navigateTo(
+        context,
+        DisplayScreen(
+            jobTitle: jobPost.jobTitle, description: jobPost.description));
   }
 
   JobPostModel createJobPostModel() => JobPostModel(
@@ -49,7 +48,9 @@ class InputScreenState extends State<InputScreen> {
       qualification: "",
       applicationDeadline: deadlineController.text.trim(),
       address: addressController.text.trim(),
-      status: "");
+      status: "Active",
+      createdAt: DateFormat("d-MMM-yyyy, h:mm a").format(DateTime.now()),
+      createdBy: '');
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +67,14 @@ class InputScreenState extends State<InputScreen> {
           child: ListView(
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 20),
-
             children: [
               // Job Title Input
               CustomTextField(controller: titleController, label: "Job Title"),
               const SizedBox(height: 30),
 
               // Job Description Input
-              CustomTextField(controller: descController, label: "Job Description"),
+              CustomTextField(
+                  controller: descController, label: "Job Description"),
               const SizedBox(height: 30),
 
               // Job Email Input
@@ -85,7 +86,8 @@ class InputScreenState extends State<InputScreen> {
               const SizedBox(height: 30),
 
               // Job Address Input
-              CustomTextField(controller: addressController, label: "Job Address"),
+              CustomTextField(
+                  controller: addressController, label: "Job Address"),
               const SizedBox(height: 30),
 
               // Date & Time
@@ -93,7 +95,8 @@ class InputScreenState extends State<InputScreen> {
                 controller: deadlineController,
                 label: "Job Deadline",
                 readOnly: true,
-                onTap: () => Utils.showDateTimePicker(context, deadlineController),
+                onTap: () =>
+                    Utils.showDateTimePicker(context, deadlineController),
               ),
               const SizedBox(height: 50),
               _buildJobPostButton(),
@@ -119,13 +122,6 @@ class InputScreenState extends State<InputScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  void _navigateTo(Widget page) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
     );
   }
 }

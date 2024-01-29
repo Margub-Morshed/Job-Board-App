@@ -15,7 +15,7 @@ class AuthService {
 
       // Create a user document in Firestore based on the role
       if (user != null) {
-        await _createUserDocument(user!, model, role);
+      await _createUserDocument(user!, model, role);
       }
       return user;
     } catch (e) {
@@ -33,12 +33,12 @@ class AuthService {
       if (authResult.user != null) {
         String authId = authResult.user!.uid;
 
-        final userModel = await fetchUserDataFromFireStore(authId, role);
+        final model = await fetchUserDataFromFireStore(authId, role);
 
-        if (userModel != null) {
+        if (model != null) {
           Utils.showSnackBar(context, "User successfully signed in ✓");
           // Utils.showSnackBar(context, userModel.toString());
-          return userModel;
+          return model;
         } else {
           Utils.showSnackBar(context, "User data not found in Firestore!");
         }

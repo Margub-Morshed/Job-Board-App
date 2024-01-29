@@ -20,6 +20,9 @@ class JobPostModel {
   String address;
   String? mapLink;
   String status;
+  String? createdAt;
+  String createdBy;
+  String? updatedBy;
 
   JobPostModel({
     required this.id,
@@ -41,6 +44,9 @@ class JobPostModel {
     required this.address,
     this.mapLink,
     required this.status,
+    this.createdAt, // Optional parameter for the constructor
+    required this.createdBy,
+    this.updatedBy,
   });
 
   factory JobPostModel.fromMap(Map<String, dynamic> map) {
@@ -64,6 +70,9 @@ class JobPostModel {
       address: map['address'],
       mapLink: map['map_link'],
       status: map['status'],
+      createdAt: map['created_at'],
+      createdBy: map['created_by'],
+      updatedBy: map['updated_by'],
     );
   }
 
@@ -88,6 +97,9 @@ class JobPostModel {
       'address': address,
       'map_link': mapLink,
       'status': status,
+      'created_at': createdAt,
+      'created_by': createdBy,
+      'updated_by': updatedBy,
     };
   }
 
@@ -98,6 +110,6 @@ class JobPostModel {
 
   @override
   String toString() {
-    return 'JobModel{id: $id, companyId: $companyId, categoryId: $categoryId, cityId: $cityId, jobTitle: $jobTitle, description: $description, email: $email, jobType: $jobType, salaryRange: $salaryRange, careerLevel: $careerLevel, experience: $experience, gender: $gender, qualification: $qualification, facility: $facility, applicationDeadline: $applicationDeadline, image: $image, address: $address, mapLink: $mapLink, status: $status}';
+    return 'JobModel{id: $id, companyId: $companyId, categoryId: $categoryId, cityId: $cityId, jobTitle: $jobTitle, description: $description, email: $email, jobType: $jobType, salaryRange: $salaryRange, careerLevel: $careerLevel, experience: $experience, gender: $gender, qualification: $qualification, facility: $facility, applicationDeadline: $applicationDeadline, image: $image, address: $address, mapLink: $mapLink, status: $status, createdAt: $createdAt, createdBy: $createdBy, updatedBy: $updatedBy}';
   }
 }

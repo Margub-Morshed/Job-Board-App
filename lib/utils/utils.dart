@@ -93,4 +93,11 @@ class Utils {
 
     await selectDate();
   }
+
+  static void navigateTo(BuildContext context, Widget page) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
+  }
 }

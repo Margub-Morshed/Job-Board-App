@@ -20,7 +20,7 @@ class JobService {
 
   Stream<List<JobPostModel>> getPostsStream() {
     return jobPostsCollection.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => JobPostModel.fromFirebaseDocument(doc)).toList();
+      return snapshot.docs.map((doc) => JobPostModel.fromFirebaseDocument(doc)).toList().reversed.toList();
     });
   }
 
