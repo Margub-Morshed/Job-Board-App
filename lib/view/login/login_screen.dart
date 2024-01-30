@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:job_board_app/services/auth_service/auth.dart';
 import 'package:job_board_app/utils/utils.dart';
 import 'package:job_board_app/view/profile/profile_screen.dart';
 import 'package:job_board_app/view/register/register_screen.dart';
 
+import '../../services/auth/auth_service.dart';
 import '../../utils/validation.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -123,20 +123,25 @@ class _LoginScreenState extends State<LoginScreen> {
     return ElevatedButton(
       onPressed: () async {
         User? user = await AuthService.signInWithEmailAndPassword(
-                _emailController.text.trim(),
-                _passwordController.text.trim(),
-                selectedRole,
-                context)
-            .then((value) => Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    if (selectedRole == userRoles.first) {
-                      return ProfileScreen(companyModel: value, role: selectedRole);
-                    } else {
-                      return ProfileScreen(
-                          userModel: value, role: selectedRole);
-                    }
-                  },
-                )));
+            _emailController.text.trim(),
+            _passwordController.text.trim(),
+            selectedRole,
+            context)
+            .then((value) {
+          if (selectedRole == userRoles.first && value != null) {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return ProfileScreen(companyModel: value, role: selectedRole);
+              },
+            ));
+          } else if (selectedRole == userRoles.last && value != null) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ProfileScreen(userModel: value, role: selectedRole);
+            }));
+          } else {
+            Utils.showSnackBar(context, "Select Specific User Role!");
+          }
+        });
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: Utils.scrHeight * .015),
@@ -211,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
             contentPadding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             border: const OutlineInputBorder(borderSide: BorderSide(width: 5)),
             hintText: 'Password',
             hintStyle: const TextStyle(

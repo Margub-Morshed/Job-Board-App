@@ -43,6 +43,8 @@ import 'package:job_board_app/model/company_model.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/utils/utils.dart';
 
+import '../common_widgets/drawer/custom_drawer.dart';
+
 class CompanyListScreen extends StatelessWidget {
   const CompanyListScreen({super.key});
 
@@ -52,6 +54,7 @@ class CompanyListScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Company List'),
       ),
+      drawer: const CustomDrawer(),
       body: StreamBuilder<QuerySnapshot>(
         stream: Utils.companyAdminsRef.snapshots(),
         builder: (context, snapshot) {

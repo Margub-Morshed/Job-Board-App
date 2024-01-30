@@ -15,6 +15,7 @@ class CompanyModel {
   String address;
   CompanyStatus status;
   String? additionalLinksId;
+  String role;
 
   CompanyModel({
     required this.id,
@@ -33,6 +34,7 @@ class CompanyModel {
     required this.address,
     required this.status,
     this.additionalLinksId,
+    required this.role,
   });
 
   factory CompanyModel.fromMap(Map<String, dynamic> data) {
@@ -53,6 +55,7 @@ class CompanyModel {
       address: data['address'] ?? '',
       status: CompanyStatus.values[data['status'] ?? 0],
       additionalLinksId: data['additional_links_id'] ?? '',
+      role: data['role'] ?? '',
     );
   }
 
@@ -75,6 +78,7 @@ class CompanyModel {
       'address': address,
       'status': status.index, // Convert enum to index
       'additional_links_id': additionalLinksId,
+      'role': role,
     };
   }
 
@@ -85,7 +89,7 @@ class CompanyModel {
         'email: $email, phone: $phone, teamSize: $teamSize, '
         'socialMediaId: $socialMediaId, shortDescription: $shortDescription, '
         'longDescription: $longDescription, address: $address, status: $status, '
-        'additionalLinksId: $additionalLinksId}';
+        'additionalLinksId: $additionalLinksId, role: $role}';
   }
 }
 

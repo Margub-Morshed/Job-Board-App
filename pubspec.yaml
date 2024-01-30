@@ -38,6 +38,10 @@ dependencies:
   firebase_core: 
   firebase_auth:
   cloud_firestore:
+  intl:
+  image_picker:
+  firebase_storage:
+  cached_network_image:
 
 dev_dependencies:
   flutter_test:
