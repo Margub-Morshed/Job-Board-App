@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:job_board_app/services/session/session_services.dart';
 import 'package:job_board_app/utils/utils.dart';
+import 'package:job_board_app/view/home/job_seeker_home_screen.dart';
+import 'package:job_board_app/view/input/input_screen.dart';
 import 'package:job_board_app/view/profile/profile_screen.dart';
 import 'package:job_board_app/view/register/register_screen.dart';
 
@@ -123,20 +126,24 @@ class _LoginScreenState extends State<LoginScreen> {
     return ElevatedButton(
       onPressed: () async {
         User? user = await AuthService.signInWithEmailAndPassword(
-            _emailController.text.trim(),
-            _passwordController.text.trim(),
-            selectedRole,
-            context)
+                _emailController.text.trim(),
+                _passwordController.text.trim(),
+                selectedRole,
+                context)
             .then((value) {
           if (selectedRole == userRoles.first && value != null) {
+            SessionManager.setCompanyModel(value);
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
-                return ProfileScreen(companyModel: value, role: selectedRole);
+                return InputScreen();
+                // return ProfileScreen(companyModel: value, role: selectedRole);
               },
             ));
           } else if (selectedRole == userRoles.last && value != null) {
+            SessionManager.setUserModel(value);
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return ProfileScreen(userModel: value, role: selectedRole);
+              return const JobSeekerHomeScreen();
+              // return ProfileScreen(userModel: value, role: selectedRole);
             }));
           } else {
             Utils.showSnackBar(context, "Select Specific User Role!");
@@ -216,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
             contentPadding:
-            const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             border: const OutlineInputBorder(borderSide: BorderSide(width: 5)),
             hintText: 'Password',
             hintStyle: const TextStyle(

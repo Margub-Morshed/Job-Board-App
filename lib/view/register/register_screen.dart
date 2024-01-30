@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/view/login/login_screen.dart';
@@ -7,7 +6,6 @@ import '../../model/company_model.dart';
 import '../../services/auth/auth_service.dart';
 import '../../utils/utils.dart';
 import '../../utils/validation.dart';
-import '../common_widgets/custom_textfield.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -403,8 +401,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 fontSize: 14,
                 color: Color(0xff1E1F20))),
         const SizedBox(height: 8),
+
         _buildTextField(
-            _companyNameController, 'Company Name', 'Enter Company Name'),
+            _companyNameController, 'Enter Company Name'),
 
         const SizedBox(height: 16),
 
@@ -416,12 +415,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 color: Color(0xff1E1F20))),
         const SizedBox(height: 8.0),
         _buildTextField(
-            _companyEmailController, 'Company Email', 'Enter Company Email'),
+            _companyEmailController, 'Enter Company Email'),
       ];
 
   Widget _buildTextField(
-      TextEditingController controller, String label, String hint) {
-    return CustomTextField(controller: controller, label: label, hint: hint);
+      TextEditingController controller, String hint) {
+    return _nameTextFiled(controller, hint: hint);
   }
 }
 

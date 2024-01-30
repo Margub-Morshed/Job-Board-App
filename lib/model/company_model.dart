@@ -95,3 +95,5 @@ class CompanyModel {
 
 // Enum for CompanyStatus
 enum CompanyStatus { active, disabled, suspended }
+
+

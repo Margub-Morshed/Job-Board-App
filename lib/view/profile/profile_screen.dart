@@ -7,6 +7,8 @@ import 'package:job_board_app/model/company_model.dart';
 import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/services/profile/profile_service.dart';
 import 'package:job_board_app/utils/utils.dart';
+import 'package:job_board_app/view/home/job_seeker_home_screen.dart';
+import 'package:job_board_app/view/input/input_screen.dart';
 
 import '../common_widgets/custom_textfield.dart';
 
@@ -253,7 +255,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       {bool readOnly = false}) {
     return CustomTextField(
       controller: controller,
-      label: label,
+      label: "",
       hint: hint,
       readOnly: readOnly,
     );
@@ -307,9 +309,14 @@ class ProfileScreenState extends State<ProfileScreen> {
         model = setUpdatedUserModel(widget.userModel!);
       }
 
-      await ProfileService.updateProfile(model, widget.role);
-
-      Utils.showSnackBar(context, 'Profile updated successfully ✓');
+      await ProfileService.updateProfile(model, widget.role).then((value) {
+        Utils.showSnackBar(context, 'Profile updated successfully ✓');
+        Utils.navigateTo(
+            context,
+            widget.role == "Company Admin"
+                ? const InputScreen()
+                : const JobSeekerHomeScreen());
+      });
     } catch (e) {
       Utils.showSnackBar(context, 'Error updating profile: $e');
     } finally {
@@ -497,7 +504,6 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   List<Widget> _buildHeader(dynamic model) => [
-        // Center(child: _buildAvatar(model)),
         _buildCoverImage(model)
       ];
 }

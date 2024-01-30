@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class JobPostModel {
   String id;
-  int companyId;
-  int categoryId;
-  int cityId;
+  String companyId;
+  dynamic categoryId;
+  dynamic cityId;
   String jobTitle;
   String description;
   String email;

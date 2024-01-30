@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
@@ -17,7 +18,10 @@ class CustomDrawerHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.network("https://static.vecteezy.com/system/resources/previews/021/096/523/original/3d-icon-job-search-png.png", height: 40),
+          CachedNetworkImage(
+              imageUrl:
+                  "https://static.vecteezy.com/system/resources/previews/021/096/523/original/3d-icon-job-search-png.png",
+              height: 40),
           if (isCollapsed) const SizedBox(width: 10),
           if (isCollapsed)
             const Expanded(

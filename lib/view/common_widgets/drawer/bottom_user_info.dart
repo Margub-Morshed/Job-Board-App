@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class BottomUserInfo extends StatelessWidget {
@@ -35,8 +36,9 @@ class BottomUserInfo extends StatelessWidget {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                          'https://media.licdn.com/dms/image/C5603AQFkDYayhf-m9Q/profile-displayphoto-shrink_800_800/0/1629643501179?e=2147483647&v=beta&t=7C59AWh2hjsmK8wEWgJP3oyezyacxcvnPMB6E1xtOog',
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              'https://media.licdn.com/dms/image/C5603AQFkDYayhf-m9Q/profile-displayphoto-shrink_800_800/0/1629643501179?e=2147483647&v=beta&t=7C59AWh2hjsmK8wEWgJP3oyezyacxcvnPMB6E1xtOog',
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -109,8 +111,9 @@ class BottomUserInfo extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        'https://media.licdn.com/dms/image/C5603AQFkDYayhf-m9Q/profile-displayphoto-shrink_800_800/0/1629643501179?e=2147483647&v=beta&t=7C59AWh2hjsmK8wEWgJP3oyezyacxcvnPMB6E1xtOog',
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            'https://media.licdn.com/dms/image/C5603AQFkDYayhf-m9Q/profile-displayphoto-shrink_800_800/0/1629643501179?e=2147483647&v=beta&t=7C59AWh2hjsmK8wEWgJP3oyezyacxcvnPMB6E1xtOog',
                         fit: BoxFit.cover,
                       ),
                     ),
