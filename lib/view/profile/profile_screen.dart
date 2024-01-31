@@ -7,7 +7,8 @@ import 'package:job_board_app/model/company_model.dart';
 import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/services/profile/profile_service.dart';
 import 'package:job_board_app/utils/utils.dart';
-
+import 'package:job_board_app/view/home/job_seeker_home_screen.dart';
+import 'package:job_board_app/view/input/input_screen.dart';
 import '../common_widgets/custom_textfield.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -41,7 +42,6 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   String? _profileImage;
   String? _coverImage;
-  final ImagePicker picker = ImagePicker();
 
   @override
   void initState() {
@@ -52,7 +52,6 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     print("role: ${widget.role}");
-
     print("userModel: ${widget.userModel.toString()}");
     print("companyModel: ${widget.companyModel.toString()}");
 
@@ -137,7 +136,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                     fit: BoxFit.cover))
             : ClipOval(
                 child: CachedNetworkImage(
-                  imageUrl: model.userAvatar!,
+                  imageUrl: (widget.role == "Company Admin")
+                      ? model.logoImage!
+                      : model.userAvatar!,
                   fit: BoxFit.cover,
                   width: Utils.scrHeight * .2,
                   height: Utils.scrHeight * .2,
@@ -162,6 +163,9 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildCoverImage(dynamic model) {
+    final image =
+        (widget.role == "Company Admin") ? model.logoImage : model.userAvatar;
+
     return SizedBox(
       height: Utils.scrHeight * .2,
       child: Stack(
@@ -218,8 +222,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                         height: Utils.scrHeight * .13,
                         fit: BoxFit.cover))
                 : ClipOval(
-                    child: model.userAvatar != null
-                        ? Image.network(model.userAvatar!,
+                    child: (image != null)
+                        ? Image.network(image,
                             fit: BoxFit.cover,
                             width: Utils.scrHeight * .13,
                             height: Utils.scrHeight * .13)
@@ -253,7 +257,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       {bool readOnly = false}) {
     return CustomTextField(
       controller: controller,
-      label: label,
+      label: "",
       hint: hint,
       readOnly: readOnly,
     );
@@ -307,9 +311,14 @@ class ProfileScreenState extends State<ProfileScreen> {
         model = setUpdatedUserModel(widget.userModel!);
       }
 
-      await ProfileService.updateProfile(model, widget.role);
-
-      Utils.showSnackBar(context, 'Profile updated successfully ✓');
+      await ProfileService.updateProfile(model, widget.role).then((value) {
+        Utils.showSnackBar(context, 'Profile updated successfully ✓');
+        Utils.navigateTo(
+            context,
+            widget.role == "Company Admin"
+                ? const InputScreen()
+                : const JobSeekerHomeScreen());
+      });
     } catch (e) {
       Utils.showSnackBar(context, 'Error updating profile: $e');
     } finally {
@@ -377,6 +386,8 @@ class ProfileScreenState extends State<ProfileScreen> {
       phone: _companyPhoneController.text.trim(),
       address: _addressController.text.trim(),
       status: model.status,
+      longDescription: _longDescriptionController.text.trim(),
+      shortDescription: _shortDescriptionController.text.trim(),
       teamSize: int.parse(_teamSizeController.text),
       role: model.role,
     );
@@ -496,10 +507,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         });
   }
 
-  List<Widget> _buildHeader(dynamic model) => [
-        // Center(child: _buildAvatar(model)),
-        _buildCoverImage(model)
-      ];
+  List<Widget> _buildHeader(dynamic model) => [_buildCoverImage(model)];
 }
 
 class TitleText extends StatelessWidget {

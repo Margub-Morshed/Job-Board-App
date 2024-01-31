@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 
+import '../../model/company_model.dart';
 import '../../utils/utils.dart';
 
 class ProfileService {
@@ -41,10 +42,19 @@ class ProfileService {
 
       //updating image in firestore database
       model.coverImage = await ref.getDownloadURL();
-      await Utils.getRefPathBasedOnRole(role).doc(model.id).update({field: model.coverImage});
+      await Utils.getRefPathBasedOnRole(role).doc(model.id).update({'logo_image': model.coverImage});
     }catch(e){
       print("Error updating profile: $e");
       throw e;
+    }
+  }
+
+  static Future<void> updateCompanyStatus(String companyId, CompanyStatus newStatus) async {
+    try {
+      await Utils.companyAdminsRef.doc(companyId)
+          .update({'status': newStatus.index});
+    } catch (e) {
+      print('Error updating company status: $e');
     }
   }
 }

@@ -2,22 +2,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/services/session/session_services.dart';
 import 'package:job_board_app/utils/utils.dart';
-import 'package:job_board_app/view/home/job_seeker_home_screen.dart';
-import 'package:job_board_app/view/login/company_login_screen.dart';
-import 'package:job_board_app/view/register/register_screen.dart';
+import 'package:job_board_app/view/home/super_admin_home_screen.dart';
 
 import '../../services/auth/auth_service.dart';
 import '../../utils/validation.dart';
-import 'admin_login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class AdminLoginScreen extends StatefulWidget {
+  const AdminLoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<AdminLoginScreen> createState() => _AdminLoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _AdminLoginScreenState extends State<AdminLoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -38,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 40),
 
                 // Header Section
-                const Text('Log In',
+                const Text('Log In As Admin',
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 38,
@@ -90,16 +87,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Login button for login with email and password
                 _buildLoginButton(context),
                 const SizedBox(height: 26),
-
-                // Go to register page to create account
-                buildCreateAccountSection(),
-
-                // Go to company login page to create account
-                buildLoginAsCompanySection(),
-
-                // Go to admin login page to create account
-                buildLoginAsAdminSection(),
-                const SizedBox(height: 26),
               ],
             ),
           ),
@@ -111,19 +98,21 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        User? user = await AuthService.signInWithEmailAndPassword(
+        User? user = await AuthService.adminSignInWithEmailAndPassword(
                 _emailController.text.trim(),
                 _passwordController.text.trim(),
-                "Job Seeker",
                 context)
             .then((value) {
-            if (value != null) {
-            SessionManager.setUserModel(value);
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const JobSeekerHomeScreen();
-            }));
+          if (value != null) {
+            SessionManager.setSuperAdminModel(value);
+            print(value.toString());
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return const SuperAdminHomeScreen();
+              },
+            ));
           } else {
-            Utils.showSnackBar(context, "Error Occurred At: Login Screen");
+            Utils.showSnackBar(context, "Admin Login Screen Problem Occurred!");
           }
         });
       },
@@ -135,99 +124,6 @@ class _LoginScreenState extends State<LoginScreen> {
               fontSize: Utils.scrHeight * .022, fontWeight: FontWeight.bold),
         ),
       ),
-    );
-  }
-
-  Row buildLoginAsAdminSection() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
-          "Login as ",
-          style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Color(0xff8E8F8F)),
-        ),
-        TextButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AdminLoginScreen(),
-                  ));
-            },
-            style: TextButton.styleFrom(
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                padding: EdgeInsets.zero),
-            child: const Text('Super Admin',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff212223))))
-      ],
-    );
-  }
-
-  Row buildLoginAsCompanySection() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
-          "Login as ",
-          style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Color(0xff8E8F8F)),
-        ),
-        TextButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CompanyLoginScreen(),
-                  ));
-            },
-            style: TextButton.styleFrom(
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                padding: EdgeInsets.zero),
-            child: const Text('Company Admin',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff212223))))
-      ],
-    );
-  }
-
-  Row buildCreateAccountSection() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
-          "Don't have an account?",
-          style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Color(0xff8E8F8F)),
-        ),
-        TextButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RegistrationScreen(),
-                  ));
-            },
-            style: TextButton.styleFrom(
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                padding: EdgeInsets.zero),
-            child: const Text('Register',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff212223))))
-      ],
     );
   }
 

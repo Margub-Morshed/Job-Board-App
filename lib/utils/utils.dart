@@ -103,4 +103,8 @@ class Utils {
       MaterialPageRoute(builder: (context) => page),
     );
   }
+
+  static String generateUniqueId() {
+    return DateTime.now().millisecondsSinceEpoch.toString();
+  }
 }
