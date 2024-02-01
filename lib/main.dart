@@ -1,12 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/utils/utils.dart';
-import 'package:job_board_app/view/home/job_seeker_home_screen.dart';
-import 'package:job_board_app/view/input/input_screen.dart';
 import 'package:job_board_app/view/login/login_screen.dart';
-import 'package:job_board_app/view/splash/splash_screen.dart';
 import 'firebase_options.dart';
-import 'view/company_list/company_list_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
