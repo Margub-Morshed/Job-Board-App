@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_board_app/view/input/application_screen.dart';
 import '../../model/job_post_model.dart';
 import '../../services/job_post/job_post_service.dart';
 import '../../utils/utils.dart';
@@ -89,11 +90,16 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
                     itemCount: jobPosts.length,
                     itemBuilder: (context, index) {
                       JobPostModel jobPost = jobPosts[index];
-                      return RecentJobPost(
-                        image: jobPost.image ??
-                            "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
-                        jobTitle: jobPost.jobTitle,
-                        jobShortDec: jobPost.description,
+                      return GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ApplicationScreen(jobPostModel: jobPost,)));
+                        },
+                        child: RecentJobPost(
+                          image: jobPost.image ??
+                              "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
+                          jobTitle: jobPost.jobTitle,
+                          jobShortDec: jobPost.description,
+                        ),
                       );
                     },
                   ),
