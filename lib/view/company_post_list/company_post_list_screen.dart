@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_board_app/view/job_post_details/company_job_post_detail_screen.dart';
+import 'package:job_board_app/view/show_applicant_list/company_admin_applicant_list_screen.dart';
 import '../../model/job_post_model.dart';
 import '../../services/job_post/job_post_service.dart';
 import '../../utils/utils.dart';
@@ -160,6 +161,12 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                           ));
                         },
                         child: RecentJobPost(jobPostModel: jobPost,
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  ShowApplicantList(jobPostModel: jobPost,),
+                            ));
+                          },
                         ),
                       );
                     },
