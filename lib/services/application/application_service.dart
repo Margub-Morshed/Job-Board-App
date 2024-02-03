@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:job_board_app/model/user_model.dart';
 import '../../model/application_model.dart';
 import '../../utils/utils.dart';
 
 class ApplicationService {
-  final CollectionReference applicationCollection = FirebaseFirestore.instance.collection('application');
+  final CollectionReference applicationCollection = FirebaseFirestore.instance.collection('applications');
   static String downloadRef = "";
 
   // Add Application
@@ -21,24 +22,24 @@ class ApplicationService {
     }
   }
 
-  // Search Application by post id
-  // Stream<List<ApplicantModel>> getApplicationsInfo(String applicantId) {
-  //   try {
-  //     // Create a query to listen for changes on the collection with matching job_post field
-  //     Query query = applicationCollection.where('job_post', isEqualTo: postId);
-  //
-  //     // Return a stream that listens for changes in the query
-  //     return query.snapshots().map((snapshot) {
-  //       return snapshot.docs
-  //           .map((doc) => ApplicantModel.fromDocumentSnapshot(doc))
-  //           .toList();
-  //     });
-  //   } catch (e) {
-  //     print('Error retrieving applications stream by post ID: $e');
-  //     // Handle the error as needed
-  //     throw e;
-  //   }
-  // }
+  // Search USer Information who apply
+  Stream<List<UserModel>> getUserInfo(String userId) {
+    try {
+      // Create a query to listen for changes on the collection with matching job_post field
+      Query query = Utils.jobSeekersRef.where('id', isEqualTo: userId);
+
+      // Return a stream that listens for changes in the query
+      return query.snapshots().map((snapshot) {
+        return snapshot.docs
+            .map((doc) => UserModel.fromDocumentSnapshot(doc))
+            .toList();
+      });
+    } catch (e) {
+      print('Error retrieving applications stream by post ID: $e');
+      // Handle the error as needed
+      throw e;
+    }
+  }
 
   Stream<List<ApplicationModel>> getApplicationsByPostId(String postId) {
     try {
