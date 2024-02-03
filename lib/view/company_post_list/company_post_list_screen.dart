@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_board_app/services/session/session_services.dart';
 import 'package:job_board_app/view/home/company_admin_home_screen.dart';
 import 'package:job_board_app/view/job_post_details/company_job_post_detail_screen.dart';
 import 'package:job_board_app/view/show_applicant_list/company_admin_applicant_list_screen.dart';
@@ -38,7 +39,7 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
         icon: const Icon(Icons.arrow_back),
       ),),
       body: StreamBuilder<List<JobPostModel>>(
-        stream: jobService.getPostsStream(),
+        stream: jobService.getJobPostsByCompanyId(SessionManager.companyModel!.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

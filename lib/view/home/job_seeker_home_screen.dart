@@ -132,6 +132,7 @@ class CustomSearchBar extends StatelessWidget {
             child: TextField(
               controller: _searchController,
               decoration: const InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 4),
                 label: Text("Search Jobs..."),
                   enabledBorder:
                       OutlineInputBorder(borderSide: BorderSide.none),
