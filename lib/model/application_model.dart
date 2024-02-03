@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ApplicationModel {
   String id;
+  String userId;
   String jobPost;
   String message;
   String expectedSalary;
@@ -10,6 +11,7 @@ class ApplicationModel {
 
   ApplicationModel({
     required this.id,
+    required this.userId,
     required this.jobPost,
     required this.message,
     required this.expectedSalary,
@@ -20,6 +22,7 @@ class ApplicationModel {
   factory ApplicationModel.fromMap(Map<String, dynamic> data) {
     return ApplicationModel(
       id: data['id'] ?? '',
+      userId: data['user_id'] ?? '',
       jobPost: data['job_post'] ?? '',
       message: data['message'] ?? '',
       expectedSalary: data['expected_salary'] ?? '',
@@ -31,6 +34,7 @@ class ApplicationModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'user_id': userId,
       'job_post': jobPost,
       'message': message,
       'expected_salary': expectedSalary,
@@ -46,7 +50,7 @@ class ApplicationModel {
 
   @override
   String toString() {
-    return 'Applicant{id: $id, jobPost: $jobPost, message: $message, '
+    return 'Applicant{id: $id,userId: $userId, jobPost: $jobPost, message: $message, '
         'expectedSalary: $expectedSalary, cv: $cv, status: $status}';
   }
 }

@@ -26,11 +26,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool isObscure = true;
 
   final List<String> userRoles = ["Company Admin", "Job Seeker"];
-  late String selectedRole;
+  String selectedRole = "Job Seeker";
 
   @override
   void initState() {
-    selectedRole = userRoles.last;
+    // selectedRole = userRoles.last;
     super.initState();
   }
 
