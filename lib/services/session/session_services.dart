@@ -25,4 +25,22 @@ class SessionManager {
   static setSuperAdminModel(SuperAdminModel superAdminModel) {
     _superAdminModel = superAdminModel;
   }
+
+  static void resetCompanyModel() {
+    _companyModel = null;
+  }
+
+  static void resetUserModel() {
+    _userModel = null;
+  }
+
+  static void resetSuperAdminModel() {
+    _superAdminModel = null;
+  }
+
+  static void resetAllModels() {
+    _companyModel = null;
+    _userModel = null;
+    _superAdminModel = null;
+  }
 }

@@ -88,12 +88,16 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
                     itemCount: jobPosts.length,
                     itemBuilder: (context, index) {
                       JobPostModel jobPost = jobPosts[index];
-                      return RecentJobPost(jobPostModel: jobPost,onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              JobPostDetailsScreen(jobPostModel: jobPost, tag: jobPost.id,),
-                        ));
-                      },
+                      return RecentJobPost(
+                        jobPostModel: jobPost,
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            final tag = "${jobPost.id}_hero_tag";
+                            return JobPostDetailsScreen(
+                                jobPostModel: jobPost, tag: tag);
+                          }));
+                        },
                       );
                     },
                   ),
@@ -118,17 +122,18 @@ class CustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
           child: Container(
-            height: Utils.scrHeight * .048,
+            height: Utils.scrHeight * .055,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.white),
             child: TextField(
               controller: _searchController,
               decoration: const InputDecoration(
                 contentPadding: EdgeInsets.symmetric(vertical: 4),
-                  label: Text('Search'),
+                label: Text("Search Jobs..."),
                   enabledBorder:
                       OutlineInputBorder(borderSide: BorderSide.none),
                   focusedBorder:
@@ -142,7 +147,7 @@ class CustomSearchBar extends StatelessWidget {
           onTap: () {},
           child: Container(
             width: Utils.scrHeight * .050,
-            height: Utils.scrHeight * .048,
+            height: Utils.scrHeight * .055,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Utils.scrHeight * .01),
                 color: const Color(0xff5872de)),
