@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:job_board_app/view/company_post_list/company_post_list_screen.dart';
-import 'package:job_board_app/view/home/job_seeker_home_screen1.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/drawer/custom_drawer.dart';
-import '../company_list/company_list_screen.dart';
 import '../input/input_screen.dart';
 
 class CompanyAdminHomeScreen extends StatelessWidget {
