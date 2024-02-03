@@ -50,7 +50,6 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                         imageUrl: widget.jobPostModel.image ??
                             Utils.flutterDefaultImg,
                         width: double.infinity,
-                        // height: Utils.scrHeight * .180,
                         fit: BoxFit.cover,
                       )),
                 ),

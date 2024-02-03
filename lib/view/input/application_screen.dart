@@ -7,7 +7,6 @@ import 'package:job_board_app/services/session/session_services.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/custom_textfield.dart';
 import '../home/job_seeker_home_screen.dart';
-import '../home/job_seeker_home_screen1.dart';
 
 class ApplicationScreen extends StatefulWidget {
   const ApplicationScreen({super.key, required this.jobPostModel});
@@ -43,7 +42,7 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
     print("application: " + applicantModel.toString());
 
     await fireStoreService.addApplication(applicantModel).then((value) => Utils.showSnackBar(context, 'Application Submit Successfully'));
-    Utils.navigateTo(context, const JobSeekerHomeScreen());
+    Utils.navigateTo(context,  const JobSeekerHomeScreen());
   }
 
   ApplicationModel createApplicationModel() {

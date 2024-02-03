@@ -122,16 +122,17 @@ class CustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
           child: Container(
-            height: Utils.scrHeight * .048,
+            height: Utils.scrHeight * .055,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.white),
             child: TextField(
               controller: _searchController,
               decoration: const InputDecoration(
-                  label: Text('Search'),
+                label: Text("Search Jobs..."),
                   enabledBorder:
                       OutlineInputBorder(borderSide: BorderSide.none),
                   focusedBorder:
@@ -145,7 +146,7 @@ class CustomSearchBar extends StatelessWidget {
           onTap: () {},
           child: Container(
             width: Utils.scrHeight * .050,
-            height: Utils.scrHeight * .048,
+            height: Utils.scrHeight * .055,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Utils.scrHeight * .01),
                 color: const Color(0xff5872de)),
