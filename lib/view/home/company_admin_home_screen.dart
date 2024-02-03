@@ -12,10 +12,6 @@ class CompanyAdminHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, Map<String, String>> dashboardMap = {
-      // 'Company List': {
-      //   'title': 'Company List',
-      //   'image': 'assets/icons/building.png',
-      // },
       'Job Post List': {
         'title': 'Job Post List',
         'image': 'assets/icons/post.png',
@@ -28,14 +24,6 @@ class CompanyAdminHomeScreen extends StatelessWidget {
         'title': 'Add Jop Post',
         'image': 'assets/icons/team.png',
       },
-      // 'Skill': {
-      //   'title': 'Skill',
-      //   'image': 'assets/icons/skill.png',
-      // },
-      // 'City': {
-      //   'title': 'City',
-      //   'image': 'assets/icons/city.png',
-      // },
       'Settings': {
         'title': 'Settings',
         'image': 'assets/icons/setting.png',

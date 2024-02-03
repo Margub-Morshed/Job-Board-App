@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_board_app/view/home/company_admin_home_screen.dart';
 import 'package:job_board_app/view/job_post_details/company_job_post_detail_screen.dart';
 import 'package:job_board_app/view/show_applicant_list/company_admin_applicant_list_screen.dart';
 import '../../model/job_post_model.dart';
@@ -30,7 +31,12 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Jobs')),
+      appBar: AppBar(title: const Text('Jobs'), leading: IconButton(
+        onPressed: () {
+          Utils.navigateReplaceTo(context, const CompanyAdminHomeScreen());
+        },
+        icon: const Icon(Icons.arrow_back),
+      ),),
       body: StreamBuilder<List<JobPostModel>>(
         stream: jobService.getPostsStream(),
         builder: (context, snapshot) {

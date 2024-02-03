@@ -20,7 +20,7 @@ class ApplicationScreen extends StatefulWidget {
 
 class _ApplicationScreenState extends State<ApplicationScreen> {
   final ApplicationService fireStoreService = ApplicationService();
-  late TextEditingController jobTitlecontroller = TextEditingController();
+  late TextEditingController jobTitleController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -33,7 +33,7 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
 
   @override
   void initState() {
-    jobTitlecontroller.text = widget.jobPostModel.jobTitle;
+    jobTitleController.text = widget.jobPostModel.jobTitle;
     emailController.text = SessionManager.userModel!.email;
     super.initState();
   }
@@ -77,7 +77,7 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
               const SizedBox(height: 30),
               // Job Title Input
               CustomTextField(
-                controller: jobTitlecontroller,
+                controller: jobTitleController,
                 label: "Job Title",
                 readOnly: true,
               ),
@@ -87,13 +87,6 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
               CustomTextField(
                   controller: nameController, label: "Applicant Name"),
               const SizedBox(height: 30),
-
-              // Applicant Date of Birth Input
-              // CustomTextField(
-              //     controller: dobController, label: "Date of Birth"),
-              // const SizedBox(height: 30),
-
-              // Applicant Email Input
               CustomTextField(
                   controller: emailController, label: "Applicant Email"),
               const SizedBox(height: 30),
@@ -102,36 +95,6 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
               CustomTextField(
                   controller: numberController, label: "Contact Number"),
               const SizedBox(height: 30),
-
-              // Applicant Address Input
-              // CustomTextField(
-              //     controller: addressController, label: "Applicant Address"),
-              // const SizedBox(height: 30),
-
-              // Date & Time
-              // CustomTextField(
-              //   controller: controller,
-              //   label: "Job Deadline",
-              //   readOnly: true,
-              //   onTap: () =>
-              //       Utils.showDateTimePicker(context, controller),
-              // ),
-              // const SizedBox(height: 30),
-
-              // Applicant Experience Input
-              // CustomTextField(
-              //     controller: experienceController, label: "Experience"),
-              // const SizedBox(height: 30),
-
-              // Career Level Input
-              // CustomTextField(
-              //     controller: controller, label: "Career Level"),
-              // const SizedBox(height: 30),
-
-              // Applicant Qualification Input
-              // CustomTextField(
-              //     controller: qualificationController, label: "Qualification"),
-              // const SizedBox(height: 30),
 
               // Application Expected Salary Range Input
               CustomTextField(
@@ -146,13 +109,6 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
               const SizedBox(height: 10),
               CustomTextField(
                   maxLines: 3, controller: massageController, label: "Massage"),
-              const SizedBox(height: 30),
-
-              // const Text(
-              //   'Confirm The All Information is Correct, You Can Not Edit From After Confirmation',
-              //   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.red),
-              //   textAlign: TextAlign.center,
-              // ),
 
               const SizedBox(height: 30),
               _buildJobPostButton(),

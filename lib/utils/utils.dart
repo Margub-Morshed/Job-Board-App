@@ -105,6 +105,13 @@ class Utils {
     );
   }
 
+  static void navigateReplaceTo(BuildContext context, Widget page) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
+  }
+
   static String generateUniqueId() {
     return DateTime.now().millisecondsSinceEpoch.toString();
   }
