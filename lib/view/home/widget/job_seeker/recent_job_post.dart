@@ -1,16 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/model/job_post_model.dart';
-import 'package:job_board_app/view/company_post_list/company_post_list_screen.dart';
-import 'package:job_board_app/view/job_post_details/job_post_details_screen.dart';
 
 import '../../../../utils/utils.dart';
-import '../../../show_applicant_list/company_admin_applicant_list_screen.dart';
 
 class RecentJobPost extends StatelessWidget {
   const RecentJobPost({super.key, required this.jobPostModel, this.onTap});
-
   final VoidCallback? onTap;
+
   final JobPostModel jobPostModel;
 
   @override

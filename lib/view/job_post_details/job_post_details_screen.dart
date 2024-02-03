@@ -45,7 +45,7 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                   transitionOnUserGestures: true,
                   child: ClipRRect(
                       borderRadius:
-                      BorderRadius.circular(Utils.scrHeight * .02),
+                          BorderRadius.circular(Utils.scrHeight * .02),
                       child: CachedNetworkImage(
                         imageUrl: widget.jobPostModel.image ??
                             Utils.flutterDefaultImg,
@@ -95,8 +95,13 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                 // Add more details as needed
 
                 GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ApplicationScreen(jobPostModel: widget.jobPostModel,)));
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ApplicationScreen(
+                                  jobPostModel: widget.jobPostModel,
+                                )));
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -117,10 +122,10 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
 
                 SizedBox(height: Utils.scrHeight * .01),
                 // "Apply" Button
-                // ElevatedButton(
-                //   onPressed: () {},
-                //   child: const Text('Apply'),
-                // ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Apply'),
+                ),
               ],
             ),
           ),
@@ -204,5 +209,4 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
 //       default:
 //         return Colors.black; // Default color
 //     }
-//   }
 }
