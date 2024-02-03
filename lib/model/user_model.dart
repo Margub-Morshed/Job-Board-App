@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel {
   String id;
   String username;
@@ -54,5 +56,10 @@ class UserModel {
   @override
   String toString() {
     return 'UserModel{id: $id, username: $username, name: $name, email: $email, phoneNumber: $phoneNumber, userAvatar: $userAvatar, coverImage: $coverImage, password: $password, role: $role}';
+  }
+
+  factory UserModel.fromDocumentSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    return UserModel.fromMap(data);
   }
 }
