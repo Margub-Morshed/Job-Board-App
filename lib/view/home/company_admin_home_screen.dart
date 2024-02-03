@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:job_board_app/view/company_post_list/company_post_list_screen.dart';
-import 'package:job_board_app/view/home/job_seeker_home_screen1.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/drawer/custom_drawer.dart';
 import '../company_list/company_list_screen.dart';
@@ -12,10 +11,6 @@ class CompanyAdminHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, Map<String, String>> dashboardMap = {
-      // 'Company List': {
-      //   'title': 'Company List',
-      //   'image': 'assets/icons/building.png',
-      // },
       'Job Post List': {
         'title': 'Job Post List',
         'image': 'assets/icons/post.png',
@@ -28,14 +23,6 @@ class CompanyAdminHomeScreen extends StatelessWidget {
         'title': 'Add Jop Post',
         'image': 'assets/icons/team.png',
       },
-      // 'Skill': {
-      //   'title': 'Skill',
-      //   'image': 'assets/icons/skill.png',
-      // },
-      // 'City': {
-      //   'title': 'City',
-      //   'image': 'assets/icons/city.png',
-      // },
       'Settings': {
         'title': 'Settings',
         'image': 'assets/icons/setting.png',

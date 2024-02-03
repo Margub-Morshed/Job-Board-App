@@ -1,15 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:job_board_app/services/job_post/job_post_service.dart';
 import 'package:job_board_app/services/session/session_services.dart';
 import 'package:job_board_app/view/common_widgets/custom_textfield.dart';
-import 'package:job_board_app/view/home/job_seeker_home_screen1.dart';
-
 import '../../model/job_post_model.dart';
 import '../../utils/utils.dart';
 import '../home/job_seeker_home_screen.dart';

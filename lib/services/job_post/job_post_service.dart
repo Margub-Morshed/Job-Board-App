@@ -32,6 +32,25 @@ class JobService {
     });
   }
 
+  // get job post by company id
+  Stream<List<JobPostModel>> getJobPostsByCompanyId(String companyId) {
+    try {
+      // Query the job posts collection based on the company ID
+      return jobPostsCollection
+          .where('company_id', isEqualTo: companyId)
+          .snapshots()
+          .map((querySnapshot) {
+        // Convert the documents into a list of JobPostModel
+        return querySnapshot.docs.map((doc) => JobPostModel.fromFirebaseDocument(doc)).toList().reversed.toList();
+      });
+    } catch (e) {
+      print('Error getting job posts by company ID: $e');
+      // Handle the error as needed
+      throw e;
+    }
+  }
+
+
   static Future<String> updateJobPostImage(File file) async {
     try{
       //getting image file extension

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/services/session/session_services.dart';
 import 'package:job_board_app/utils/utils.dart';
-import 'package:job_board_app/view/home/job_seeker_home_screen1.dart';
 import 'package:job_board_app/view/login/company_login_screen.dart';
 import 'package:job_board_app/view/register/register_screen.dart';
 

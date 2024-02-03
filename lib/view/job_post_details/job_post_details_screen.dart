@@ -41,7 +41,7 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
               children: [
                 // Job Post Image
                 Hero(
-                  tag: widget.tag,
+                  tag: "${widget.tag}_hero_tag",
                   transitionOnUserGestures: true,
                   child: ClipRRect(
                       borderRadius:

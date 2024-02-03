@@ -4,7 +4,6 @@ import '../../model/job_post_model.dart';
 import '../../services/job_post/job_post_service.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/drawer/custom_drawer.dart';
-import '../show_applicant_list/company_admin_applicant_list_screen.dart';
 import 'widget/job_seeker/recent_job_post.dart';
 import 'widget/job_seeker/recommended_post.dart';
 
@@ -128,6 +127,7 @@ class CustomSearchBar extends StatelessWidget {
             child: TextField(
               controller: _searchController,
               decoration: const InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 4),
                   label: Text('Search'),
                   enabledBorder:
                       OutlineInputBorder(borderSide: BorderSide.none),
