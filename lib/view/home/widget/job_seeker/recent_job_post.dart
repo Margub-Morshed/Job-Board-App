@@ -8,20 +8,16 @@ import '../../../../utils/utils.dart';
 import '../../../show_applicant_list/company_admin_applicant_list_screen.dart';
 
 class RecentJobPost extends StatelessWidget {
-  const RecentJobPost({super.key, required this.jobPostModel});
+  const RecentJobPost({super.key, required this.jobPostModel, this.onTap});
 
+  final VoidCallback? onTap;
   final JobPostModel jobPostModel;
 
   @override
   Widget build(BuildContext context) {
     final tag = "${jobPostModel.id}_hero_tag";
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>
-              ShowApplicantList(jobPostModel: jobPostModel,),
-        ));
-      },
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Container(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:job_board_app/view/job_post_details/job_post_details_screen.dart';
 import '../../model/job_post_model.dart';
 import '../../services/job_post/job_post_service.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/drawer/custom_drawer.dart';
+import '../show_applicant_list/company_admin_applicant_list_screen.dart';
 import 'widget/job_seeker/recent_job_post.dart';
 import 'widget/job_seeker/recommended_post.dart';
 
@@ -87,7 +89,12 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
                     itemCount: jobPosts.length,
                     itemBuilder: (context, index) {
                       JobPostModel jobPost = jobPosts[index];
-                      return RecentJobPost(jobPostModel: jobPost,
+                      return RecentJobPost(jobPostModel: jobPost,onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              JobPostDetailsScreen(jobPostModel: jobPost, tag: jobPost.id,),
+                        ));
+                      },
                       );
                     },
                   ),
