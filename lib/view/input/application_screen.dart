@@ -42,18 +42,21 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
     ApplicationModel applicantModel = createApplicationModel();
     print("application: " + applicantModel.toString());
 
-    await fireStoreService.addApplication(applicantModel).then((value) => Utils.showSnackBar(context, 'Application Submit Successfully'));
+    await fireStoreService.addApplication(applicantModel).then((value) =>
+        Utils.showSnackBar(context, 'Application Submit Successfully'));
     Utils.navigateTo(context, const JobSeekerHomeScreen());
   }
 
   ApplicationModel createApplicationModel() {
     return ApplicationModel(
-        id: '',
-        jobPost: widget.jobPostModel.id,
-        message: massageController.text,
-        expectedSalary: salaryController.text,
-        cv: '',
-        status: 'Pending');
+      id: '',
+      userId: SessionManager.userModel!.id,
+      jobPost: widget.jobPostModel.id,
+      message: massageController.text,
+      expectedSalary: salaryController.text,
+      cv: '',
+      status: 'Pending',
+    );
   }
 
   @override
