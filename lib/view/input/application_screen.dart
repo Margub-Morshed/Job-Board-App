@@ -34,6 +34,8 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
   void initState() {
     jobTitleController.text = widget.jobPostModel.jobTitle;
     emailController.text = SessionManager.userModel!.email;
+    numberController.text = SessionManager.userModel!.phoneNumber!;
+    nameController.text = SessionManager.userModel!.name!;
     super.initState();
   }
 

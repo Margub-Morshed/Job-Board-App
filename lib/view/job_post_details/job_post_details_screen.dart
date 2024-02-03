@@ -89,10 +89,9 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                 Text(
                     'Application Deadline: ${widget.jobPostModel.applicationDeadline}'),
 
-                SizedBox(height: Utils.scrHeight * .02),
+                SizedBox(height: Utils.scrHeight * .025),
 
                 // Add more details as needed
-
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -107,9 +106,9 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                     padding: EdgeInsets.symmetric(
                         horizontal: Utils.scrHeight * .02,
                         vertical: Utils.scrHeight * .005),
-                    height: Utils.scrHeight * .042,
+                    height: Utils.scrHeight * .055,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         color: const Color(0xff5872de)),
                     child: const Text("Apply",
                         style: TextStyle(
@@ -120,11 +119,6 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                 ),
 
                 SizedBox(height: Utils.scrHeight * .01),
-                // "Apply" Button
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Apply'),
-                ),
               ],
             ),
           ),

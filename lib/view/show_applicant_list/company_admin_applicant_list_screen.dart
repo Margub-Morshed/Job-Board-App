@@ -22,6 +22,7 @@ class _ShowApplicantListState extends State<ShowApplicantList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Application List'),
         ),
@@ -42,59 +43,64 @@ class _ShowApplicantListState extends State<ShowApplicantList> {
             }
 
             List<ApplicationModel> applications = snapshot.data ?? [];
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Utils.scrHeight * .01),
-                  child: applications.isNotEmpty
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: Utils.scrHeight * .02),
-                            Expanded(
-                              child: ListView.builder(
-                                itemCount: applications.length,
-                                itemBuilder: (context, index) {
-                                  ApplicationModel application =
-                                      applications[index];
-                                  return StreamBuilder<List<UserModel>>(
-                                      stream: applicationService
-                                          .getUserInfo(application.userId),
-                                      builder: (context, snapshot) {
-                                        print('print userid : ${application.userId}');
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return const Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }
-
-                                        if (snapshot.hasError) {
-                                          return Center(
-                                            child: Text('Error: ${snapshot.error}'),
-                                          );
-                                        }
-                                        List<UserModel> userInfo = snapshot.data ?? [];
-                                        print('print userid : ${userInfo.first.id}');
-                                      return ApplicationListCard(userModel: userInfo[0], applicationModel: application);
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: Utils.scrHeight * .01),
+              child: applications.isNotEmpty
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: Utils.scrHeight * .02),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: applications.length,
+                            itemBuilder: (context, index) {
+                              ApplicationModel application =
+                                  applications[index];
+                              return StreamBuilder<List<UserModel>>(
+                                  stream: applicationService
+                                      .getUserInfo(application.userId),
+                                  builder: (context, snapshot) {
+                                    print(
+                                        'print userid : ${application.userId}');
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
                                     }
-                                  );
-                                },
-                              ),
-                            )
-                          ],
+
+                                    if (snapshot.hasError) {
+                                      return Center(
+                                        child: Text('Error: ${snapshot.error}'),
+                                      );
+                                    }
+                                    List<UserModel> userInfo =
+                                        snapshot.data ?? [];
+                                    print(
+                                        'print userid : ${userInfo.first.id}');
+                                    return ApplicationListCard(
+                                        userModel: userInfo[0],
+                                        applicationModel: application);
+                                  });
+                            },
+                          ),
                         )
-                      : const Center(
-                          child: Text('No Application Found'),
-                        ),
-                );
-              ;
+                      ],
+                    )
+                  : Center(
+                      child: Utils.noDataFound(),
+                    ),
+            );
+            ;
           },
         ));
   }
 }
 
-
-
 class ApplicationListCard extends StatelessWidget {
-  const ApplicationListCard({Key? key,  required this.userModel, required this.applicationModel}) : super(key: key);
+  const ApplicationListCard(
+      {Key? key, required this.userModel, required this.applicationModel})
+      : super(key: key);
 
   final ApplicationModel applicationModel;
   final UserModel userModel;
@@ -159,14 +165,14 @@ class ApplicationListCard extends StatelessWidget {
                 subtitle: ProfileDetails(
                     email: userModel.email,
                     teamSize: userModel.phoneNumber!,
-                    address: applicationModel.message!
-                ),
+                    address: applicationModel.message!),
                 trailing: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 4, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                   decoration: BoxDecoration(
                       border: Border.all(
-                          width: 1, color: _getTextColor(applicationModel.status)),
+                          width: 1,
+                          color: _getTextColor(applicationModel.status)),
                       borderRadius: BorderRadius.circular(10),
                       color: _getContainerColor(applicationModel.status)),
                   child: Text(applicationModel.status),
@@ -243,9 +249,9 @@ class ProfileImage extends StatelessWidget {
 class ProfileDetails extends StatelessWidget {
   const ProfileDetails(
       {Key? key,
-        required this.email,
-        required this.teamSize,
-        required this.address})
+      required this.email,
+      required this.teamSize,
+      required this.address})
       : super(key: key);
 
   final String email;
@@ -263,8 +269,7 @@ class ProfileDetails extends StatelessWidget {
         Text('Phone: $teamSize',
             style: const TextStyle(fontSize: 14, color: Colors.grey)),
         const SizedBox(height: 4),
-        Text(address,
-            style: const TextStyle(fontSize: 12, color: Colors.grey)),
+        Text(address, style: const TextStyle(fontSize: 12, color: Colors.grey)),
       ],
     );
   }
