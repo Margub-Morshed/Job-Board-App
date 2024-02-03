@@ -2,11 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/services/session/session_services.dart';
 import 'package:job_board_app/utils/utils.dart';
+import 'package:job_board_app/view/home/job_seeker_home_screen1.dart';
 import 'package:job_board_app/view/input/input_screen.dart';
 import 'package:job_board_app/view/profile/profile_screen.dart';
 
 import '../../services/auth/auth_service.dart';
 import '../../utils/validation.dart';
+import '../home/company_admin_home_screen.dart';
 
 class CompanyLoginScreen extends StatefulWidget {
   const CompanyLoginScreen({super.key});
@@ -107,7 +109,7 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
           if (value != null) {
             SessionManager.setCompanyModel(value);
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return  const InputScreen();
+              return  const CompanyAdminHomeScreen();
             }));
           } else {
             Utils.showSnackBar(context, "Error Occurred At: Company Login Screen");
