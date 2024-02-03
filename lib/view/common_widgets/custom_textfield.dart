@@ -6,6 +6,7 @@ class CustomTextField extends StatelessWidget {
   final String hint;
   final VoidCallback? onTap;
   bool readOnly;
+  int maxLines;
 
   CustomTextField({
     Key? key,
@@ -14,6 +15,7 @@ class CustomTextField extends StatelessWidget {
     this.hint = "",
     this.onTap,
     this.readOnly = false,
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override
@@ -22,6 +24,7 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       onTap: onTap,
       readOnly: readOnly,
+      maxLines: maxLines,
       decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

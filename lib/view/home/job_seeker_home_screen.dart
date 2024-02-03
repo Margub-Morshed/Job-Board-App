@@ -79,21 +79,15 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
 
                 // Recent Post For User
                 const Text("Recently Posted",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                    )),
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
                 SizedBox(height: Utils.scrHeight * .02),
                 Expanded(
                   child: ListView.builder(
                     itemCount: jobPosts.length,
                     itemBuilder: (context, index) {
                       JobPostModel jobPost = jobPosts[index];
-                      return RecentJobPost(
-                        image: jobPost.image ??
-                            "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
-                        jobTitle: jobPost.jobTitle,
-                        jobShortDec: jobPost.description,
+                      return RecentJobPost(jobPostModel: jobPost,
                       );
                     },
                   ),
@@ -155,5 +149,3 @@ class CustomSearchBar extends StatelessWidget {
     );
   }
 }
-
-

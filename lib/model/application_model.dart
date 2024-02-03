@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ApplicantModel {
+class ApplicationModel {
   String id;
   String jobPost;
   String message;
@@ -8,7 +8,7 @@ class ApplicantModel {
   String cv;
   String status;
 
-  ApplicantModel({
+  ApplicationModel({
     required this.id,
     required this.jobPost,
     required this.message,
@@ -17,8 +17,8 @@ class ApplicantModel {
     required this.status,
   });
 
-  factory ApplicantModel.fromMap(Map<String, dynamic> data) {
-    return ApplicantModel(
+  factory ApplicationModel.fromMap(Map<String, dynamic> data) {
+    return ApplicationModel(
       id: data['id'] ?? '',
       jobPost: data['job_post'] ?? '',
       message: data['message'] ?? '',
@@ -39,9 +39,9 @@ class ApplicantModel {
     };
   }
 
-  factory ApplicantModel.fromDocumentSnapshot(DocumentSnapshot snapshot) {
+  factory ApplicationModel.fromDocumentSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-    return ApplicantModel.fromMap(data);
+    return ApplicationModel.fromMap(data);
   }
 
   @override

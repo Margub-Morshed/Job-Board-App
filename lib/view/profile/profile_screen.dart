@@ -7,9 +7,10 @@ import 'package:job_board_app/model/company_model.dart';
 import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/services/profile/profile_service.dart';
 import 'package:job_board_app/utils/utils.dart';
-import 'package:job_board_app/view/home/job_seeker_home_screen.dart';
+import 'package:job_board_app/view/home/job_seeker_home_screen1.dart';
 import 'package:job_board_app/view/input/input_screen.dart';
 import '../common_widgets/custom_textfield.dart';
+import '../home/job_seeker_home_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen(
