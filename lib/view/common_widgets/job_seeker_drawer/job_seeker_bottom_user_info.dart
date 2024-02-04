@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/services/session/session_services.dart';
 
-class BottomUserInfo extends StatelessWidget {
+class JobSeekerBottomUserInfo extends StatelessWidget {
   final bool isCollapsed;
 
-  const BottomUserInfo({
+  const JobSeekerBottomUserInfo({
     Key? key,
     required this.isCollapsed,
   }) : super(key: key);
@@ -38,14 +38,13 @@ class BottomUserInfo extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: CachedNetworkImage(
-                          imageUrl:
-                              'https://media.licdn.com/dms/image/C5603AQFkDYayhf-m9Q/profile-displayphoto-shrink_800_800/0/1629643501179?e=2147483647&v=beta&t=7C59AWh2hjsmK8wEWgJP3oyezyacxcvnPMB6E1xtOog',
+                          imageUrl: SessionManager.userModel!.userAvatar!,
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     flex: 5,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -56,8 +55,8 @@ class BottomUserInfo extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
-                              'Morshed',
-                              style: TextStyle(
+                              SessionManager.userModel!.name ?? "",
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -69,7 +68,7 @@ class BottomUserInfo extends StatelessWidget {
                         ),
 
                         // Role
-                        Expanded(
+                        const Expanded(
                           child: Text(
                             'JOB SEEKER',
                             style: TextStyle(
@@ -113,8 +112,7 @@ class BottomUserInfo extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: CachedNetworkImage(
-                        imageUrl:
-                            'https://media.licdn.com/dms/image/C5603AQFkDYayhf-m9Q/profile-displayphoto-shrink_800_800/0/1629643501179?e=2147483647&v=beta&t=7C59AWh2hjsmK8wEWgJP3oyezyacxcvnPMB6E1xtOog',
+                        imageUrl: SessionManager.userModel!.userAvatar!,
                         fit: BoxFit.cover,
                       ),
                     ),
