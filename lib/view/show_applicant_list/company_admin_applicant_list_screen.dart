@@ -17,7 +17,6 @@ class ShowApplicantList extends StatefulWidget {
 }
 
 class _ShowApplicantListState extends State<ShowApplicantList> {
-  final ApplicationService applicationService = ApplicationService();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class _ShowApplicantListState extends State<ShowApplicantList> {
           title: const Text('Application List'),
         ),
         body: StreamBuilder<List<ApplicationModel>>(
-          stream: applicationService
+          stream: ApplicationService
               .getApplicationsByPostId(widget.jobPostModel.id),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -57,7 +56,7 @@ class _ShowApplicantListState extends State<ShowApplicantList> {
                               ApplicationModel application =
                                   applications[index];
                               return StreamBuilder<List<UserModel>>(
-                                  stream: applicationService
+                                  stream: ApplicationService
                                       .getUserInfo(application.userId),
                                   builder: (context, snapshot) {
                                     print(

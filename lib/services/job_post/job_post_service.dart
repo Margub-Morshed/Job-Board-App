@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
 import '../../model/job_post_model.dart';
 import '../../utils/utils.dart';
 
 class JobService {
-  final CollectionReference jobPostsCollection = FirebaseFirestore.instance.collection('job_posts');
+  static final CollectionReference jobPostsCollection =
+      FirebaseFirestore.instance.collection('job_posts');
   static String downloadRef = "";
 
   Future<void> addPost(JobPostModel jobPost) async {
@@ -26,14 +26,17 @@ class JobService {
   }
 
   Stream<List<JobPostModel>> getPostsStream() {
-    return jobPostsCollection
-        .snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => JobPostModel.fromFirebaseDocument(doc)).toList().reversed.toList();
+    return jobPostsCollection.snapshots().map((snapshot) {
+      return snapshot.docs
+          .map((doc) => JobPostModel.fromFirebaseDocument(doc))
+          .toList()
+          .reversed
+          .toList();
     });
   }
 
   // get job post by company id
-  Stream<List<JobPostModel>> getJobPostsByCompanyId(String companyId) {
+  static Stream<List<JobPostModel>> getJobPostsByCompanyId(String companyId) {
     try {
       // Query the job posts collection based on the company ID
       return jobPostsCollection
@@ -41,7 +44,11 @@ class JobService {
           .snapshots()
           .map((querySnapshot) {
         // Convert the documents into a list of JobPostModel
-        return querySnapshot.docs.map((doc) => JobPostModel.fromFirebaseDocument(doc)).toList().reversed.toList();
+        return querySnapshot.docs
+            .map((doc) => JobPostModel.fromFirebaseDocument(doc))
+            .toList()
+            .reversed
+            .toList();
       });
     } catch (e) {
       print('Error getting job posts by company ID: $e');
@@ -50,15 +57,15 @@ class JobService {
     }
   }
 
-
   static Future<String> updateJobPostImage(File file) async {
-    try{
+    try {
       //getting image file extension
       final ext = file.path.split('.').last;
       log('Extension: $ext');
 
       //storage file ref with path
-      final ref = Utils.firestorage.ref().child('job_post_images//${DateTime.now().millisecondsSinceEpoch.toString()}.$ext');
+      final ref = Utils.firestorage.ref().child(
+          'job_post_images//${DateTime.now().millisecondsSinceEpoch.toString()}.$ext');
 
       //uploading image
       await ref
@@ -70,7 +77,7 @@ class JobService {
       //updating image in firestore database
       downloadRef = await ref.getDownloadURL();
       return downloadRef;
-    }catch(e){
+    } catch (e) {
       print("Error updating profile: $e");
       throw e;
     }

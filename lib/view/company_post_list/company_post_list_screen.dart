@@ -17,7 +17,6 @@ class CompanyPostListScreen extends StatefulWidget {
 }
 
 class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
-  final JobService jobService = JobService();
   final TextEditingController _searchController = TextEditingController();
   List<JobPostModel> _searchList = [];
   final ValueNotifier<bool> _searchNotifier = ValueNotifier<bool>(false);
@@ -36,7 +35,7 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
       ),
       body: StreamBuilder<List<JobPostModel>>(
         stream:
-            jobService.getJobPostsByCompanyId(SessionManager.companyModel!.id),
+            JobService.getJobPostsByCompanyId(SessionManager.companyModel!.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

@@ -8,11 +8,15 @@ class SessionManager {
   static UserModel? _userModel; // Change this to UserModel if needed
   static SuperAdminModel? _superAdminModel; // Change this to SuperAdminModel if needed
 
+  static List<String> _appliedJobPostIds = [];
+
   static CompanyModel? get companyModel => _companyModel;
 
   static UserModel? get userModel => _userModel;
 
   static SuperAdminModel? get superAdminModel => _superAdminModel;
+
+  static List<String> get appliedJobPostIds => _appliedJobPostIds;
 
   static setCompanyModel(CompanyModel companyModel) {
     _companyModel = companyModel;
@@ -42,5 +46,17 @@ class SessionManager {
     _companyModel = null;
     _userModel = null;
     _superAdminModel = null;
+  }
+
+  static void addAppliedJobPostId(String jobId) {
+    _appliedJobPostIds.add(jobId);
+  }
+
+  static void removeAppliedJobPostId(String jobId) {
+    _appliedJobPostIds.remove(jobId);
+  }
+
+  static bool hasAppliedToJobPost(String jobId) {
+    return _appliedJobPostIds.contains(jobId);
   }
 }

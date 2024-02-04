@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:job_board_app/view/common_widgets/job_seeker_drawer/job_seeker_custom_drawer.dart';
 import 'package:job_board_app/view/job_post_details/job_post_details_screen.dart';
 import '../../model/job_post_model.dart';
 import '../../services/job_post/job_post_service.dart';
 import '../../utils/utils.dart';
-import '../common_widgets/drawer/custom_drawer.dart';
 import 'widget/job_seeker/recent_job_post.dart';
 import 'widget/job_seeker/recommended_post.dart';
 
@@ -24,7 +24,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Jobs')),
-      drawer: const CustomDrawer(),
+      drawer: const JobSeekerCustomDrawer(),
       body: StreamBuilder<List<JobPostModel>>(
         stream: jobService.getPostsStream(),
         builder: (context, snapshot) {
@@ -92,7 +92,8 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
                                     jobTitle: jobPost.jobTitle,
                                     jobShortDec: jobPost.description,
                                     onTap: () {
-                                      final tag = "${jobPost.id}_hero_tag";
+                                      final tag =
+                                          "${jobPost.id}_hero_tag_recommended";
                                       Utils.navigateTo(
                                         context,
                                         JobPostDetailsScreen(
@@ -124,7 +125,8 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
                                         jobTitle: jobPost.jobTitle,
                                         jobShortDec: jobPost.description,
                                         onTap: () {
-                                          final tag = "${jobPost.id}_hero_tag";
+                                          final tag =
+                                              "${jobPost.id}_hero_tag_recommended";
                                           Utils.navigateTo(
                                             context,
                                             JobPostDetailsScreen(
@@ -163,9 +165,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
                                     Utils.navigateTo(
                                       context,
                                       JobPostDetailsScreen(
-                                        jobPostModel: jobPost,
-                                        tag: tag,
-                                      ),
+                                          jobPostModel: jobPost, tag: tag),
                                     );
                                   },
                                 );

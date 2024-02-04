@@ -4,7 +4,7 @@ import '../../model/application_model.dart';
 import '../../utils/utils.dart';
 
 class ApplicationService {
-  final CollectionReference applicationCollection = FirebaseFirestore.instance.collection('applications');
+  static final CollectionReference applicationCollection = FirebaseFirestore.instance.collection('applications');
   static String downloadRef = "";
 
   // Add Application
@@ -23,7 +23,7 @@ class ApplicationService {
   }
 
   // Search USer Information who apply
-  Stream<List<UserModel>> getUserInfo(String userId) {
+  static Stream<List<UserModel>> getUserInfo(String userId) {
     try {
       // Create a query to listen for changes on the collection with matching job_post field
       Query query = Utils.jobSeekersRef.where('id', isEqualTo: userId);
@@ -41,7 +41,7 @@ class ApplicationService {
     }
   }
 
-  Stream<List<ApplicationModel>> getApplicationsByPostId(String postId) {
+  static Stream<List<ApplicationModel>> getApplicationsByPostId(String postId) {
     try {
       // Create a query to listen for changes on the collection with matching job_post field
       Query query = applicationCollection.where('job_post', isEqualTo: postId);
@@ -59,9 +59,6 @@ class ApplicationService {
     }
   }
 
-
-
-
   Stream<List<ApplicationModel>> getPostsStream() {
     return applicationCollection
         .snapshots().map((snapshot) {
@@ -69,4 +66,15 @@ class ApplicationService {
     });
   }
 
+  // Stream method to get applications for a specific user
+  static Stream<List<ApplicationModel>> getApplicationsForUser(String userId) {
+    return Utils.applicationsRef
+        .where('user_id', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => ApplicationModel.fromDocumentSnapshot(doc))
+          .toList();
+    });
+  }
 }

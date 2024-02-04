@@ -16,6 +16,9 @@ class Utils {
   static final jobSeekersRef = _firestore.collection('job_seekers');
   static final companyAdminsRef = _firestore.collection('company_admins');
   static final superAdminsRef = _firestore.collection('super_admins');
+  static final jobPostsRef = _firestore.collection('job_posts');
+  static final favoritesRef = _firestore.collection('favorites');
+  static final applicationsRef = _firestore.collection('applications');
   static const flutterDefaultImg =
       "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png";
 
