@@ -9,7 +9,6 @@ import 'package:job_board_app/view/common_widgets/custom_textfield.dart';
 import 'package:job_board_app/view/company_post_list/company_post_list_screen.dart';
 import '../../model/job_post_model.dart';
 import '../../utils/utils.dart';
-import '../home/job_seeker_home_screen.dart';
 
 class InputScreen extends StatefulWidget {
   const InputScreen({super.key});
