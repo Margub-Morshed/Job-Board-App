@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_board_app/view/common_widgets/job_seeker_drawer/job_seeker_custom_drawer.dart';
+import 'package:job_board_app/view/filter/job_seeker_filter_screen.dart';
 import 'package:job_board_app/view/job_post_details/job_post_details_screen.dart';
 import '../../model/job_post_model.dart';
 import '../../services/job_post/job_post_service.dart';
@@ -257,9 +258,11 @@ class CustomSearchBar extends StatelessWidget {
           ),
         ),
         SizedBox(width: Utils.scrHeight * .02),
+
+        // Filter Button
         GestureDetector(
           onTap: () {
-            // Add your onTap functionality
+            Utils.navigateTo(context, const JobSeekerFilterScreen());
           },
           child: Container(
             width: Utils.scrHeight * .050,
@@ -273,7 +276,7 @@ class CustomSearchBar extends StatelessWidget {
               child: const Icon(Icons.filter_list_alt, color: Colors.white),
             ),
           ),
-        )
+        ),
       ],
     );
   }

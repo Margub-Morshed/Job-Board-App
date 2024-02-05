@@ -36,7 +36,8 @@ class JobSeekerAppliedJobsScreen extends StatelessWidget {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Utils.noDataFound();
         } else {
-          List<ApplicationModel> userApplications = snapshot.data!;
+          List<ApplicationModel> userApplications =
+              snapshot.data!.reversed.toList();
           return _buildApplicationsListView(userApplications);
         }
       },
@@ -87,9 +88,11 @@ class JobSeekerAppliedJobsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildJobDetailsWidget(JobPostModel? jobDetails, String applicationStatus) {
+  Widget _buildJobDetailsWidget(
+      JobPostModel? jobDetails, String applicationStatus) {
     if (jobDetails != null) {
-      return JobsCard(jobPostModel: jobDetails);
+      return JobsCard(
+          jobPostModel: jobDetails, applicationStatus: applicationStatus);
     } else {
       return Utils.noDataFound();
     }
@@ -97,16 +100,18 @@ class JobSeekerAppliedJobsScreen extends StatelessWidget {
 }
 
 class JobsCard extends StatelessWidget {
-  const JobsCard({Key? key, required this.jobPostModel}) : super(key: key);
+  const JobsCard(
+      {Key? key, required this.jobPostModel, required this.applicationStatus})
+      : super(key: key);
 
   final JobPostModel jobPostModel;
+  final String applicationStatus;
 
   @override
   Widget build(BuildContext context) {
     final hero_tag = "${jobPostModel.id}_hero_tag";
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         // Card Elevation
@@ -136,7 +141,6 @@ class JobsCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12)),
               child: ListTile(
                 contentPadding: const EdgeInsets.all(16),
-
                 // Left Side Image
                 leading: Padding(
                   padding: const EdgeInsets.only(right: 6.0),
@@ -152,9 +156,11 @@ class JobsCard extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold)),
                 subtitle: ProfileDetails(
-                    email: jobPostModel.email,
-                    teamSize: 20,
-                    address: jobPostModel.address),
+                  email: jobPostModel.email,
+                  teamSize: 20,
+                  address: jobPostModel.address,
+                  status: applicationStatus,
+                ),
                 trailing: const Padding(
                     padding: EdgeInsets.only(right: 8.0),
                     child: Icon(Icons.arrow_forward_ios)),
@@ -203,14 +209,16 @@ class JobProfileImage extends StatelessWidget {
 class ProfileDetails extends StatelessWidget {
   const ProfileDetails(
       {Key? key,
-        required this.email,
-        required this.teamSize,
-        required this.address})
+      required this.email,
+      required this.teamSize,
+      required this.address,
+      required this.status})
       : super(key: key);
 
   final String email;
   final int teamSize;
   final String address;
+  final String status;
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +230,44 @@ class ProfileDetails extends StatelessWidget {
         const SizedBox(height: 4),
         Text('Address: $address',
             style: const TextStyle(fontSize: 14, color: Colors.grey)),
+        const SizedBox(height: 8),
+
+        // Status
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+              border: Border.all(width: 1, color: _getTextColor(status)),
+              borderRadius: BorderRadius.circular(10),
+              color: _getContainerColor(status)),
+          child: Text(status),
+        ),
       ],
     );
+  }
+}
+
+Color _getContainerColor(String status) {
+  switch (status) {
+    case 'Short Listed':
+      return Colors.green.shade100;
+    case 'Pending':
+      return Colors.orange.shade100;
+    case 'Rejected':
+      return Colors.red.shade100;
+    default:
+      return Colors.black; // Default color
+  }
+}
+
+Color _getTextColor(String status) {
+  switch (status) {
+    case 'Short Listed':
+      return Colors.green;
+    case 'Pending':
+      return Colors.orange;
+    case 'Rejected':
+      return Colors.red;
+    default:
+      return Colors.black; // Default color
   }
 }

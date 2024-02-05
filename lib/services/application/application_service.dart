@@ -4,7 +4,8 @@ import '../../model/application_model.dart';
 import '../../utils/utils.dart';
 
 class ApplicationService {
-  static final CollectionReference applicationCollection = FirebaseFirestore.instance.collection('applications');
+  static final CollectionReference applicationCollection =
+      FirebaseFirestore.instance.collection('applications');
   static String downloadRef = "";
 
   // Add Application
@@ -13,7 +14,9 @@ class ApplicationService {
       // Generate a new document with a unique ID
       applicantModel.id = Utils.generateUniqueId();
 
-      await applicationCollection.doc(applicantModel.id).set(applicantModel.toMap());
+      await applicationCollection
+          .doc(applicantModel.id)
+          .set(applicantModel.toMap());
 
       print('Job post added with ID: ${applicantModel.id}');
     } catch (e) {
@@ -60,9 +63,12 @@ class ApplicationService {
   }
 
   Stream<List<ApplicationModel>> getPostsStream() {
-    return applicationCollection
-        .snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => ApplicationModel.fromDocumentSnapshot(doc)).toList().reversed.toList();
+    return applicationCollection.snapshots().map((snapshot) {
+      return snapshot.docs
+          .map((doc) => ApplicationModel.fromDocumentSnapshot(doc))
+          .toList()
+          .reversed
+          .toList();
     });
   }
 
@@ -82,7 +88,9 @@ class ApplicationService {
   static Future<bool> hasUserApplied(String userId, String jobId) async {
     try {
       // Create a query to check if there is any application with the given userId and jobId
-      Query query = applicationCollection.where('user_id', isEqualTo: userId).where('job_post', isEqualTo: jobId);
+      Query query = applicationCollection
+          .where('user_id', isEqualTo: userId)
+          .where('job_post', isEqualTo: jobId);
 
       // Get the documents that match the query
       QuerySnapshot querySnapshot = await query.get();
