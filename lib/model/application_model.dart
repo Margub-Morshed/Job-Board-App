@@ -8,6 +8,7 @@ class ApplicationModel {
   String expectedSalary;
   String cv;
   String status;
+  String createdAt;
 
   ApplicationModel({
     required this.id,
@@ -17,7 +18,8 @@ class ApplicationModel {
     required this.expectedSalary,
     required this.cv,
     required this.status,
-  });
+    String? createdAt,
+  }) : createdAt = DateTime.now().millisecondsSinceEpoch.toString();
 
   factory ApplicationModel.fromMap(Map<String, dynamic> data) {
     return ApplicationModel(
@@ -28,6 +30,7 @@ class ApplicationModel {
       expectedSalary: data['expected_salary'] ?? '',
       cv: data['cv'] ?? '',
       status: data['status'] ?? '',
+      createdAt: data['created_at'] ?? '',
     );
   }
 
@@ -40,6 +43,7 @@ class ApplicationModel {
       'expected_salary': expectedSalary,
       'cv': cv,
       'status': status,
+      'created_at': createdAt,
     };
   }
 
@@ -51,6 +55,6 @@ class ApplicationModel {
   @override
   String toString() {
     return 'Applicant{id: $id,userId: $userId, jobPost: $jobPost, message: $message, '
-        'expectedSalary: $expectedSalary, cv: $cv, status: $status}';
+        'expectedSalary: $expectedSalary, cv: $cv, status: $status, created_at: $createdAt}';
   }
 }

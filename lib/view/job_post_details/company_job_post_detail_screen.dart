@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/model/job_post_model.dart';
 import '../../utils/utils.dart';
-import '../input/application_screen.dart';
 import '../show_applicant_list/company_admin_applicant_list_screen.dart';
 
 class CompanyJobPostDetailsScreen extends StatefulWidget {

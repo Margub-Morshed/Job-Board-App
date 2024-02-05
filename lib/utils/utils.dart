@@ -120,6 +120,8 @@ class Utils {
     return DateTime.now().millisecondsSinceEpoch.toString();
   }
 
-  static Widget noDataFound() => Image.asset("assets/images/no_result.jpeg",
-      fit: BoxFit.cover, height: scrHeight * .5, width: scrHeight * .5);
+  static Widget noDataFound() => Center(
+    child: Image.asset("assets/images/no_result.jpeg",
+        fit: BoxFit.cover, height: scrHeight * .5, width: scrHeight * .5),
+  );
 }
