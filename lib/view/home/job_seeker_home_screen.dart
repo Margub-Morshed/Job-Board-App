@@ -248,7 +248,7 @@ class CustomSearchBar extends StatelessWidget {
               },
               decoration: const InputDecoration(
                 contentPadding: EdgeInsets.symmetric(vertical: 4),
-                labelText: 'Search Jobs...',
+                hintText: 'Search Jobs...',
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
                 focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
                 prefixIcon: Icon(Icons.search),

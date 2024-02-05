@@ -98,7 +98,7 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                               decoration: const InputDecoration(
                                 contentPadding:
                                     EdgeInsets.symmetric(vertical: 2),
-                                labelText: 'Search',
+                                hintText: 'Search',
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide.none),
                                 focusedBorder: OutlineInputBorder(

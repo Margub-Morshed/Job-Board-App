@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../model/job_post_model.dart';
@@ -79,6 +78,29 @@ class JobService {
       return downloadRef;
     } catch (e) {
       print("Error updating profile: $e");
+      throw e;
+    }
+  }
+
+  static Stream<JobPostModel?> getJobDetailsStream(String jobPostId) {
+    try {
+      // Use snapshots to listen for real-time changes in the job_posts collection
+      return jobPostsCollection.doc(jobPostId).snapshots().map((jobSnapshot) {
+        if (jobSnapshot.exists) {
+          JobPostModel jobDetails = JobPostModel.fromFirebaseDocument(jobSnapshot);
+
+          // Check if the required parameter (jobTitle) is available
+          if (jobDetails.jobTitle != null && jobDetails.jobTitle.isNotEmpty) {
+            return jobDetails;
+          } else {
+            return null; // Return null if jobTitle is missing or empty
+          }
+        } else {
+          return null; // Return null for non-existent data
+        }
+      });
+    } catch (e) {
+      print('Error getting job details stream: $e');
       throw e;
     }
   }
