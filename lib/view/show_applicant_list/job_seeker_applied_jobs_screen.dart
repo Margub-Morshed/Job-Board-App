@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_board_app/services/application/application_service.dart';
 import 'package:job_board_app/services/session/session_services.dart';
-
 import '../../model/application_model.dart';
 import '../../utils/utils.dart';
 

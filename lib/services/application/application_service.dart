@@ -77,4 +77,21 @@ class ApplicationService {
           .toList();
     });
   }
+
+  // Check the USer is already apply a post or not
+  static Future<bool> hasUserApplied(String userId, String jobId) async {
+    try {
+      // Create a query to check if there is any application with the given userId and jobId
+      Query query = applicationCollection.where('user_id', isEqualTo: userId).where('job_post', isEqualTo: jobId);
+
+      // Get the documents that match the query
+      QuerySnapshot querySnapshot = await query.get();
+
+      // Return true if there is at least one document (user has applied), otherwise return false
+      return querySnapshot.docs.isNotEmpty;
+    } catch (e) {
+      print('Error checking if user has applied: $e');
+      throw e;
+    }
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:job_board_app/model/job_post_model.dart';
 import 'package:job_board_app/services/favorite/favorite_service.dart';
 import 'package:job_board_app/services/session/session_services.dart';
+import '../../services/application/application_service.dart';
 import '../../utils/utils.dart';
 import '../input/application_screen.dart';
 
@@ -23,7 +24,7 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
   late String userId;
   late String jobId;
   late ValueNotifier<bool> isAlreadySelected;
-
+  late bool hasUserApplied = false ;
   @override
   void initState() {
     super.initState();
@@ -32,7 +33,21 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
     jobId = widget.jobPostModel.id;
     isAlreadySelected = ValueNotifier<bool>(false);
 
+    _checkUserApplicationStatus();
     _fetchFavoriteStatus();
+  }
+
+  Future<void> _checkUserApplicationStatus() async {
+    try {
+      // Check if the user has already applied
+      bool applied = await ApplicationService.hasUserApplied(userId, jobId);
+
+      setState(() {
+        hasUserApplied = applied;
+      });
+    } catch (e) {
+      print('Error checking user application status: $e');
+    }
   }
 
   Future<void> _fetchFavoriteStatus() async {
@@ -153,32 +168,69 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                 // Add more details as needed
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ApplicationScreen(
-                          jobPostModel: widget.jobPostModel,
+                    if (!hasUserApplied) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ApplicationScreen(
+                            jobPostModel: widget.jobPostModel,
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      Utils.showSnackBar(context, "You have already applied to this job post.");
+                    }
                   },
                   child: Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(
-                        horizontal: Utils.scrHeight * .02,
-                        vertical: Utils.scrHeight * .005),
+                      horizontal: Utils.scrHeight * .02,
+                      vertical: Utils.scrHeight * .005,
+                    ),
                     height: Utils.scrHeight * .055,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       color: const Color(0xff5872de),
                     ),
-                    child: const Text("Apply",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white)),
+                    child: Text(
+                      hasUserApplied ?  "Already Applied" : "Apply",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
+
+                // GestureDetector(
+                //   onTap: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => ApplicationScreen(
+                //           jobPostModel: widget.jobPostModel,
+                //         ),
+                //       ),
+                //     );
+                //   },
+                //   child: Container(
+                //     alignment: Alignment.center,
+                //     padding: EdgeInsets.symmetric(
+                //         horizontal: Utils.scrHeight * .02,
+                //         vertical: Utils.scrHeight * .005),
+                //     height: Utils.scrHeight * .055,
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(12),
+                //       color: const Color(0xff5872de),
+                //     ),
+                //     child: const Text("Apply",
+                //         style: TextStyle(
+                //             fontSize: 16,
+                //             fontWeight: FontWeight.w500,
+                //             color: Colors.white)),
+                //   ),
+                // ),
 
                 SizedBox(height: Utils.scrHeight * .01),
               ],
