@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_board_app/services/session/session_services.dart';
 import 'package:job_board_app/view/company_post_list/company_post_list_screen.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/drawer/custom_drawer.dart';
@@ -29,9 +30,9 @@ class CompanyAdminHomeScreen extends StatelessWidget {
     };
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Admin Dashboard")),
+      appBar: AppBar(title: const Text("Company Admin Dashboard")),
       drawer: const CustomDrawer(),
-      body: Center(
+      body:  Center(
         child: GridView.builder(
           padding: EdgeInsets.symmetric(
             horizontal: Utils.scrHeight * .02,

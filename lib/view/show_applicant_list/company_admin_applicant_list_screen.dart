@@ -6,6 +6,7 @@ import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/services/application/application_service.dart';
 
 import '../../utils/utils.dart';
+import 'company_applications_details_screen.dart';
 
 class ShowApplicantList extends StatefulWidget {
   const ShowApplicantList({super.key, required this.jobPostModel});
@@ -131,12 +132,11 @@ class ApplicationListCard extends StatelessWidget {
       child: InkWell(
         // Card Outer Border Radius
         borderRadius: BorderRadius.circular(12),
-        // onTap: () {
-        //   Utils.navigateTo(
-        //       context,
-        //       CompanyDetailsScreen(
-        //           company: company, tag: "${company.id}_hero_tag"));
-        // },
+        onTap: () {
+          Utils.navigateTo(
+              context,
+              CompanyApplicationDetailsScreen(tag: "${applicationModel.id}_hero_tag",applicationModel: applicationModel , userModel: userModel));
+        },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: BackdropFilter(

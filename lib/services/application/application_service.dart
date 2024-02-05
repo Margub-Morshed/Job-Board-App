@@ -102,4 +102,14 @@ class ApplicationService {
       throw e;
     }
   }
+
+  // Update Application status
+  static Future<void> updateApplicationStatus(String applicationId, String newStatus) async {
+    try {
+      await Utils.applicationsRef.doc(applicationId)
+          .update({'status': newStatus});
+    } catch (e) {
+      print('Error updating company status: $e');
+    }
+  }
 }
