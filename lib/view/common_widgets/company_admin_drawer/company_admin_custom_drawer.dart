@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:job_board_app/utils/utils.dart';
-import 'package:job_board_app/view/favorites/job_seeker_favorites.dart';
-import 'package:job_board_app/view/show_applicant_list/job_seeker_applied_jobs_screen.dart';
+import 'package:job_board_app/view/show_applicant_list/company_admin_applicant_list_screen.dart';
 
-import 'job_seeker_bottom_user_info.dart';
-import 'job_seeker_custom_list_tile.dart';
-import 'job_seeker_header.dart';
+import 'company_admin_bottom_user_info.dart';
+import 'company_admin_custom_list_tile.dart';
+import 'company_admin_header.dart';
 
-class JobSeekerCustomDrawer extends StatefulWidget {
-  const JobSeekerCustomDrawer({Key? key}) : super(key: key);
+class CompanyAdminCustomDrawer extends StatefulWidget {
+  const CompanyAdminCustomDrawer({Key? key}) : super(key: key);
 
   @override
-  State<JobSeekerCustomDrawer> createState() => _JobSeekerCustomDrawerState();
+  State<CompanyAdminCustomDrawer> createState() => _CompanyAdminCustomDrawerState();
 }
 
-class _JobSeekerCustomDrawerState extends State<JobSeekerCustomDrawer> {
+class _CompanyAdminCustomDrawerState extends State<CompanyAdminCustomDrawer> {
   bool _isCollapsed = false;
 
   @override
@@ -38,55 +37,49 @@ class _JobSeekerCustomDrawerState extends State<JobSeekerCustomDrawer> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              JobSeekerCustomDrawerHeader(isCollapsed: _isCollapsed),
+              CompanyAdminCustomDrawerHeader(isCollapsed: _isCollapsed),
               const Divider(color: Colors.grey),
-              JobSeekerCustomListTile(
+              CompanyAdminCustomListTile(
                 isCollapsed: _isCollapsed,
                 icon: Icons.home_outlined,
                 title: 'Home',
                 infoCount: 0,
               ),
-              JobSeekerCustomListTile(
-                isCollapsed: _isCollapsed,
-                icon: Icons.calendar_today,
-                title: 'Jobs',
-                infoCount: 6,
-                onTap: () {
-                  Utils.navigateTo(context, const JobSeekerAppliedJobsScreen());
-                },
-              ),
-              JobSeekerCustomListTile(
-                isCollapsed: _isCollapsed,
-                icon: Icons.favorite_border_outlined,
-                title: 'Favorites',
-                infoCount: 0,
-                onTap: () {
-                  Utils.navigateTo(context, const JobSeekerFavorites());
-                },
-                doHaveMoreOptions: Icons.arrow_forward_ios,
-              ),
-              // JobSeekerCustomListTile(
+              // CompanyAdminCustomListTile(
               //   isCollapsed: _isCollapsed,
-              //   icon: Icons.message_rounded,
-              //   title: 'Messages',
-              //   infoCount: 8,
+              //   icon: Icons.calendar_today,
+              //   title: 'Applications',
+              //   infoCount: 6,
               // ),
+              // CompanyAdminCustomListTile(
+              //   isCollapsed: _isCollapsed,
+              //   icon: Icons.pin_drop,
+              //   title: 'Destinations',
+              //   infoCount: 0,
+              //   doHaveMoreOptions: Icons.arrow_forward_ios,
+              // ),
+              CompanyAdminCustomListTile(
+                isCollapsed: _isCollapsed,
+                icon: Icons.message_rounded,
+                title: 'Messages',
+                infoCount: 8,
+              ),
               const Divider(color: Colors.grey),
               const Spacer(),
-              // JobSeekerCustomListTile(
+              // CompanyAdminCustomListTile(
               //   isCollapsed: _isCollapsed,
               //   icon: Icons.notifications,
               //   title: 'Notifications',
               //   infoCount: 2,
               // ),
-              // JobSeekerCustomListTile(
+              // CompanyAdminCustomListTile(
               //   isCollapsed: _isCollapsed,
               //   icon: Icons.settings,
               //   title: 'Settings',
               //   infoCount: 0,
               // ),
               const SizedBox(height: 10),
-              JobSeekerBottomUserInfo(isCollapsed: _isCollapsed),
+              CompanyAdminBottomUserInfo(isCollapsed: _isCollapsed),
               Align(
                 alignment: _isCollapsed
                     ? Alignment.bottomRight

@@ -4,12 +4,12 @@ import 'package:job_board_app/model/application_model.dart';
 import 'package:job_board_app/model/job_post_model.dart';
 import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/services/application/application_service.dart';
-
 import '../../utils/utils.dart';
+import '../filter/company_admin_filter_screen.dart';
 import 'company_applications_details_screen.dart';
 
 class ShowApplicantList extends StatefulWidget {
-  const ShowApplicantList({super.key, required this.jobPostModel});
+  const ShowApplicantList({Key? key, required this.jobPostModel});
 
   final JobPostModel jobPostModel;
 
@@ -18,82 +18,124 @@ class ShowApplicantList extends StatefulWidget {
 }
 
 class _ShowApplicantListState extends State<ShowApplicantList> {
+  List<String> applicationStatus = [
+    'All',
+    'Pending',
+    'Short Listed',
+    'Rejected'
+  ];
+  String selectedStatusFilter = "All";
+  List<ApplicationModel> allApplications = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text('Application List'),
+      appBar: AppBar(
+        title: const Text('Application List'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: Utils.scrHeight * .01,
         ),
-        body: StreamBuilder<List<ApplicationModel>>(
-          stream: ApplicationService
-              .getApplicationsByPostId(widget.jobPostModel.id),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            if (snapshot.hasError) {
-              return Center(
-                child: Text('Error: ${snapshot.error}'),
-              );
-            }
-
-            List<ApplicationModel> applications = snapshot.data ?? [];
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: Utils.scrHeight * .01),
-              child: applications.isNotEmpty
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: Utils.scrHeight * .02),
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: applications.length,
-                            itemBuilder: (context, index) {
-                              ApplicationModel application =
-                                  applications[index];
-                              return StreamBuilder<List<UserModel>>(
-                                  stream: ApplicationService
-                                      .getUserInfo(application.userId),
-                                  builder: (context, snapshot) {
-                                    print(
-                                        'print userid : ${application.userId}');
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
-
-                                    if (snapshot.hasError) {
-                                      return Center(
-                                        child: Text('Error: ${snapshot.error}'),
-                                      );
-                                    }
-                                    List<UserModel> userInfo =
-                                        snapshot.data ?? [];
-                                    print(
-                                        'print userid : ${userInfo.first.id}');
-                                    return ApplicationListCard(
-                                        userModel: userInfo[0],
-                                        applicationModel: application);
-                                  });
-                            },
-                          ),
-                        )
-                      ],
-                    )
-                  : Center(
-                      child: Utils.noDataFound(),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: Utils.scrHeight * .015),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CustomDropDown(
+                      selectedFilter: selectedStatusFilter,
+                      filterOptions: applicationStatus,
+                      onFilterChanged: (newFilter) {
+                        setState(() {
+                          selectedStatusFilter = newFilter;
+                        });
+                      },
                     ),
-            );
-            ;
-          },
-        ));
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: StreamBuilder<List<ApplicationModel>>(
+                stream: ApplicationService.getApplicationsByPostId(
+                  widget.jobPostModel.id,
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+                  allApplications = snapshot.data ?? [];
+
+                  List<ApplicationModel> filteredApplications =
+                      filterApplicationsByStatus(allApplications);
+
+                  return filteredApplications.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: filteredApplications.length,
+                          itemBuilder: (context, index) {
+                            ApplicationModel application =
+                                filteredApplications[index];
+                            return StreamBuilder<List<UserModel>>(
+                              stream: ApplicationService.getUserInfo(
+                                application.userId,
+                              ),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+
+                                if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text(
+                                      'Error: ${snapshot.error}',
+                                    ),
+                                  );
+                                }
+                                List<UserModel> userInfo = snapshot.data ?? [];
+                                return ApplicationListCard(
+                                  userModel: userInfo[0],
+                                  applicationModel: application,
+                                );
+                              },
+                            );
+                          },
+                        )
+                      : Center(
+                          child: Utils.noDataFound(),
+                        );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<ApplicationModel> filterApplicationsByStatus(
+      List<ApplicationModel> applications) {
+    if (selectedStatusFilter == "All") {
+      return applications;
+    } else {
+      return applications
+          .where((application) => application.status == selectedStatusFilter)
+          .toList();
+    }
   }
 }
 
@@ -107,14 +149,6 @@ class ApplicationListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hero_tag = "${applicationModel.id}_hero_tag";
-
-    // List<String> applicationStatus = [
-    //   'Pending',
-    //   'Short List',
-    //   'Short List',
-    // ];
-
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
@@ -135,7 +169,10 @@ class ApplicationListCard extends StatelessWidget {
         onTap: () {
           Utils.navigateTo(
               context,
-              CompanyApplicationDetailsScreen(tag: "${applicationModel.id}_hero_tag",applicationModel: applicationModel , userModel: userModel));
+              CompanyApplicationDetailsScreen(
+                  tag: "${applicationModel.id}_hero_tag",
+                  applicationModel: applicationModel,
+                  userModel: userModel));
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
@@ -164,7 +201,7 @@ class ApplicationListCard extends StatelessWidget {
                 subtitle: ProfileDetails(
                     email: userModel.email,
                     teamSize: userModel.phoneNumber!,
-                    address: applicationModel.message!),
+                    address: applicationModel.message),
                 trailing: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
