@@ -149,6 +149,8 @@ class ApplicationListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final hero_tag = "${applicationModel.id}_hero_tag";
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
@@ -174,48 +176,68 @@ class ApplicationListCard extends StatelessWidget {
                   applicationModel: applicationModel,
                   userModel: userModel));
         },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(16),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(16),
 
-                // Left Side Image
-                leading: Padding(
-                  padding: const EdgeInsets.only(right: 0.0),
-                  // Right Side Padding
-                  child: ProfileImage(
-                      imageUrl: userModel.coverImage,
-                      imageName: "${applicationModel.id}_hero_tag"),
-                ),
+                    // Left Side Image
+                    leading: Padding(
+                      padding: const EdgeInsets.only(right: 0.0),
+                      // Right Side Padding
+                      child: ProfileImage(
+                          imageUrl: userModel.coverImage,
+                          imageName: "${applicationModel.id}_hero_tag",),
+                    ),
 
-                // Right Side Information
-                title: Text(userModel.name!,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
-                subtitle: ProfileDetails(
-                    email: userModel.email,
-                    teamSize: userModel.phoneNumber!,
-                    address: applicationModel.message),
-                trailing: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1,
-                          color: _getTextColor(applicationModel.status)),
-                      borderRadius: BorderRadius.circular(10),
-                      color: _getContainerColor(applicationModel.status)),
-                  child: Text(applicationModel.status),
+                    // Right Side Information
+                    title: Text(userModel.name!,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    subtitle: ProfileDetails(
+                        email: userModel.email,
+                        phone: userModel.phoneNumber!,
+                        ),
+                    // trailing: Container(
+                    //   padding:
+                    //       const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    //   decoration: BoxDecoration(
+                    //       border: Border.all(
+                    //           width: 1,
+                    //           color: _getTextColor(applicationModel.status)),
+                    //       borderRadius: BorderRadius.circular(10),
+                    //       color: _getContainerColor(applicationModel.status)),
+                    //   child: Text(applicationModel.status),
+                    // ),
+                  ),
+
                 ),
               ),
             ),
-          ),
+            Positioned(
+              top: Utils.scrHeight * 0.02,
+              right: Utils.scrHeight * 0.02,
+              child: Container(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        width: 1,
+                        color: _getTextColor(applicationModel.status)),
+                    borderRadius: BorderRadius.circular(10),
+                    color: _getContainerColor(applicationModel.status)),
+                child: Text(applicationModel.status),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -286,13 +308,12 @@ class ProfileDetails extends StatelessWidget {
   const ProfileDetails(
       {Key? key,
       required this.email,
-      required this.teamSize,
-      required this.address})
+      required this.phone,
+     })
       : super(key: key);
 
   final String email;
-  final String teamSize;
-  final String address;
+  final String phone;
 
   @override
   Widget build(BuildContext context) {
@@ -300,12 +321,12 @@ class ProfileDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8),
-        Text(email, style: const TextStyle(fontSize: 14, color: Colors.grey)),
+        Text('Email : $email', style: const TextStyle(fontSize: 14, color: Colors.grey)),
         const SizedBox(height: 4),
-        Text('Phone: $teamSize',
+        Text('Phone: $phone',
             style: const TextStyle(fontSize: 14, color: Colors.grey)),
         const SizedBox(height: 4),
-        Text(address, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+
       ],
     );
   }
