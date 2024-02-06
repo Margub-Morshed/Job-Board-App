@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:job_board_app/model/application_model.dart';
 import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/services/application/application_service.dart';
-import 'package:job_board_app/services/profile/profile_service.dart';
 import 'package:job_board_app/services/session/session_services.dart';
 import '../../model/company_model.dart';
 import '../../utils/utils.dart';

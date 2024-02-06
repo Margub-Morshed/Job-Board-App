@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_board_app/view/filter/company_admin_filter_screen.dart';
 import '../../model/job_post_model.dart';
 import '../../services/job_post/job_post_service.dart';
 import '../../services/session/session_services.dart';
@@ -112,6 +113,9 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                     ),
                     SizedBox(width: Utils.scrHeight * .02),
                     GestureDetector(
+                      onTap: () {
+                        Utils.navigateTo(context, const CompanyAdminFilterScreen());
+                      },
                       child: Container(
                         width: Utils.scrHeight * .050,
                         height: Utils.scrHeight * .048,
@@ -157,6 +161,13 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                                         "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
                                     jobTitle: jobPost.jobTitle,
                                     jobShortDec: jobPost.description,
+                                    onTap: () {
+                                      Utils.navigateTo(
+                                        context,
+                                        ShowApplicantList(
+                                            jobPostModel: jobPost),
+                                      );
+                                    },
                                   ),
                                 );
                               },
@@ -179,6 +190,13 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                                             "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
                                         jobTitle: jobPost.jobTitle,
                                         jobShortDec: jobPost.description,
+                                        onTap: () {
+                                          Utils.navigateTo(
+                                            context,
+                                            ShowApplicantList(
+                                                jobPostModel: jobPost),
+                                          );
+                                        },
                                       ),
                                     );
                                   },
