@@ -145,7 +145,10 @@ class JobProfileImage extends StatelessWidget {
             ),
           ],
         ),
-        child: CachedNetworkImage(imageUrl: imageUrl!, fit: BoxFit.cover),
+        child: CachedNetworkImage(
+            imageUrl: imageUrl ??
+                "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
+            fit: BoxFit.cover),
       ),
     );
   }
