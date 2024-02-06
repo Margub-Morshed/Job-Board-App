@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/drawer/custom_drawer.dart';
 import '../company_list/company_list_screen.dart';
+import '../super_admin_job_post_list/super_admin_job_post_screen.dart';
 
 class SuperAdminHomeScreen extends StatelessWidget {
   const SuperAdminHomeScreen({super.key});
@@ -58,11 +59,15 @@ class SuperAdminHomeScreen extends StatelessWidget {
             return AdminDashboardCard(
                 title: title,
                 imageUrl: imageUrl,
-                onTap: (index == 0)
-                    ? () {
-                        Utils.navigateTo(context, const CompanyListScreen());
-                      }
-                    : null);
+                onTap: (){
+                  if(index == 0){
+                    Utils.navigateTo(context, const CompanyListScreen());
+                  }else if(index == 1){
+                    Utils.navigateTo(context, const SuperAdminJobPostScreen());
+                  }else{
+                    null;
+                  }
+                });
           },
         ),
       ),
@@ -104,8 +109,6 @@ class AdminDashboardCard extends StatelessWidget {
               Text(title,
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.w500)),
-              const Text("150+ Jobs",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500))
             ],
           ),
         ),

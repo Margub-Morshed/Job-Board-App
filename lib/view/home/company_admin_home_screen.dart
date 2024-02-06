@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_board_app/view/common_widgets/company_admin_drawer/company_admin_custom_drawer.dart';
+import 'package:job_board_app/services/session/session_services.dart';
 import '../../utils/utils.dart';
 import '../input/input_screen.dart';
 import '../job_post_list/company_post_list_screen.dart';
@@ -29,40 +30,68 @@ class CompanyAdminHomeScreen extends StatelessWidget {
     };
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Company Admin Dashboard")),
-      drawer: const CompanyAdminCustomDrawer(),
-      body:  Center(
-        child: GridView.builder(
-          padding: EdgeInsets.symmetric(
-            horizontal: Utils.scrHeight * .02,
-            vertical: Utils.scrHeight * .02,
-          ),
-          shrinkWrap: true,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: Utils.scrHeight * .02,
-            mainAxisSpacing: Utils.scrHeight * .02,
-          ),
-          itemCount: dashboardMap.length,
-          itemBuilder: (context, index) {
-            String title = dashboardMap.keys.elementAt(index);
-            Map<String, String> data = dashboardMap[title] ?? {};
-            String imageUrl = data['image'] ?? '';
-            return AdminDashboardCard(
-                title: title,
-                imageUrl: imageUrl,
-                onTap: (){
-                  if(index == 0){
-                    Utils.navigateTo(context, const CompanyPostListScreen());
-                  }else if(index == 1){
-                    Utils.navigateTo(context, const InputScreen());
-                  }else{
-                    null;
-                  }
-                });
-          },
-        ),
+      appBar: AppBar(
+        title: const Text("Company Admin Dashboard"),
       ),
+      drawer: (SessionManager.companyModel!.status.toString().split('.').last ==
+              'Active')
+          ? const CustomDrawer()
+          : null,
+      body: (SessionManager.companyModel!.status.toString().split('.').last ==
+              'Active')
+          ? Center(
+              child: GridView.builder(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Utils.scrHeight * .02,
+                  vertical: Utils.scrHeight * .02,
+                ),
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: Utils.scrHeight * .02,
+                  mainAxisSpacing: Utils.scrHeight * .02,
+                ),
+                itemCount: dashboardMap.length,
+                itemBuilder: (context, index) {
+                  String title = dashboardMap.keys.elementAt(index);
+                  Map<String, String> data = dashboardMap[title] ?? {};
+                  String imageUrl = data['image'] ?? '';
+                  return AdminDashboardCard(
+                      title: title,
+                      imageUrl: imageUrl,
+                      onTap: () {
+                        if (index == 0) {
+                          Utils.navigateTo(
+                              context, const CompanyPostListScreen());
+                        } else if (index == 1) {
+                          Utils.navigateTo(context, const InputScreen());
+                        } else {
+                          null;
+                        }
+                      });
+                },
+              ),
+            )
+          : (SessionManager.companyModel!.status.toString().split('.').last ==
+                  'Disabled')
+              ? const Center(
+                  child: Text(
+                    'Please Wait For Admin Approval.\n       Its may take few times',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                )
+              :  Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.network('https://cdn.pixabay.com/photo/2020/04/01/06/08/temporarily-4990035_1280.png'),
+                      const Text(
+                        'You Company is Temporarily Suspended.\n',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
     );
   }
 }

@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/services/job_post/job_post_service.dart';
-
 import '../../model/job_post_model.dart';
 import '../../utils/utils.dart';
 import '../job_post_details/job_post_details_screen.dart';
