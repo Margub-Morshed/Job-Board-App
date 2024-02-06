@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:job_board_app/services/profile/profile_service.dart';
 import '../../model/company_model.dart';
 import '../../utils/utils.dart';
+import '../job_post_list/super_admin_job_post_screen.dart';
 
 class CompanyDetailsScreen extends StatefulWidget {
   final CompanyModel company;
   final String tag;
 
-  const CompanyDetailsScreen({super.key, required this.company, required this.tag});
+  const CompanyDetailsScreen(
+      {super.key, required this.company, required this.tag});
 
   @override
   State<CompanyDetailsScreen> createState() => _CompanyDetailsScreenState();
@@ -43,7 +45,8 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                   tag: widget.tag,
                   transitionOnUserGestures: true,
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(Utils.scrHeight * .02),
+                      borderRadius: BorderRadius.circular(
+                          Utils.scrHeight * .02),
                       child: CachedNetworkImage(
                         imageUrl: widget.company.logoImage!,
                         width: double.infinity,
@@ -70,7 +73,10 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                               width: 1, color: _getTextColor(selectedStatus)),
                           borderRadius: BorderRadius.circular(10),
                           color: _getContainerColor(selectedStatus)),
-                      child: Text(selectedStatus.toString().split('.').last),
+                      child: Text(selectedStatus
+                          .toString()
+                          .split('.')
+                          .last),
                     )
                   ],
                 ),
@@ -92,7 +98,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                       height: Utils.scrHeight * .04,
                       decoration: BoxDecoration(
                           borderRadius:
-                              BorderRadius.circular(Utils.scrHeight * .005),
+                          BorderRadius.circular(Utils.scrHeight * .005),
                           color: Colors.blue.shade100),
                       child: Text(
                         '${widget.company.teamSize}',
@@ -149,6 +155,29 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                     style: TextStyle(
                       fontSize: 14,
                     )),
+                SizedBox(height: Utils.scrHeight * .03),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                        SuperAdminJobPostListScreen(companyModel: widget.company),));
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Utils.scrHeight * .02,
+                        vertical: Utils.scrHeight * .005),
+                    height: Utils.scrHeight * .055,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: const Color(0xff5872de),
+                    ),
+                    child: const Text("Company Post List",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white)),
+                  ),
+                ),
               ],
             ),
           ),
@@ -175,7 +204,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
                 border:
-                    Border.all(width: 1, color: _getTextColor(selectedStatus)),
+                Border.all(width: 1, color: _getTextColor(selectedStatus)),
                 borderRadius: BorderRadius.circular(10),
                 color: _getContainerColor(selectedStatus)),
             child: DropdownButton<CompanyStatus>(
@@ -187,16 +216,22 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                 });
 
                 await ProfileService.updateCompanyStatus(
-                        widget.company.id, selectedStatus)
+                    widget.company.id, selectedStatus)
                     .then((value) {
                   Utils.showSnackBar(context,
-                      'Company Status ${selectedStatus.toString().split('.').last} Successfully');
+                      'Company Status ${selectedStatus
+                          .toString()
+                          .split('.')
+                          .last} Successfully');
                 });
               },
               items: CompanyStatus.values.map((status) {
                 return DropdownMenuItem<CompanyStatus>(
                   value: status,
-                  child: Text(status.toString().split('.').last),
+                  child: Text(status
+                      .toString()
+                      .split('.')
+                      .last),
                 );
               }).toList(),
             ),
@@ -214,7 +249,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
         return Colors.orange.shade100;
       case CompanyStatus.Suspended:
         return Colors.red.shade100;
-      // Add more cases if needed
+    // Add more cases if needed
       default:
         return Colors.black; // Default color
     }
@@ -228,7 +263,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
         return Colors.orange;
       case CompanyStatus.Suspended:
         return Colors.red;
-      // Add more cases if needed
+    // Add more cases if needed
       default:
         return Colors.black; // Default color
     }
