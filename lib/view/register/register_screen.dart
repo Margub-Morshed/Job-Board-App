@@ -189,7 +189,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       // Set appropriate value
       address: '',
       // Set appropriate value
-      status: CompanyStatus.Active,
+      status: CompanyStatus.Disabled,
       password: _passwordController.text.trim(),
       role: selectedRole,
     );

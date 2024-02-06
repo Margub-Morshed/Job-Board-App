@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Job Board',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.grey,
+        // scaffoldBackgroundColor: Colors.grey,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),

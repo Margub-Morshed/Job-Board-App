@@ -161,4 +161,14 @@ class AuthService {
     print(adminData);
     return adminData != null ? SuperAdminModel.fromMap(adminData) : null;
   }
+
+
+  static Future<void> signOut() async {
+    try {
+      await Utils.auth.signOut();
+      print("User signed out");
+    } catch (e) {
+      print("Error signing out: $e");
+    }
+  }
 }

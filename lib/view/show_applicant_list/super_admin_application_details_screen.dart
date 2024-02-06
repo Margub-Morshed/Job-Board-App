@@ -7,19 +7,19 @@ import 'package:job_board_app/services/session/session_services.dart';
 import '../../model/company_model.dart';
 import '../../utils/utils.dart';
 
-class CompanyApplicationDetailsScreen extends StatefulWidget {
+class SuperAdminApplicationDetailsScreen extends StatefulWidget {
   final String tag;
   final ApplicationModel applicationModel;
   final UserModel userModel;
 
 
-  const CompanyApplicationDetailsScreen({super.key,  required this.tag, required this.applicationModel, required this.userModel});
+  const SuperAdminApplicationDetailsScreen({super.key,  required this.tag, required this.applicationModel, required this.userModel});
 
   @override
-  State<CompanyApplicationDetailsScreen> createState() => _CompanyApplicationDetailsScreenState();
+  State<SuperAdminApplicationDetailsScreen> createState() => _SuperAdminApplicationDetailsScreenState();
 }
 
-class _CompanyApplicationDetailsScreenState extends State<CompanyApplicationDetailsScreen> {
+class _SuperAdminApplicationDetailsScreenState extends State<SuperAdminApplicationDetailsScreen> {
   late String selectedStatus;
   CompanyModel? company = SessionManager.companyModel;
 
@@ -117,57 +117,57 @@ class _CompanyApplicationDetailsScreenState extends State<CompanyApplicationDeta
           ),
 
           // BottomBar for change Company Status
-          _bottomBar(context),
+          // _bottomBar(context),
         ],
       ),
     );
   }
 
-  Padding _bottomBar(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text('Change Status',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              )),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            decoration: BoxDecoration(
-                border:
-                Border.all(width: 1, color: _getTextColor(selectedStatus)),
-                borderRadius: BorderRadius.circular(10),
-                color: _getContainerColor(selectedStatus)),
-            child: DropdownButton<String>(
-              underline: Container(),
-              value: selectedStatus,
-              onChanged: (newValue) async {
-                setState(() {
-                  selectedStatus = newValue!;
-                });
-
-                await ApplicationService.updateApplicationStatus(
-                    widget.applicationModel.id, selectedStatus)
-                    .then((value) {
-                  Utils.showSnackBar(context,
-                      'Applicant are $selectedStatus');
-                });
-              },
-              items: status.map((String status) {
-                return DropdownMenuItem<String>(
-                  value: status,
-                  child: Text(status),
-                );
-              }).toList(),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  // Padding _bottomBar(BuildContext context) {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(20.0),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //       children: [
+  //         const Text('Change Status',
+  //             style: TextStyle(
+  //               fontSize: 20,
+  //               fontWeight: FontWeight.w700,
+  //             )),
+  //         Container(
+  //           padding: const EdgeInsets.symmetric(horizontal: 8),
+  //           decoration: BoxDecoration(
+  //               border:
+  //               Border.all(width: 1, color: _getTextColor(selectedStatus)),
+  //               borderRadius: BorderRadius.circular(10),
+  //               color: _getContainerColor(selectedStatus)),
+  //           child: DropdownButton<String>(
+  //             underline: Container(),
+  //             value: selectedStatus,
+  //             onChanged: (newValue) async {
+  //               setState(() {
+  //                 selectedStatus = newValue!;
+  //               });
+  //
+  //               await ApplicationService.updateApplicationStatus(
+  //                   widget.applicationModel.id, selectedStatus)
+  //                   .then((value) {
+  //                 Utils.showSnackBar(context,
+  //                     'Applicant are $selectedStatus');
+  //               });
+  //             },
+  //             items: status.map((String status) {
+  //               return DropdownMenuItem<String>(
+  //                 value: status,
+  //                 child: Text(status),
+  //               );
+  //             }).toList(),
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   List<String> status = ['Pending', 'Short Listed', 'Rejected'];
 
