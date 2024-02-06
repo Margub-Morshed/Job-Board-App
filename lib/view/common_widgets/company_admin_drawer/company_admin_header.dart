@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class JobSeekerCustomDrawerHeader extends StatelessWidget {
+class CompanyAdminCustomDrawerHeader extends StatelessWidget {
   final bool isCollapsed;
 
-  const JobSeekerCustomDrawerHeader({
+  const CompanyAdminCustomDrawerHeader({
     Key? key,
     required this.isCollapsed,
   }) : super(key: key);
@@ -36,7 +36,7 @@ class JobSeekerCustomDrawerHeader extends StatelessWidget {
                 maxLines: 1,
               ),
             ),
-          if (isCollapsed) const Spacer(),
+          // if (isCollapsed) const Spacer(),
           // if (isCollapsed)
           //   Expanded(
           //     flex: 1,

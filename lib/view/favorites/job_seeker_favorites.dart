@@ -16,7 +16,7 @@ class JobSeekerFavorites extends StatelessWidget {
   Widget build(BuildContext context) {
     final String userId = SessionManager.userModel!.id;
     return Scaffold(
-      backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Favorite List'),
         ),

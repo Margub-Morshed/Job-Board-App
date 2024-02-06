@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_board_app/services/session/session_services.dart';
+import 'package:job_board_app/view/common_widgets/company_admin_drawer/company_admin_custom_drawer.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/drawer/custom_drawer.dart';
 import '../input/input_screen.dart';
@@ -35,7 +36,7 @@ class CompanyAdminHomeScreen extends StatelessWidget {
       ),
       drawer: (SessionManager.companyModel!.status.toString().split('.').last ==
               'Active')
-          ? const CustomDrawer()
+          ? const CompanyAdminCustomDrawer()
           : null,
       body: (SessionManager.companyModel!.status.toString().split('.').last ==
               'Active')
