@@ -31,7 +31,7 @@ class _CompanyAdminRecentJobPostState extends State<CompanyAdminRecentJobPost> {
   Widget build(BuildContext context) {
     final tag = "${widget.jobPostModel.id}_hero_tag";
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         // Card Elevation
@@ -120,11 +120,5 @@ class _CompanyAdminRecentJobPostState extends State<CompanyAdminRecentJobPost> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    isAlreadySelected.dispose();
-    super.dispose();
   }
 }

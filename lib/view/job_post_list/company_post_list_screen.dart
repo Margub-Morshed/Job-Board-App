@@ -161,13 +161,17 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                                         "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
                                     jobTitle: jobPost.jobTitle,
                                     jobShortDec: jobPost.description,
-                                    onTap: () {
-                                      Utils.navigateTo(
-                                        context,
-                                        ShowApplicantList(
-                                            jobPostModel: jobPost),
-                                      );
-                                    },
+                                      onTap: () {
+                                        final tag = "${jobPost.id}_hero_tag";
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) =>
+                                              CompanyJobPostDetailsScreen(
+                                                jobPostModel: jobPost,
+                                                tag: tag,
+                                              ),
+                                        ));
+                                      }
                                   ),
                                 );
                               },
@@ -190,13 +194,17 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                                             "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
                                         jobTitle: jobPost.jobTitle,
                                         jobShortDec: jobPost.description,
-                                        onTap: () {
-                                          Utils.navigateTo(
-                                            context,
-                                            ShowApplicantList(
-                                                jobPostModel: jobPost),
-                                          );
-                                        },
+                                          onTap: () {
+                                            final tag = "${jobPost.id}_hero_tag";
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CompanyJobPostDetailsScreen(
+                                                    jobPostModel: jobPost,
+                                                    tag: tag,
+                                                  ),
+                                            ));
+                                          }
                                       ),
                                     );
                                   },
@@ -222,31 +230,19 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                               itemCount: _searchList.length,
                               itemBuilder: (context, index) {
                                 JobPostModel jobPost = _searchList[index];
-                                return GestureDetector(
-                                  onTap: () {
-                                    final tag = "${jobPost.id}_hero_tag";
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          CompanyJobPostDetailsScreen(
-                                        jobPostModel: jobPost,
-                                        tag: tag,
-                                      ),
-                                    ));
-                                  },
-                                  child: CompanyAdminRecentJobPost(
-                                    jobPostModel: jobPost,
+                                return CompanyAdminRecentJobPost(
+                                  jobPostModel: jobPost,
                                     onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ShowApplicantList(
-                                            jobPostModel: jobPost,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                      final tag = "${jobPost.id}_hero_tag";
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) =>
+                                            CompanyJobPostDetailsScreen(
+                                              jobPostModel: jobPost,
+                                              tag: tag,
+                                            ),
+                                      ));
+                                    }
                                 );
                               },
                             )
@@ -257,31 +253,19 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                                   itemBuilder: (context, index) {
                                     JobPostModel jobPost =
                                         displayedJobPosts[index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        final tag = "${jobPost.id}_hero_tag";
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              CompanyJobPostDetailsScreen(
-                                            jobPostModel: jobPost,
-                                            tag: tag,
-                                          ),
-                                        ));
-                                      },
-                                      child: CompanyAdminRecentJobPost(
-                                        jobPostModel: jobPost,
+                                    return CompanyAdminRecentJobPost(
+                                      jobPostModel: jobPost,
                                         onTap: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ShowApplicantList(
-                                                jobPostModel: jobPost,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
+                                          final tag = "${jobPost.id}_hero_tag";
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                CompanyJobPostDetailsScreen(
+                                                  jobPostModel: jobPost,
+                                                  tag: tag,
+                                                ),
+                                          ));
+                                        }
                                     );
                                   },
                                 );

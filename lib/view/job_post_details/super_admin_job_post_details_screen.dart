@@ -93,25 +93,26 @@ class _SuperAdminJobPostDetailsScreenState extends State<SuperAdminJobPostDetail
                 ),
                 SizedBox(height: Utils.scrHeight * .01),
 
-                // Job Description
-                const Text(
-                  "Description",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                ),
-                SizedBox(height: Utils.scrHeight * .01),
-
-                Text(
-                  widget.jobPostModel.description,
-                  style: const TextStyle(fontSize: 14),
-                ),
-                SizedBox(height: Utils.scrHeight * .01),
-
                 // Other Job Details
                 Text('Type: ${widget.jobPostModel.jobType}'),
                 SizedBox(height: Utils.scrHeight * .01),
 
-                Text(
-                    'Salary Range: ${widget.jobPostModel.salaryRange ?? "Not specified"}'),
+                Row(
+                  children: [
+                    const Text('Salary Range:', style: TextStyle(fontSize: 16)),
+                    const SizedBox(width: 5),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white),
+                      child: Text(
+                          widget.jobPostModel.salaryRange ?? "Not specified",
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black)),
+                    ),
+                  ],
+                ),
 
                 SizedBox(height: Utils.scrHeight * .01),
 
@@ -120,6 +121,28 @@ class _SuperAdminJobPostDetailsScreenState extends State<SuperAdminJobPostDetail
                     'Application Deadline: ${widget.jobPostModel.applicationDeadline}'),
 
                 SizedBox(height: Utils.scrHeight * .025),
+
+                // Job Description
+                const Text(
+                  "Description",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
+                SizedBox(height: Utils.scrHeight * .01),
+
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white),
+                  child: Text(
+                    widget.jobPostModel.description,
+                    style: const TextStyle(
+                        fontSize: 15, color: Colors.black54, height: 1.8),
+                    textAlign: TextAlign.justify,
+                  ),
+                ),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Add more details as needed
                 GestureDetector(
