@@ -54,9 +54,13 @@ class RecommendedPost extends StatelessWidget {
                           fontSize: 16, fontWeight: FontWeight.w800),
                     ),
                     Text(
-                      jobShortDec,
+                      jobShortDec.length > 22
+                          ? '${jobShortDec.substring(0, 22)}...' // Truncate the text if it exceeds 22 characters
+                          : jobShortDec,
                       style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w500),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ],
