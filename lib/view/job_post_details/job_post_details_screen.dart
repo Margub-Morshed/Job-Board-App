@@ -107,6 +107,11 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                       fontSize: 20, fontWeight: FontWeight.w700),
                 ),
                 SizedBox(height: Utils.scrHeight * .01),
+                Text('Company Name: ${widget.jobPostModel.createdBy}',
+                  style: const TextStyle(
+                      fontSize: 16,),
+                ),
+                SizedBox(height: Utils.scrHeight * .01),
 
                 // Other Job Details
                 Text(
@@ -135,7 +140,10 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                           color: Colors.white),
                       child: Text(
                           widget.jobPostModel.salaryRange ?? "Not specified",
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black)),
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black)),
                     ),
                   ],
                 ),

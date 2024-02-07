@@ -4,6 +4,7 @@ import 'package:job_board_app/services/profile/profile_service.dart';
 import '../../model/company_model.dart';
 import '../../utils/utils.dart';
 import '../job_post_list/super_admin_job_post_screen.dart';
+import '../super_admin_job_post_list/super_admin_job_post_screen.dart';
 
 class CompanyDetailsScreen extends StatefulWidget {
   final CompanyModel company;
@@ -150,16 +151,23 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                       fontWeight: FontWeight.w700,
                     )),
                 SizedBox(height: Utils.scrHeight * .01),
-                const Text(
-                    "Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming  Read More. . .",
-                    style: TextStyle(
-                      fontSize: 14,
-                    )),
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white),
+                  child:const Text(
+                      "Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming  Read More. . .",
+                      style: TextStyle(
+                        fontSize: 14,
+                      )),
+                ),
                 SizedBox(height: Utils.scrHeight * .03),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                        SuperAdminJobPostListScreen(companyModel: widget.company),));
+                        const SuperAdminJobPostScreen(),));
                   },
                   child: Container(
                     alignment: Alignment.center,
