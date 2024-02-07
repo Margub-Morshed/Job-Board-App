@@ -32,7 +32,7 @@ class _SuperAdminApplicationDetailsScreenState extends State<SuperAdminApplicati
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Company Details")),
+      appBar: AppBar(title: const Text("Application Details")),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -59,14 +59,24 @@ class _SuperAdminApplicationDetailsScreenState extends State<SuperAdminApplicati
                 ),
                 SizedBox(height: Utils.scrHeight * .02),
 
+                const Text(
+                  'Applicant Information',
+                  style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: Utils.scrHeight * .01),
+                const Divider(
+                  color: Colors.grey,
+                  thickness: 1,
+                ),
+                SizedBox(height: Utils.scrHeight * .01),
+
                 // Company name and Status show
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(widget.userModel.username,
+                    Text('Name: ${widget.userModel.username}',
                         style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 19,
                         )),
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -108,10 +118,19 @@ class _SuperAdminApplicationDetailsScreenState extends State<SuperAdminApplicati
                       fontWeight: FontWeight.w700,
                     )),
                 SizedBox(height: Utils.scrHeight * .01),
-                Text(widget.applicationModel.message,
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white),
+                  child: Text(
+                    widget.applicationModel.message,
                     style: const TextStyle(
-                      fontSize: 14,
-                    )),
+                        fontSize: 15, color: Colors.black54, height: 1.8),
+                    textAlign: TextAlign.justify,
+                  ),
+                ),
               ],
             ),
           ),
@@ -122,52 +141,6 @@ class _SuperAdminApplicationDetailsScreenState extends State<SuperAdminApplicati
       ),
     );
   }
-
-  // Padding _bottomBar(BuildContext context) {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(20.0),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         const Text('Change Status',
-  //             style: TextStyle(
-  //               fontSize: 20,
-  //               fontWeight: FontWeight.w700,
-  //             )),
-  //         Container(
-  //           padding: const EdgeInsets.symmetric(horizontal: 8),
-  //           decoration: BoxDecoration(
-  //               border:
-  //               Border.all(width: 1, color: _getTextColor(selectedStatus)),
-  //               borderRadius: BorderRadius.circular(10),
-  //               color: _getContainerColor(selectedStatus)),
-  //           child: DropdownButton<String>(
-  //             underline: Container(),
-  //             value: selectedStatus,
-  //             onChanged: (newValue) async {
-  //               setState(() {
-  //                 selectedStatus = newValue!;
-  //               });
-  //
-  //               await ApplicationService.updateApplicationStatus(
-  //                   widget.applicationModel.id, selectedStatus)
-  //                   .then((value) {
-  //                 Utils.showSnackBar(context,
-  //                     'Applicant are $selectedStatus');
-  //               });
-  //             },
-  //             items: status.map((String status) {
-  //               return DropdownMenuItem<String>(
-  //                 value: status,
-  //                 child: Text(status),
-  //               );
-  //             }).toList(),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
 
   List<String> status = ['Pending', 'Short Listed', 'Rejected'];
 

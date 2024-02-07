@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:job_board_app/model/application_model.dart';
 import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/services/application/application_service.dart';
@@ -12,14 +13,19 @@ class CompanyApplicationDetailsScreen extends StatefulWidget {
   final ApplicationModel applicationModel;
   final UserModel userModel;
 
-
-  const CompanyApplicationDetailsScreen({super.key,  required this.tag, required this.applicationModel, required this.userModel});
+  const CompanyApplicationDetailsScreen(
+      {super.key,
+      required this.tag,
+      required this.applicationModel,
+      required this.userModel});
 
   @override
-  State<CompanyApplicationDetailsScreen> createState() => _CompanyApplicationDetailsScreenState();
+  State<CompanyApplicationDetailsScreen> createState() =>
+      _CompanyApplicationDetailsScreenState();
 }
 
-class _CompanyApplicationDetailsScreenState extends State<CompanyApplicationDetailsScreen> {
+class _CompanyApplicationDetailsScreenState
+    extends State<CompanyApplicationDetailsScreen> {
   late String selectedStatus;
   CompanyModel? company = SessionManager.companyModel;
 
@@ -31,8 +37,18 @@ class _CompanyApplicationDetailsScreenState extends State<CompanyApplicationDeta
 
   @override
   Widget build(BuildContext context) {
+    // Parse the milliseconds string to an integer
+    int milliseconds = int.parse(widget.applicationModel.createdAt);
+
+    // Convert milliseconds to a DateTime object
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(milliseconds);
+
+    // Format DateTime as "d-MMM-yyyy, h:mm a"
+    String formattedDateTime =
+        DateFormat("d-MMM-yyyy, h:mm a").format(dateTime);
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Company Details")),
+      appBar: AppBar(title: const Text("Application Details")),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -40,34 +56,43 @@ class _CompanyApplicationDetailsScreenState extends State<CompanyApplicationDeta
           Expanded(
             child: ListView(
               padding: EdgeInsets.symmetric(
-                horizontal: Utils.scrHeight * .02,
-                vertical: Utils.scrHeight * .02,
-              ),
+                  horizontal: Utils.scrHeight * .02,
+                  vertical: Utils.scrHeight * .02),
               children: [
                 // User Image
                 Hero(
                   tag: widget.tag,
                   transitionOnUserGestures: true,
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(Utils.scrHeight * .02),
+                      borderRadius:
+                          BorderRadius.circular(Utils.scrHeight * .02),
                       child: CachedNetworkImage(
-                        imageUrl: widget.userModel.coverImage!,
-                        width: double.infinity,
-                        height: Utils.scrHeight * .180,
-                        fit: BoxFit.cover,
-                      )),
+                          imageUrl: widget.userModel.coverImage!,
+                          width: double.infinity,
+                          height: Utils.scrHeight * .180,
+                          fit: BoxFit.cover)),
                 ),
                 SizedBox(height: Utils.scrHeight * .02),
+
+                // User info
+                const Text('Applicant Information',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600)),
+                SizedBox(height: Utils.scrHeight * .01),
+                const Divider(color: Colors.grey, thickness: 1),
+                SizedBox(height: Utils.scrHeight * .01),
 
                 // Company name and Status show
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(widget.userModel.username,
+                    Text('Name:- ${widget.userModel.name}',
                         style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        )),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87)),
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 2),
@@ -80,25 +105,23 @@ class _CompanyApplicationDetailsScreenState extends State<CompanyApplicationDeta
                     )
                   ],
                 ),
-                SizedBox(height: Utils.scrHeight * .02),
+                SizedBox(height: Utils.scrHeight * .01),
 
                 // User Address Email Number
-                Text(
-                  'Email: ${widget.userModel.email}',
-                  style: const TextStyle(color: Colors.black,fontSize: 16),
-                ),
+                Text('Email: ${widget.userModel.email}',
+                    style:
+                        const TextStyle(color: Colors.black87, fontSize: 16)),
                 SizedBox(height: Utils.scrHeight * .01),
-                Text(
-                  'Phone Number: ${widget.userModel.phoneNumber}',
-                  style: const TextStyle(color: Colors.black,fontSize: 16),
-                ),
+                Text('Phone Number: ${widget.userModel.phoneNumber}',
+                    style:
+                        const TextStyle(color: Colors.black87, fontSize: 16)),
+                SizedBox(height: Utils.scrHeight * .01),
+                Text('Applied on: $formattedDateTime',
+                    style: const TextStyle(color: Colors.black, fontSize: 16)),
                 SizedBox(height: Utils.scrHeight * .01),
 
                 // Divider
-                const Divider(
-                  color: Colors.grey,
-                  thickness: 1,
-                ),
+                const Divider(color: Colors.grey, thickness: 1),
                 SizedBox(height: Utils.scrHeight * .01),
 
                 //Company Description
@@ -108,10 +131,19 @@ class _CompanyApplicationDetailsScreenState extends State<CompanyApplicationDeta
                       fontWeight: FontWeight.w700,
                     )),
                 SizedBox(height: Utils.scrHeight * .01),
-                Text(widget.applicationModel.message,
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white),
+                  child: Text(
+                    widget.applicationModel.message,
                     style: const TextStyle(
-                      fontSize: 14,
-                    )),
+                        fontSize: 15, color: Colors.black54, height: 1.8),
+                    textAlign: TextAlign.justify,
+                  ),
+                ),
               ],
             ),
           ),
@@ -138,7 +170,7 @@ class _CompanyApplicationDetailsScreenState extends State<CompanyApplicationDeta
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
                 border:
-                Border.all(width: 1, color: _getTextColor(selectedStatus)),
+                    Border.all(width: 1, color: _getTextColor(selectedStatus)),
                 borderRadius: BorderRadius.circular(10),
                 color: _getContainerColor(selectedStatus)),
             child: DropdownButton<String>(
@@ -150,10 +182,9 @@ class _CompanyApplicationDetailsScreenState extends State<CompanyApplicationDeta
                 });
 
                 await ApplicationService.updateApplicationStatus(
-                    widget.applicationModel.id, selectedStatus)
+                        widget.applicationModel.id, selectedStatus)
                     .then((value) {
-                  Utils.showSnackBar(context,
-                      'Applicant are $selectedStatus');
+                  Utils.showSnackBar(context, 'Applicant are $selectedStatus');
                 });
               },
               items: status.map((String status) {
