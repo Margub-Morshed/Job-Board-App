@@ -27,8 +27,6 @@ class _CompanyAdminRecentJobPostState extends State<CompanyAdminRecentJobPost> {
     isAlreadySelected = ValueNotifier<bool>(false);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final tag = "${widget.jobPostModel.id}_hero_tag";
@@ -98,14 +96,18 @@ class _CompanyAdminRecentJobPostState extends State<CompanyAdminRecentJobPost> {
                             child: Text(
                               'Job Type: ${widget.jobPostModel.jobType}',
                               style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w500),
+                                  color: Colors.black38,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500),
                             ),
                           ),
                           SizedBox(height: Utils.scrHeight * .003),
                           Text(
                             'Deadline: ${widget.jobPostModel.applicationDeadline}',
                             style: const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w500),
+                                color: Colors.black38,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
@@ -119,5 +121,4 @@ class _CompanyAdminRecentJobPostState extends State<CompanyAdminRecentJobPost> {
       ),
     );
   }
-
 }

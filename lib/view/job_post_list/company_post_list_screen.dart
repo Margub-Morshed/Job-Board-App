@@ -6,7 +6,6 @@ import '../../services/session/session_services.dart';
 import '../../utils/utils.dart';
 import '../home/company_admin_home_screen.dart';
 import '../home/widget/company_admin/admin_recent_job_post.dart';
-import '../home/widget/job_seeker/recent_job_post.dart';
 import '../home/widget/job_seeker/recommended_post.dart';
 import '../job_post_details/company_job_post_detail_screen.dart';
 import '../show_applicant_list/company_admin_applicant_list_screen.dart';

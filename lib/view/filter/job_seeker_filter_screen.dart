@@ -3,6 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/services/job_post/job_post_service.dart';
 import '../../model/job_post_model.dart';
+import '../../services/favorite/favorite_service.dart';
+import '../../services/session/session_services.dart';
 import '../../utils/utils.dart';
 import '../job_post_details/job_post_details_screen.dart';
 
@@ -109,7 +111,15 @@ class _JobSeekerFilterScreenState extends State<JobSeekerFilterScreen> {
                         itemCount: filteredJobPosts.length,
                         itemBuilder: (context, index) {
                           JobPostModel jobPost = filteredJobPosts[index];
-                          return CompanyCard(jobPostModel: jobPost);
+                          final hero_tag = "${jobPost.id}_hero_tag";
+                          // return CompanyCard(jobPostModel: jobPost);
+                          return JobPostFilter(
+                            jobPostModel: jobPost,
+                            onTap: () {
+                              Utils.navigateTo(context,
+                                  JobPostDetailsScreen(jobPostModel: jobPost, tag: hero_tag));
+                            },
+                          );
                         },
                       ),
                     ),
@@ -125,17 +135,18 @@ class _JobSeekerFilterScreenState extends State<JobSeekerFilterScreen> {
 
   List<JobPostModel> applyFilters(List<JobPostModel> jobPosts) {
     // If both filters are "Select One," show all job posts
-    if (selectedJobTypeFilter == "Select One" && selectedSalaryFilter == "Select One") {
+    if (selectedJobTypeFilter == "Select One" &&
+        selectedSalaryFilter == "Select One") {
       return jobPosts;
     }
 
     // Apply filters based on selected options
     List<JobPostModel> filteredJobPosts = jobPosts.where((jobPost) {
-      bool jobTypeFilter =
-          selectedJobTypeFilter == "Select One" || jobPost.jobType == selectedJobTypeFilter;
+      bool jobTypeFilter = selectedJobTypeFilter == "Select One" ||
+          jobPost.jobType == selectedJobTypeFilter;
 
-      bool salaryFilter =
-          selectedSalaryFilter == "Select One" || filterSalary(jobPost.salaryRange ?? "");
+      bool salaryFilter = selectedSalaryFilter == "Select One" ||
+          filterSalary(jobPost.salaryRange ?? "");
 
       return jobTypeFilter && salaryFilter;
     }).toList();
@@ -221,13 +232,12 @@ class CompanyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hero_tag = "${jobPostModel.id}_hero_tag";
+    final heroTag = "${jobPostModel.id}_hero_tag";
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        // Card Elevation
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(.2),
@@ -238,11 +248,12 @@ class CompanyCard extends StatelessWidget {
         ],
       ),
       child: InkWell(
-        // Card Outer Border Radius
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          Utils.navigateTo(context,
-              JobPostDetailsScreen(jobPostModel: jobPostModel, tag: hero_tag));
+          Utils.navigateTo(
+            context,
+            JobPostDetailsScreen(jobPostModel: jobPostModel, tag: heroTag),
+          );
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
@@ -251,31 +262,38 @@ class CompanyCard extends StatelessWidget {
             child: Card(
               elevation: 0,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: ListTile(
                 contentPadding: const EdgeInsets.all(16),
-
-                // Left Side Image
                 leading: Padding(
                   padding: const EdgeInsets.only(right: 6.0),
-                  // Right Side Padding
-                  child: JobProfileImage(
-                      imageUrl: jobPostModel.image,
-                      imageName: "${jobPostModel.id}_hero_tag",
-                      tag: hero_tag),
+                  child: Hero(
+                    tag: heroTag,
+                    transitionOnUserGestures: true,
+                    child: CachedNetworkImage(
+                      imageUrl: jobPostModel.image ?? Utils.flutterDefaultImg,
+                      fit: BoxFit.cover, // Cover the entire space
+                      width: 100, // Set explicit width
+                    ),
+                  ),
                 ),
-
-                // Right Side Information
-                title: Text(jobPostModel.jobTitle,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
+                title: Text(
+                  jobPostModel.jobTitle,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 subtitle: ProfileDetails(
-                    email: jobPostModel.email,
-                    teamSize: 20,
-                    address: jobPostModel.address),
+                  email: jobPostModel.email,
+                  teamSize: 20,
+                  address: jobPostModel.address,
+                ),
                 trailing: const Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: Icon(Icons.arrow_forward_ios)),
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Icon(Icons.arrow_forward_ios),
+                ),
               ),
             ),
           ),
@@ -299,27 +317,18 @@ class JobProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      transitionOnUserGestures: true,
-      tag: tag,
-      child: SizedBox(
-        width: 100,
-        height: 100, // Set explicit dimensions
-        child: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(.2),
-                blurRadius: 10,
-                spreadRadius: -2,
-                offset: const Offset(-10, 4),
-              ),
-            ],
-          ),
-          child: CachedNetworkImage(
-              imageUrl: imageUrl ??
-                  "https://t4.ftcdn.net/jpg/03/28/54/21/360_F_328542178_YotgB5sGePl9SzsChnn66W4xVMCvC3hb.jpg",
-              fit: BoxFit.cover),
+    return // Left Side Image Part
+        ClipRRect(
+      borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
+      child: Hero(
+        tag: tag,
+        transitionOnUserGestures: true,
+        child: CachedNetworkImage(
+          imageUrl: imageUrl ?? Utils.flutterDefaultImg,
+          width: 120,
+          height: double.infinity,
+          fit: BoxFit.cover,
         ),
       ),
     );
@@ -398,5 +407,182 @@ class _CustomDropDownState extends State<CustomDropDown> {
         underline: const SizedBox(), // Remove the default underline
       ),
     );
+  }
+}
+
+class JobPostFilter extends StatefulWidget {
+  const JobPostFilter({super.key, required this.jobPostModel, this.onTap});
+
+  final VoidCallback? onTap;
+
+  final JobPostModel jobPostModel;
+
+  @override
+  State<JobPostFilter> createState() => _JobPostFilterState();
+}
+
+class _JobPostFilterState extends State<JobPostFilter> {
+  late ValueNotifier<bool> isAlreadySelected;
+
+  @override
+  void initState() {
+    super.initState();
+    isAlreadySelected = ValueNotifier<bool>(false);
+    _fetchFavoriteStatus();
+  }
+
+  Future<void> _fetchFavoriteStatus() async {
+    bool isFavorite = await FavoriteService.checkIfFavorite(
+        SessionManager.userModel!.id, widget.jobPostModel.id);
+
+    if (mounted) {
+      setState(() {
+        isAlreadySelected.value = isFavorite;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tag = "${widget.jobPostModel.id}_hero_tag";
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        // Card Elevation
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(.2),
+            blurRadius: 10,
+            spreadRadius: -8,
+            offset: const Offset(-6, 4),
+          ),
+        ],
+      ),
+      child: InkWell(
+        // Card Outer Border Radius
+        borderRadius: BorderRadius.circular(12),
+        onTap: widget.onTap,
+        child: Stack(
+          children: [
+            SizedBox(
+              height: 120,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    padding: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      children: [
+                        // Left Side Image Part
+                        ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              bottomLeft: Radius.circular(12)),
+                          child: Hero(
+                            tag: tag,
+                            transitionOnUserGestures: true,
+                            child: CachedNetworkImage(
+                              imageUrl: widget.jobPostModel.image ??
+                                  Utils.flutterDefaultImg,
+                              width: 120,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+
+                        // Right Side Information Part
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(widget.jobPostModel.jobTitle,
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500)),
+                              SizedBox(height: Utils.scrHeight * .003),
+                              SizedBox(
+                                width: 220,
+                                child: Text(
+                                  'Job Type: ${widget.jobPostModel.jobType}',
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              SizedBox(height: Utils.scrHeight * .003),
+                              Text(
+                                'Deadline: ${widget.jobPostModel.applicationDeadline}',
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: Utils.scrHeight * 0.02,
+              right: Utils.scrHeight * 0.02,
+              child: ValueListenableBuilder(
+                  valueListenable: isAlreadySelected,
+                  builder: (context, value, child) {
+                    return InkWell(
+                      borderRadius: BorderRadius.circular(16),
+                      onTap: () async {
+                        await _toggleFavorite();
+                      },
+                      child: Icon(
+                        Icons.favorite,
+                        color:
+                            isAlreadySelected.value ? Colors.blue : Colors.grey,
+                      ),
+                    );
+                  }),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _toggleFavorite() async {
+    // Check if the post is already in the user's favorites
+    bool isAlreadyFavorite = await FavoriteService.checkIfFavorite(
+        SessionManager.userModel!.id, widget.jobPostModel.id);
+
+    // Toggle isSelected when the button is tapped
+    isAlreadySelected.value = !isAlreadySelected.value;
+
+    if (isAlreadySelected.value && !isAlreadyFavorite) {
+      // If the post is not already in favorites, add it
+      await FavoriteService.addToFavorites(
+          SessionManager.userModel!.id, widget.jobPostModel.id);
+      print("Added to Favorites");
+    } else if (!isAlreadySelected.value && isAlreadyFavorite) {
+      // If the post is already in favorites, remove it
+      await FavoriteService.removeFromFavorites(
+          SessionManager.userModel!.id, widget.jobPostModel.id);
+      print("Removed from Favorites");
+    }
+  }
+
+  @override
+  void dispose() {
+    isAlreadySelected.dispose();
+    super.dispose();
   }
 }
