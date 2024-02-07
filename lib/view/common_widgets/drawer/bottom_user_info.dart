@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:job_board_app/services/auth/auth_service.dart';
 import 'package:job_board_app/services/session/session_services.dart';
+import 'package:job_board_app/utils/utils.dart';
+import 'package:job_board_app/view/login/login_screen.dart';
 
 class BottomUserInfo extends StatelessWidget {
   final bool isCollapsed;
@@ -90,7 +93,12 @@ class BottomUserInfo extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          AuthService.signOut().then((value) {
+                            Utils.navigateReplaceTo(context, const LoginScreen());
+                            Utils.showSnackBar(context, 'Successfully Log OUt');
+                          });
+                        },
                         icon: const Icon(Icons.logout, color: Colors.white),
                       ),
                     ),

@@ -131,42 +131,55 @@ class JobsCard extends StatelessWidget {
           Utils.navigateTo(context,
               JobPostDetailsScreen(jobPostModel: jobPostModel, tag: hero_tag));
         },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(16),
-                // Left Side Image
-                leading: Padding(
-                  padding: const EdgeInsets.only(right: 6.0),
-                  // Right Side Padding
-                  child: JobProfileImage(
-                      imageUrl: jobPostModel.image,
-                      imageName: "${jobPostModel.id}_hero_tag",
-                      tag: hero_tag),
-                ),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(30),
+                    // Left Side Image
+                    leading: Padding(
+                      padding: const EdgeInsets.only(right: 2.0),
+                      // Right Side Padding
+                      child: JobProfileImage(
+                          imageUrl: jobPostModel.image,
+                          imageName: "${jobPostModel.id}_hero_tag",
+                          tag: hero_tag),
+                    ),
 
-                // Right Side Information
-                title: Text(jobPostModel.jobTitle,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
-                subtitle: ProfileDetails(
-                  email: jobPostModel.email,
-                  teamSize: 20,
-                  address: jobPostModel.address,
-                  status: applicationStatus,
+                    // Right Side Information
+                    title: Text(jobPostModel.jobTitle,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    subtitle: ProfileDetails(
+                      email: jobPostModel.email,
+                      teamSize: 20,
+                      jobType: jobPostModel.jobType,
+                    ),
+                  ),
                 ),
-                trailing: const Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: Icon(Icons.arrow_forward_ios)),
               ),
             ),
-          ),
+            // Status
+            Positioned(
+              top: Utils.scrHeight * 0.02,
+              right: Utils.scrHeight * 0.02,
+              child:
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 1, color: _getTextColor(applicationStatus)),
+                  borderRadius: BorderRadius.circular(5),
+                  color: _getContainerColor(applicationStatus)),
+              child: Text(applicationStatus,style: const TextStyle(fontSize: 12),),
+            ),)
+          ],
         ),
       ),
     );
@@ -211,36 +224,26 @@ class ProfileDetails extends StatelessWidget {
       {Key? key,
       required this.email,
       required this.teamSize,
-      required this.address,
-      required this.status})
+      required this.jobType})
       : super(key: key);
 
   final String email;
   final int teamSize;
-  final String address;
-  final String status;
+  final String jobType;
+
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 8),
+        const SizedBox(height: 5),
         Text(email, style: const TextStyle(fontSize: 14, color: Colors.grey)),
         const SizedBox(height: 4),
-        Text('Address: $address',
+        Text('Type: $jobType',
             style: const TextStyle(fontSize: 14, color: Colors.grey)),
         const SizedBox(height: 8),
 
-        // Status
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-              border: Border.all(width: 1, color: _getTextColor(status)),
-              borderRadius: BorderRadius.circular(10),
-              color: _getContainerColor(status)),
-          child: Text(status),
-        ),
       ],
     );
   }

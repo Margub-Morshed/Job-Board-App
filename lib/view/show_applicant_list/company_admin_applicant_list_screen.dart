@@ -206,25 +206,14 @@ class ApplicationListCard extends StatelessWidget {
                         email: userModel.email,
                         phone: userModel.phoneNumber!,
                         ),
-                    // trailing: Container(
-                    //   padding:
-                    //       const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                    //   decoration: BoxDecoration(
-                    //       border: Border.all(
-                    //           width: 1,
-                    //           color: _getTextColor(applicationModel.status)),
-                    //       borderRadius: BorderRadius.circular(10),
-                    //       color: _getContainerColor(applicationModel.status)),
-                    //   child: Text(applicationModel.status),
-                    // ),
                   ),
 
                 ),
               ),
             ),
             Positioned(
-              top: Utils.scrHeight * 0.02,
-              right: Utils.scrHeight * 0.02,
+              top: Utils.scrHeight * 0.025,
+              right: Utils.scrHeight * 0.025,
               child: Container(
                 padding:
                 const EdgeInsets.symmetric(horizontal: 4, vertical: 2),

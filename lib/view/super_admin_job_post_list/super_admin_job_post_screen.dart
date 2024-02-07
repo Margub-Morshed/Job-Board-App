@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';import 'package:job_board_app/view/filter
 import '../../model/job_post_model.dart';
 import '../../services/job_post/job_post_service.dart';
 import '../../utils/utils.dart';
+import '../home/widget/company_admin/admin_recent_job_post.dart';
 import '../home/widget/job_seeker/recent_job_post.dart';
 import '../home/widget/job_seeker/recommended_post.dart';
 import '../job_post_details/super_admin_job_post_details_screen.dart';
@@ -156,7 +157,7 @@ class _SuperAdminJobPostScreenState extends State<SuperAdminJobPostScreen> {
                         itemCount: _searchList.length,
                         itemBuilder: (context, index) {
                           JobPostModel jobPost = _searchList[index];
-                          return RecentJobPost(
+                          return CompanyAdminRecentJobPost(
                             jobPostModel: jobPost,
                             onTap: () {
                               final tag = "${jobPost.id}_hero_tag";
@@ -176,7 +177,7 @@ class _SuperAdminJobPostScreenState extends State<SuperAdminJobPostScreen> {
                         itemBuilder: (context, index) {
                           JobPostModel jobPost =
                           displayedJobPosts[index];
-                          return RecentJobPost(
+                          return CompanyAdminRecentJobPost(
                             jobPostModel: jobPost,
                             onTap: () {
                               final tag = "${jobPost.id}_hero_tag";

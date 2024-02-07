@@ -5,6 +5,7 @@ import '../../services/job_post/job_post_service.dart';
 import '../../services/session/session_services.dart';
 import '../../utils/utils.dart';
 import '../home/company_admin_home_screen.dart';
+import '../home/widget/company_admin/admin_recent_job_post.dart';
 import '../home/widget/job_seeker/recent_job_post.dart';
 import '../home/widget/job_seeker/recommended_post.dart';
 import '../job_post_details/company_job_post_detail_screen.dart';
@@ -234,7 +235,7 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                                       ),
                                     ));
                                   },
-                                  child: RecentJobPost(
+                                  child: CompanyAdminRecentJobPost(
                                     jobPostModel: jobPost,
                                     onTap: () {
                                       Navigator.of(context).push(
@@ -269,7 +270,7 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                                           ),
                                         ));
                                       },
-                                      child: RecentJobPost(
+                                      child: CompanyAdminRecentJobPost(
                                         jobPostModel: jobPost,
                                         onTap: () {
                                           Navigator.of(context).push(
