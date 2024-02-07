@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_board_app/view/common_widgets/job_seeker_drawer/job_seeker_custom_drawer.dart';
+import 'package:job_board_app/view/common_widgets/job_seeker_drawer/job_seeker_drawer_screen.dart';
 import 'package:job_board_app/view/filter/job_seeker_filter_screen.dart';
 import 'package:job_board_app/view/job_post_details/job_post_details_screen.dart';
 import '../../model/job_post_model.dart';
@@ -20,185 +21,246 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<JobPostModel> _searchList = [];
   final ValueNotifier<bool> _searchNotifier = ValueNotifier<bool>(false);
+  double xOffset = 0;
+  double yOffset = 0;
+
+  bool isDrawerOpen = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Jobs')),
-      drawer: const JobSeekerCustomDrawer(),
-      body: StreamBuilder<List<JobPostModel>>(
-        stream: jobService.getPostsStream(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+      body: Stack(
+        children: [
+          const JobSeekerDrawerScreen(),
+          AnimatedContainer(
+            transform: Matrix4.translationValues(xOffset, yOffset, 0)
+              ..scale(isDrawerOpen ? 0.85 : 1.00)
+              ..rotateZ(isDrawerOpen ? -50 : 0),
+            duration: const Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: isDrawerOpen
+                  ? BorderRadius.circular(40)
+                  : BorderRadius.circular(0),
+            ),
+            child: Scaffold(
+              appBar: AppBar(
+                  title: const Text('Jobs'),
+                  leading: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    child: isDrawerOpen
+                        ? GestureDetector(
+                      child: Image.asset(
+                        'assets/icons/close_drawer.png',
+                        height: 16,
+                        width: 16,
+                      ),
+                      onTap: () {
+                        setState(() {
+                          xOffset = 0;
+                          yOffset = 0;
+                          isDrawerOpen = false;
+                        });
+                      },
+                    )
+                        : GestureDetector(
+                      child: Image.asset(
+                        'assets/icons/drawer.png',
+                        height: 16,
+                        width: 16,
+                      ),
+                      onTap: () {
+                        setState(() {
+                          xOffset = 320;
+                          yOffset = 80;
+                          isDrawerOpen = true;
+                        });
+                      },
+                    ),
+                  )),
+              body: StreamBuilder<List<JobPostModel>>(
+                stream: jobService.getPostsStream(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          }
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
 
-          List<JobPostModel> jobPosts = snapshot.data ?? [];
+                  List<JobPostModel> jobPosts = snapshot.data ?? [];
 
-          // Use a common list to store displayed job posts
-          List<JobPostModel> displayedJobPosts =
-              _searchController.text.isNotEmpty
-                  ? _searchList.isNotEmpty
-                      ? _searchList
-                      : []
-                  : jobPosts;
+                  // Use a common list to store displayed job posts
+                  List<JobPostModel> displayedJobPosts =
+                      _searchController.text.isNotEmpty
+                          ? _searchList.isNotEmpty
+                              ? _searchList
+                              : []
+                          : jobPosts;
 
-          return Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Search Bar
-                CustomSearchBar(
-                  searchController: _searchController,
-                  searchNotifier: _searchNotifier,
-                  jobPosts: jobPosts,
-                  searchList: _searchList,
-                ),
-                SizedBox(height: Utils.scrHeight * .02),
+                  return Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Search Bar
+                        CustomSearchBar(
+                          searchController: _searchController,
+                          searchNotifier: _searchNotifier,
+                          jobPosts: jobPosts,
+                          searchList: _searchList,
+                        ),
+                        SizedBox(height: Utils.scrHeight * .02),
 
-                // Recommended Post For User
-                const Text("Recommended For You",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                    )),
-                SizedBox(height: Utils.scrHeight * .02),
+                        // Recommended Post For User
+                        const Text("Recommended For You",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            )),
+                        SizedBox(height: Utils.scrHeight * .02),
 
-                // Recommended For You Part
-                ValueListenableBuilder<bool>(
-                  valueListenable: _searchNotifier,
-                  builder: (BuildContext context, bool value, Widget? child) {
-                    return _searchList.isNotEmpty
-                        ? SizedBox(
-                            height: Utils.scrHeight * .195,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: _searchList.length,
-                              itemBuilder: (context, index) {
-                                JobPostModel jobPost = _searchList[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: RecommendedPost(
-                                    image: jobPost.image ??
-                                        "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
-                                    jobTitle: jobPost.jobTitle,
-                                    jobShortDec: jobPost.description,
-                                    onTap: () {
-                                      final tag =
-                                          "${jobPost.id}_hero_tag_recommended";
-                                      Utils.navigateTo(
-                                        context,
-                                        JobPostDetailsScreen(
-                                          jobPostModel: jobPost,
-                                          tag: tag,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                          )
-                        : _searchController.text.isNotEmpty
-                            ? const Text("No matching jobs found")
-                            : SizedBox(
-                                height: Utils.scrHeight * .195,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: jobPosts.length,
-                                  itemBuilder: (context, index) {
-                                    JobPostModel jobPost = jobPosts[index];
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 8.0),
-                                      child: RecommendedPost(
-                                        image: jobPost.image ??
-                                            "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
-                                        jobTitle: jobPost.jobTitle,
-                                        jobShortDec: jobPost.description,
-                                        onTap: () {
-                                          final tag =
-                                              "${jobPost.id}_hero_tag_recommended";
-                                          Utils.navigateTo(
-                                            context,
-                                            JobPostDetailsScreen(
-                                              jobPostModel: jobPost,
-                                              tag: tag,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                  },
-                ),
-                SizedBox(height: Utils.scrHeight * .02),
-
-                // Recent Post For User
-                const Text("Recently Posted",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
-                SizedBox(height: Utils.scrHeight * .02),
-                Expanded(
-                  child: ValueListenableBuilder<bool>(
-                    valueListenable: _searchNotifier,
-                    builder: (context, _, __) {
-                      return _searchList.isNotEmpty
-                          ? ListView.builder(
-                              itemCount: _searchList.length,
-                              itemBuilder: (context, index) {
-                                JobPostModel jobPost = _searchList[index];
-                                return RecentJobPost(
-                                  jobPostModel: jobPost,
-                                  onTap: () {
-                                    final tag = "${jobPost.id}_hero_tag";
-                                    Utils.navigateTo(
-                                      context,
-                                      JobPostDetailsScreen(
-                                          jobPostModel: jobPost, tag: tag),
-                                    );
-                                  },
-                                );
-                              },
-                            )
-                          : _searchController.text.isNotEmpty
-                              ? const Text("No matching jobs found")
-                              : ListView.builder(
-                                  itemCount: displayedJobPosts.length,
-                                  itemBuilder: (context, index) {
-                                    JobPostModel jobPost =
-                                        displayedJobPosts[index];
-                                    return RecentJobPost(
-                                      jobPostModel: jobPost,
-                                      onTap: () {
-                                        final tag = "${jobPost.id}_hero_tag";
-                                        Utils.navigateTo(
-                                          context,
-                                          JobPostDetailsScreen(
-                                              jobPostModel: jobPost, tag: tag),
+                        // Recommended For You Part
+                        ValueListenableBuilder<bool>(
+                          valueListenable: _searchNotifier,
+                          builder:
+                              (BuildContext context, bool value, Widget? child) {
+                            return _searchList.isNotEmpty
+                                ? SizedBox(
+                                    height: Utils.scrHeight * .195,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: _searchList.length,
+                                      itemBuilder: (context, index) {
+                                        JobPostModel jobPost = _searchList[index];
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 8.0),
+                                          child: RecommendedPost(
+                                            image: jobPost.image ??
+                                                "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
+                                            jobTitle: jobPost.jobTitle,
+                                            jobShortDec: jobPost.description,
+                                            onTap: () {
+                                              final tag =
+                                                  "${jobPost.id}_hero_tag_recommended";
+                                              Utils.navigateTo(
+                                                context,
+                                                JobPostDetailsScreen(
+                                                  jobPostModel: jobPost,
+                                                  tag: tag,
+                                                ),
+                                              );
+                                            },
+                                          ),
                                         );
                                       },
-                                    );
-                                  },
-                                );
-                    },
-                  ),
-                ),
-              ],
+                                    ),
+                                  )
+                                : _searchController.text.isNotEmpty
+                                    ? const Text("No matching jobs found")
+                                    : SizedBox(
+                                        height: Utils.scrHeight * .195,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: jobPosts.length,
+                                          itemBuilder: (context, index) {
+                                            JobPostModel jobPost =
+                                                jobPosts[index];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8.0),
+                                              child: RecommendedPost(
+                                                image: jobPost.image ??
+                                                    "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
+                                                jobTitle: jobPost.jobTitle,
+                                                jobShortDec: jobPost.description,
+                                                onTap: () {
+                                                  final tag =
+                                                      "${jobPost.id}_hero_tag_recommended";
+                                                  Utils.navigateTo(
+                                                    context,
+                                                    JobPostDetailsScreen(
+                                                      jobPostModel: jobPost,
+                                                      tag: tag,
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                          },
+                        ),
+                        SizedBox(height: Utils.scrHeight * .02),
+
+                        // Recent Post For User
+                        const Text("Recently Posted",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w700)),
+                        SizedBox(height: Utils.scrHeight * .02),
+                        Expanded(
+                          child: ValueListenableBuilder<bool>(
+                            valueListenable: _searchNotifier,
+                            builder: (context, _, __) {
+                              return _searchList.isNotEmpty
+                                  ? ListView.builder(
+                                      itemCount: _searchList.length,
+                                      itemBuilder: (context, index) {
+                                        JobPostModel jobPost = _searchList[index];
+                                        return RecentJobPost(
+                                          jobPostModel: jobPost,
+                                          onTap: () {
+                                            final tag = "${jobPost.id}_hero_tag";
+                                            Utils.navigateTo(
+                                              context,
+                                              JobPostDetailsScreen(
+                                                  jobPostModel: jobPost,
+                                                  tag: tag),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    )
+                                  : _searchController.text.isNotEmpty
+                                      ? const Text("No matching jobs found")
+                                      : ListView.builder(
+                                          itemCount: displayedJobPosts.length,
+                                          itemBuilder: (context, index) {
+                                            JobPostModel jobPost =
+                                                displayedJobPosts[index];
+                                            return RecentJobPost(
+                                              jobPostModel: jobPost,
+                                              onTap: () {
+                                                final tag =
+                                                    "${jobPost.id}_hero_tag";
+                                                Utils.navigateTo(
+                                                  context,
+                                                  JobPostDetailsScreen(
+                                                      jobPostModel: jobPost,
+                                                      tag: tag),
+                                                );
+                                              },
+                                            );
+                                          },
+                                        );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
