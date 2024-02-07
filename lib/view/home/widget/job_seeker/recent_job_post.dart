@@ -12,7 +12,6 @@ class RecentJobPost extends StatefulWidget {
   const RecentJobPost({super.key, required this.jobPostModel, this.onTap});
 
   final VoidCallback? onTap;
-
   final JobPostModel jobPostModel;
 
   @override
@@ -105,21 +104,26 @@ class _RecentJobPostState extends State<RecentJobPost> {
                             children: [
                               Text(widget.jobPostModel.jobTitle,
                                   style: const TextStyle(
-                                      fontSize: 18, fontWeight: FontWeight.w500)),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500)),
                               SizedBox(height: Utils.scrHeight * .003),
                               SizedBox(
                                 width: 220,
                                 child: Text(
                                   'Job Type: ${widget.jobPostModel.jobType}',
                                   style: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.w500),
+                                      color: Colors.black38,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                               SizedBox(height: Utils.scrHeight * .003),
                               Text(
                                 'Deadline: ${widget.jobPostModel.applicationDeadline}',
                                 style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w500),
+                                    color: Colors.black38,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),
@@ -142,9 +146,11 @@ class _RecentJobPostState extends State<RecentJobPost> {
                         await _toggleFavorite();
                       },
                       child: Icon(
-                        Icons.favorite,
+                        isAlreadySelected.value
+                            ? Icons.favorite
+                            : Icons.favorite_border_outlined,
                         color:
-                            isAlreadySelected.value ? Colors.blue : Colors.grey,
+                        isAlreadySelected.value ? Colors.blue : Colors.black54,
                       ),
                     );
                   }),

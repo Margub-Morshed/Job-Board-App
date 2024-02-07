@@ -262,9 +262,13 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
             onTap: () async {
               await _toggleFavorite();
             },
+
             child: Icon(
-              Icons.favorite,
-              color: isAlreadySelected.value ? Colors.blue : Colors.grey,
+              isAlreadySelected.value
+                  ? Icons.favorite
+                  : Icons.favorite_border_outlined,
+              color:
+              isAlreadySelected.value ? Colors.blue : Colors.black54,
             ),
           ),
         );

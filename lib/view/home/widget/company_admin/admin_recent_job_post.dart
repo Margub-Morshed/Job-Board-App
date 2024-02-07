@@ -25,25 +25,13 @@ class _CompanyAdminRecentJobPostState extends State<CompanyAdminRecentJobPost> {
   void initState() {
     super.initState();
     isAlreadySelected = ValueNotifier<bool>(false);
-    _fetchFavoriteStatus();
-  }
-
-  Future<void> _fetchFavoriteStatus() async {
-    bool isFavorite = await FavoriteService.checkIfFavorite(
-        SessionManager.userModel!.id, widget.jobPostModel.id);
-
-    if (mounted) {
-      setState(() {
-        isAlreadySelected.value = isFavorite;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     final tag = "${widget.jobPostModel.id}_hero_tag";
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 2),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         // Card Elevation
@@ -59,54 +47,70 @@ class _CompanyAdminRecentJobPostState extends State<CompanyAdminRecentJobPost> {
         // Card Outer Border Radius
         borderRadius: BorderRadius.circular(12),
         onTap: widget.onTap,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+        child: SizedBox(
+          height: 120,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.only(right: 10),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white),
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
                 child: Row(
                   children: [
                     // Left Side Image Part
-                    Hero(
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12)),
+                      child: Hero(
                         tag: tag,
                         transitionOnUserGestures: true,
                         child: CachedNetworkImage(
-                            imageUrl: widget.jobPostModel.image ??
-                                Utils.flutterDefaultImg,
-                            width: 93,
-                            height: 94)),
-                    const SizedBox(width: 20),
+                          imageUrl: widget.jobPostModel.image ??
+                              Utils.flutterDefaultImg,
+                          width: 120,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
 
                     // Right Side Information Part
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.jobPostModel.jobTitle,
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w500)),
-                        SizedBox(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(widget.jobPostModel.jobTitle,
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w500)),
+                          SizedBox(height: Utils.scrHeight * .003),
+                          SizedBox(
                             width: 220,
                             child: Text(
-                                'Job Type: ${widget.jobPostModel.jobType}',
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500))),
-                        Text(
+                              'Job Type: ${widget.jobPostModel.jobType}',
+                              style: const TextStyle(
+                                  color: Colors.black38,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          SizedBox(height: Utils.scrHeight * .003),
+                          Text(
                             'Deadline: ${widget.jobPostModel.applicationDeadline}',
                             style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500))
-                      ],
+                                color: Colors.black38,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -116,27 +120,6 @@ class _CompanyAdminRecentJobPostState extends State<CompanyAdminRecentJobPost> {
         ),
       ),
     );
-  }
-
-  Future<void> _toggleFavorite() async {
-    // Check if the post is already in the user's favorites
-    bool isAlreadyFavorite = await FavoriteService.checkIfFavorite(
-        SessionManager.userModel!.id, widget.jobPostModel.id);
-
-    // Toggle isSelected when the button is tapped
-    isAlreadySelected.value = !isAlreadySelected.value;
-
-    if (isAlreadySelected.value && !isAlreadyFavorite) {
-      // If the post is not already in favorites, add it
-      await FavoriteService.addToFavorites(
-          SessionManager.userModel!.id, widget.jobPostModel.id);
-      print("Added to Favorites");
-    } else if (!isAlreadySelected.value && isAlreadyFavorite) {
-      // If the post is already in favorites, remove it
-      await FavoriteService.removeFromFavorites(
-          SessionManager.userModel!.id, widget.jobPostModel.id);
-      print("Removed from Favorites");
-    }
   }
 
   @override

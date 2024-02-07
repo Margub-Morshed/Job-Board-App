@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/model/application_model.dart';
 import 'package:job_board_app/model/job_post_model.dart';
@@ -9,7 +10,7 @@ import '../filter/company_admin_filter_screen.dart';
 import 'company_applications_details_screen.dart';
 
 class ShowApplicantList extends StatefulWidget {
-  const ShowApplicantList({Key? key, required this.jobPostModel});
+  const ShowApplicantList({super.key, required this.jobPostModel});
 
   final JobPostModel jobPostModel;
 
@@ -35,9 +36,7 @@ class _ShowApplicantListState extends State<ShowApplicantList> {
         title: const Text('Application List'),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: Utils.scrHeight * .01,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: Utils.scrHeight * .01),
         child: Column(
           children: [
             Padding(
@@ -149,18 +148,17 @@ class ApplicationListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final hero_tag = "${applicationModel.id}_hero_tag";
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: const EdgeInsets.all(2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         // Card Elevation
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.2),
-            blurRadius: 10,
-            spreadRadius: -2,
+            color: Colors.black.withOpacity(.1),
+            blurRadius: 16,
+            spreadRadius: -10,
             offset: const Offset(-10, 4),
           ),
         ],
@@ -178,36 +176,52 @@ class ApplicationListCard extends StatelessWidget {
         },
         child: Stack(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            SizedBox(
+              height: 150,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
                 child: Card(
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.all(16),
-
-                    // Left Side Image
-                    leading: Padding(
-                      padding: const EdgeInsets.only(right: 0.0),
-                      // Right Side Padding
-                      child: ProfileImage(
-                          imageUrl: userModel.coverImage,
-                          imageName: "${applicationModel.id}_hero_tag",),
-                    ),
-
-                    // Right Side Information
-                    title: Text(userModel.name!,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    subtitle: ProfileDetails(
-                        email: userModel.email,
-                        phone: userModel.phoneNumber!,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Left Side Image
+                        Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          // Right Side Padding
+                          child: ProfileImage(
+                            imageUrl: userModel.coverImage,
+                            imageName: "${applicationModel.id}_hero_tag",
+                          ),
                         ),
-                  ),
 
+                        // Right Side Information
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                userModel.name!,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              ProfileDetails(
+                                email: userModel.email,
+                                phone: userModel.phoneNumber!,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -216,14 +230,17 @@ class ApplicationListCard extends StatelessWidget {
               right: Utils.scrHeight * 0.025,
               child: Container(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
                 decoration: BoxDecoration(
                     border: Border.all(
                         width: 1,
                         color: _getTextColor(applicationModel.status)),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(12),
                     color: _getContainerColor(applicationModel.status)),
-                child: Text(applicationModel.status),
+                child: Text(
+                  applicationModel.status,
+                  style: const TextStyle(fontSize: 12),
+                ),
               ),
             )
           ],
@@ -272,20 +289,17 @@ class ProfileImage extends StatelessWidget {
       transitionOnUserGestures: true,
       tag: imageName.toString(),
       child: Container(
-        width: 80,
+        padding: const EdgeInsets.all(2.5),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.2),
-              blurRadius: 10,
-              spreadRadius: -2,
-              offset: const Offset(-10, 4),
-            ),
-          ],
-          image: DecorationImage(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: CachedNetworkImage(
+            imageUrl: imageUrl ?? '',
             fit: BoxFit.cover,
-            image: NetworkImage(imageUrl ?? ''),
+            height: double.infinity,
+            width: 100,
           ),
         ),
       ),
@@ -294,12 +308,11 @@ class ProfileImage extends StatelessWidget {
 }
 
 class ProfileDetails extends StatelessWidget {
-  const ProfileDetails(
-      {Key? key,
-      required this.email,
-      required this.phone,
-     })
-      : super(key: key);
+  const ProfileDetails({
+    Key? key,
+    required this.email,
+    required this.phone,
+  }) : super(key: key);
 
   final String email;
   final String phone;
@@ -310,12 +323,12 @@ class ProfileDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8),
-        Text('Email : $email', style: const TextStyle(fontSize: 14, color: Colors.grey)),
+        Text('Email : $email',
+            style: const TextStyle(fontSize: 14, color: Colors.grey)),
         const SizedBox(height: 4),
         Text('Phone: $phone',
             style: const TextStyle(fontSize: 14, color: Colors.grey)),
         const SizedBox(height: 4),
-
       ],
     );
   }
