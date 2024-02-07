@@ -19,55 +19,53 @@ class RecommendedPost extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Expanded(
-        child: Container(
-          width: Utils.scrHeight * .25,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Utils.scrHeight * .01),
-            color: Colors.white,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(Utils.scrHeight * .01),
-                    topLeft: Radius.circular(Utils.scrHeight * .01),
-                  ),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child:
-                        CachedNetworkImage(imageUrl: image, fit: BoxFit.cover),
-                  ),
+      child: Container(
+        width: Utils.scrHeight * .25,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(Utils.scrHeight * .01),
+          color: Colors.white,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(Utils.scrHeight * .01),
+                  topLeft: Radius.circular(Utils.scrHeight * .01),
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  child:
+                      CachedNetworkImage(imageUrl: image, fit: BoxFit.cover),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: Utils.scrHeight * .015),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      jobTitle,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w800),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: Utils.scrHeight * .015),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    jobTitle,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w800),
+                  ),
+                  Text(
+                    jobShortDec.length > 22
+                        ? '${jobShortDec.substring(0, 22)}...' // Truncate the text if it exceeds 22 characters
+                        : jobShortDec,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
                     ),
-                    Text(
-                      jobShortDec.length > 22
-                          ? '${jobShortDec.substring(0, 22)}...' // Truncate the text if it exceeds 22 characters
-                          : jobShortDec,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

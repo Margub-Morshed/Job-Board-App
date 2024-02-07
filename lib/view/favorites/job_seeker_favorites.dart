@@ -148,7 +148,7 @@ class _JobPostFavoriteState extends State<JobPostFavorite> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        const SizedBox(width: 12),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12.0),
                           child: Column(
@@ -163,22 +163,22 @@ class _JobPostFavoriteState extends State<JobPostFavorite> {
                                 ),
                               ),
                               SizedBox(height: Utils.scrHeight * .003),
+                              Text(
+                                'Job Type: ${widget.jobPostModel.jobType}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              SizedBox(height: Utils.scrHeight * .003),
                               SizedBox(
-                                width: 220,
+                                width: 180,
                                 child: Text(
-                                  'Job Type: ${widget.jobPostModel.jobType}',
+                                  'Deadline: ${widget.jobPostModel.applicationDeadline}',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                ),
-                              ),
-                              SizedBox(height: Utils.scrHeight * .003),
-                              Text(
-                                'Deadline: ${widget.jobPostModel.applicationDeadline}',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ],
@@ -191,8 +191,8 @@ class _JobPostFavoriteState extends State<JobPostFavorite> {
               ),
             ),
             Positioned(
-              top: Utils.scrHeight * 0.02,
-              right: Utils.scrHeight * 0.02,
+              top: Utils.scrHeight * 0.01,
+              right: Utils.scrHeight * 0.01,
               child: ValueListenableBuilder(
                 valueListenable: isAlreadySelected,
                 builder: (context, value, child) {

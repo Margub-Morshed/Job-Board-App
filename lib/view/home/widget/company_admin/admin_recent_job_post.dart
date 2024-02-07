@@ -87,27 +87,30 @@ class _CompanyAdminRecentJobPostState extends State<CompanyAdminRecentJobPost> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.jobPostModel.jobTitle,
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w500)),
+                          SizedBox(
+                            width: 180,
+                            child: Text(widget.jobPostModel.jobTitle,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500)),
+                          ),
+                          SizedBox(height: Utils.scrHeight * .003),
+                          Text(
+                            'Job Type: ${widget.jobPostModel.jobType}',
+                            style: const TextStyle(
+                                color: Colors.black38,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
                           SizedBox(height: Utils.scrHeight * .003),
                           SizedBox(
-                            width: 220,
+                            width: 180,
                             child: Text(
-                              'Job Type: ${widget.jobPostModel.jobType}',
+                              'Deadline: ${widget.jobPostModel.applicationDeadline}',
                               style: const TextStyle(
                                   color: Colors.black38,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500),
                             ),
-                          ),
-                          SizedBox(height: Utils.scrHeight * .003),
-                          Text(
-                            'Deadline: ${widget.jobPostModel.applicationDeadline}',
-                            style: const TextStyle(
-                                color: Colors.black38,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),

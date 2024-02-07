@@ -63,7 +63,7 @@ class _RecentJobPostState extends State<RecentJobPost> {
         child: Stack(
           children: [
             SizedBox(
-              height: 120,
+              height: 140,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: BackdropFilter(
@@ -93,7 +93,7 @@ class _RecentJobPostState extends State<RecentJobPost> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        const SizedBox(width: 12),
 
                         // Right Side Information Part
                         Padding(
@@ -102,28 +102,31 @@ class _RecentJobPostState extends State<RecentJobPost> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(widget.jobPostModel.jobTitle,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500)),
+                              SizedBox(
+                                width: 180,
+                                child: Text(widget.jobPostModel.jobTitle,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              SizedBox(height: Utils.scrHeight * .003),
+                              Text(
+                                'Job Type: ${widget.jobPostModel.jobType}',
+                                style: const TextStyle(
+                                    color: Colors.black38,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
+                              ),
                               SizedBox(height: Utils.scrHeight * .003),
                               SizedBox(
-                                width: 220,
+                                width: 160,
                                 child: Text(
-                                  'Job Type: ${widget.jobPostModel.jobType}',
+                                  'Deadline: ${widget.jobPostModel.applicationDeadline}',
                                   style: const TextStyle(
                                       color: Colors.black38,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500),
                                 ),
-                              ),
-                              SizedBox(height: Utils.scrHeight * .003),
-                              Text(
-                                'Deadline: ${widget.jobPostModel.applicationDeadline}',
-                                style: const TextStyle(
-                                    color: Colors.black38,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),
@@ -135,8 +138,8 @@ class _RecentJobPostState extends State<RecentJobPost> {
               ),
             ),
             Positioned(
-              top: Utils.scrHeight * 0.02,
-              right: Utils.scrHeight * 0.02,
+              top: Utils.scrHeight * 0.01,
+              right: Utils.scrHeight * 0.01,
               child: ValueListenableBuilder(
                   valueListenable: isAlreadySelected,
                   builder: (context, value, child) {
