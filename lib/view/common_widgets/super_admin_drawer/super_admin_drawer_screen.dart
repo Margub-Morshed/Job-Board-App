@@ -7,6 +7,7 @@ import '../../../services/auth/auth_service.dart';
 import '../../../services/session/session_services.dart';
 import '../../../utils/utils.dart';
 import '../../login/login_screen.dart';
+import '../../profile/super_admin_profile_screen.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -54,7 +55,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
             ),
             Column(
               children: <Widget>[
-                const NewRow(
+                 NewRow(
+                  onTap: (){
+                    Utils.navigateTo(context, SuperAdminProfileScreen(role: "Super Admin", superAdminModel: SessionManager.superAdminModel,));
+                  },
                   text: 'Profile',
                   icon: Icons.person_outline,
                 ),
