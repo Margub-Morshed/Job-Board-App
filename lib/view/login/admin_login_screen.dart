@@ -105,9 +105,6 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
           }
         });
       },
-      style: const ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll(Color(0xff5872de)),
-      ),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: Utils.scrHeight * .015),
         child: Text(
