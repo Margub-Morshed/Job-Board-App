@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/view/job_post_list/company_post_list_screen.dart';
+import 'package:job_board_app/view/profile/profile_screen.dart';
 
 import '../../../services/auth/auth_service.dart';
 import '../../../services/session/session_services.dart';
 import '../../../utils/utils.dart';
 import '../../favorites/job_seeker_favorites.dart';
 import '../../login/login_screen.dart';
+import '../../profile/company_admin_profile_screen.dart';
 import '../../show_applicant_list/job_seeker_applied_jobs_screen.dart';
 
 class CompanyAdminDrawerScreen extends StatefulWidget {
@@ -57,7 +59,10 @@ class _CompanyAdminDrawerScreenState extends State<CompanyAdminDrawerScreen> {
             ),
             Column(
               children: <Widget>[
-                const NewRow(
+                NewRow(
+                  onTap: (){
+                    Utils.navigateTo(context, CompanyAdminProfileScreen(role: "Company Admin",companyModel: SessionManager.companyModel,));
+                  },
                   text: 'Profile',
                   icon: Icons.person_outline,
                 ),
@@ -73,10 +78,6 @@ class _CompanyAdminDrawerScreenState extends State<CompanyAdminDrawerScreen> {
                 ),
                 const SizedBox(
                   height: 20,
-                ),
-                const NewRow(
-                  text: 'Settings',
-                  icon: Icons.error_outline,
                 ),
                 const SizedBox(
                   height: 20,

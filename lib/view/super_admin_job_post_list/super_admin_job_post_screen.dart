@@ -23,7 +23,9 @@ class _SuperAdminJobPostScreenState extends State<SuperAdminJobPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Jobs')),
+      appBar: AppBar(
+          scrolledUnderElevation: 0,
+          title: const Text('Jobs')),
       body: StreamBuilder<List<JobPostModel>>(
         stream: jobService.getPostsStream(),
         builder: (context, snapshot) {

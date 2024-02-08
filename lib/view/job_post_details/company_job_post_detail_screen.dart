@@ -50,7 +50,7 @@ class _CompanyJobPostDetailsScreenState extends State<CompanyJobPostDetailsScree
                         imageUrl: widget.jobPostModel.image ??
                             Utils.flutterDefaultImg,
                         width: double.infinity,
-                        // height: Utils.scrHeight * .180,
+                        height: Utils.scrHeight * .25,
                         fit: BoxFit.cover,
                       )),
                 ),
@@ -63,11 +63,11 @@ class _CompanyJobPostDetailsScreenState extends State<CompanyJobPostDetailsScree
                       fontSize: 20, fontWeight: FontWeight.w700),
                 ),
 
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Other Job Details
                 Text('Type: ${widget.jobPostModel.jobType}'),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 Row(
                   children: [
@@ -86,7 +86,7 @@ class _CompanyJobPostDetailsScreenState extends State<CompanyJobPostDetailsScree
                   ],
                 ),
 
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Application Deadline
                 Text(
@@ -101,7 +101,7 @@ class _CompanyJobPostDetailsScreenState extends State<CompanyJobPostDetailsScree
                   "Description",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 Container(
                   padding:
@@ -112,7 +112,7 @@ class _CompanyJobPostDetailsScreenState extends State<CompanyJobPostDetailsScree
                   child: Text(
                     widget.jobPostModel.description,
                     style: const TextStyle(
-                        fontSize: 15, color: Colors.black54, height: 1.8),
+                        fontSize: 15, color: Colors.black54, height: 2.2),
                     textAlign: TextAlign.justify,
                   ),
                 ),

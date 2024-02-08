@@ -58,28 +58,14 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
                 const SizedBox(height: 24),
 
                 // Input Your Password
-                Row(
-                  children: [
-                    const Text(
-                      'PASSWORD',
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xff1E1F20)),
-                    ),
-                    const Spacer(),
-                    TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Forgot Password',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Color(0xff1E1F20),
-                              decoration: TextDecoration.underline),
-                        ))
-                  ],
+                const Text(
+                  'PASSWORD',
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff1E1F20)),
                 ),
+                const SizedBox(height: 8),
                 buildPasswordSection(),
                 const SizedBox(height: 26),
 
@@ -96,6 +82,8 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
 
   Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
+      style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Color(0xff5872de)),
+      ),
       onPressed: () async {
         User? user = await AuthService.companySignInWithEmailAndPassword(
             _emailController.text.trim(),
@@ -117,7 +105,8 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
         child: Text(
           'Log In',
           style: TextStyle(
-              fontSize: Utils.scrHeight * .022, fontWeight: FontWeight.bold),
+            color: Colors.white,
+              fontSize: Utils.scrHeight * .022, fontWeight: FontWeight.w400),
         ),
       ),
     );
@@ -131,11 +120,11 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
         decoration: const InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             border: OutlineInputBorder(borderSide: BorderSide(width: 5)),
-            hintText: 'Email',
+            hintText: 'example@gmail.com',
             hintStyle: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
-                color: Color(0xff1E1F20))),
+                color: Colors.grey)),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Please enter your email address.';
@@ -156,11 +145,11 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
             contentPadding:
             const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             border: const OutlineInputBorder(borderSide: BorderSide(width: 5)),
-            hintText: 'Password',
+            hintText: '******',
             hintStyle: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
-                color: Color(0xff1E1F20)),
+                color: Colors.grey),
             suffixIcon: IconButton(
                 onPressed: () {
                   setState(() {

@@ -69,7 +69,8 @@ class InputScreenState extends State<InputScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Job Post"),
+        scrolledUnderElevation: 0,
+          title: const Text("Add New Job Post"),
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.transparent),
@@ -174,7 +175,7 @@ class InputScreenState extends State<InputScreen> {
                         decoration: const BoxDecoration(
                             color: Colors.white, shape: BoxShape.circle),
                         child: const Icon(Icons.add_a_photo_sharp,
-                            size: 50, color: Colors.deepPurple)),
+                            size: 50,       color: const Color(0xff5872de),)),
                   ),
           ),
 
@@ -192,7 +193,7 @@ class InputScreenState extends State<InputScreen> {
               shape: const CircleBorder(),
               color: Colors.white.withOpacity(0.5),
               child: Icon(Icons.camera_enhance_rounded,
-                  color: Colors.deepPurple, size: Utils.scrHeight * .024),
+                  color: const Color(0xff5872de), size: Utils.scrHeight * .024),
             ),
           ),
         ],
@@ -202,6 +203,7 @@ class InputScreenState extends State<InputScreen> {
 
   Widget _buildJobPostButton() {
     return ElevatedButton(
+      style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Color(0xff5872de)),),
       onPressed: _pushData,
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -210,8 +212,9 @@ class InputScreenState extends State<InputScreen> {
         child: Text(
           'Post Job',
           style: TextStyle(
+            color: Colors.white,
             fontSize: Utils.scrHeight * .022,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w400,
           ),
         ),
       ),

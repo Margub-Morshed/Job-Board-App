@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:job_board_app/services/session/session_services.dart';
 
 import '../../model/company_model.dart';
 import '../../utils/utils.dart';
@@ -41,8 +42,9 @@ class ProfileService {
       });
 
       //updating image in firestore database
-      model.coverImage = await ref.getDownloadURL();
-      await Utils.getRefPathBasedOnRole(role).doc(model.id).update({'logo_image': model.coverImage});
+      model.logoImage = await ref.getDownloadURL();
+      SessionManager.companyModel!.logoImage = model.logoImage;
+      await Utils.getRefPathBasedOnRole(role).doc(model.id).update({'logo_image': model.logoImage});
     }catch(e){
       print("Error updating profile: $e");
       throw e;

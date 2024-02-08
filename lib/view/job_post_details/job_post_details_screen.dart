@@ -64,6 +64,7 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: const Text("Job Details"),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
