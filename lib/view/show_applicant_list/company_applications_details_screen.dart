@@ -80,9 +80,9 @@ class _CompanyApplicationDetailsScreenState
                         color: Colors.black,
                         fontSize: 20,
                         fontWeight: FontWeight.w600)),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
                 const Divider(color: Colors.grey, thickness: 1),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Company name and Status show
                 Row(
@@ -105,24 +105,24 @@ class _CompanyApplicationDetailsScreenState
                     )
                   ],
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // User Address Email Number
                 Text('Email: ${widget.userModel.email}',
                     style:
                         const TextStyle(color: Colors.black87, fontSize: 16)),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
                 Text('Phone Number: ${widget.userModel.phoneNumber}',
                     style:
                         const TextStyle(color: Colors.black87, fontSize: 16)),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
                 Text('Applied on: $formattedDateTime',
                     style: const TextStyle(color: Colors.black, fontSize: 16)),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Divider
                 const Divider(color: Colors.grey, thickness: 1),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 //Company Description
                 const Text("Massage",
@@ -130,7 +130,7 @@ class _CompanyApplicationDetailsScreenState
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                     )),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
                 Container(
                   padding:
                   const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -140,7 +140,7 @@ class _CompanyApplicationDetailsScreenState
                   child: Text(
                     widget.applicationModel.message,
                     style: const TextStyle(
-                        fontSize: 15, color: Colors.black54, height: 1.8),
+                        fontSize: 15, color: Colors.black54, height: 2.2),
                     textAlign: TextAlign.justify,
                   ),
                 ),

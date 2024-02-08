@@ -83,13 +83,6 @@ class _JobSeekerDrawerScreenState extends State<JobSeekerDrawerScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const NewRow(
-                  text: 'Settings',
-                  icon: Icons.error_outline,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
               ],
             ),
             InkWell(

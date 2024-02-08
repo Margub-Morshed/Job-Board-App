@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_board_app/view/filter/company_admin_filter_screen.dart';
+import 'package:job_board_app/view/input/input_screen.dart';
 import '../../model/job_post_model.dart';
 import '../../services/job_post/job_post_service.dart';
 import '../../services/session/session_services.dart';
@@ -26,7 +27,16 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Jobs'),
+        scrolledUnderElevation: 0,
+        title: const Text('All Jobs Post'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(onPressed: (){
+              Utils.navigateTo(context, const InputScreen());
+            }, icon: const Icon(Icons.add, color: Color(0xff5872de),size: 30,)),
+          )
+        ],
         leading: IconButton(
           onPressed: () {
             Utils.navigateReplaceTo(context, const CompanyAdminHomeScreen());
@@ -134,90 +144,7 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
                     )
                   ],
                 ),
-                SizedBox(height: Utils.scrHeight * .02),
 
-                // Recommended Post For User
-                const Text("Recommended For You",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
-                SizedBox(height: Utils.scrHeight * .02),
-
-                // Recommended For You Part
-                ValueListenableBuilder<bool>(
-                  valueListenable: _searchNotifier,
-                  builder: (BuildContext context, bool value, Widget? child) {
-                    return _searchList.isNotEmpty
-                        ? SizedBox(
-                            height: Utils.scrHeight * .195,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: _searchList.length,
-                              itemBuilder: (context, index) {
-                                JobPostModel jobPost = _searchList[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: RecommendedPost(
-                                    image: jobPost.image ??
-                                        "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
-                                    jobTitle: jobPost.jobTitle,
-                                    jobShortDec: jobPost.description,
-                                      onTap: () {
-                                        final tag = "${jobPost.id}_hero_tag";
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              CompanyJobPostDetailsScreen(
-                                                jobPostModel: jobPost,
-                                                tag: tag,
-                                              ),
-                                        ));
-                                      }
-                                  ),
-                                );
-                              },
-                            ),
-                          )
-                        : _searchController.text.isNotEmpty
-                            ? const Text("No matching jobs found")
-                            : SizedBox(
-                                height: Utils.scrHeight * .195,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: jobPosts.length,
-                                  itemBuilder: (context, index) {
-                                    JobPostModel jobPost = jobPosts[index];
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 8.0),
-                                      child: RecommendedPost(
-                                        image: jobPost.image ??
-                                            "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
-                                        jobTitle: jobPost.jobTitle,
-                                        jobShortDec: jobPost.description,
-                                          onTap: () {
-                                            final tag = "${jobPost.id}_hero_tag";
-                                            Navigator.of(context)
-                                                .push(MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CompanyJobPostDetailsScreen(
-                                                    jobPostModel: jobPost,
-                                                    tag: tag,
-                                                  ),
-                                            ));
-                                          }
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                  },
-                ),
-                SizedBox(height: Utils.scrHeight * .02),
-
-                // Recently Posted For User
-                const Text("Recently Posted",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
                 SizedBox(height: Utils.scrHeight * .02),
 
                 // Recent Job Post Section
