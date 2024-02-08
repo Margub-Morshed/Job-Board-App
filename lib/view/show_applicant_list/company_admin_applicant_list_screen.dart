@@ -177,7 +177,7 @@ class ApplicationListCard extends StatelessWidget {
         child: Stack(
           children: [
             SizedBox(
-              height: Utils.scrHeight * .2,
+              height: Utils.scrHeight * .23,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Card(
