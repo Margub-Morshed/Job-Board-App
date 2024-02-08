@@ -83,6 +83,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
 
   Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
+      style: const ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(Color(0xff5872de)),
+      ),
       onPressed: () async {
         User? user = await AuthService.adminSignInWithEmailAndPassword(
                 _emailController.text.trim(),

@@ -23,8 +23,11 @@ class _SuperAdminJobPostListScreenState extends State<SuperAdminJobPostListScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Jobs'),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: const Text('Job Post'),
       ),
       body: StreamBuilder<List<JobPostModel>>(
         stream: JobService.getJobPostsByCompanyId(widget.companyModel.id),
@@ -66,8 +69,10 @@ class _SuperAdminJobPostListScreenState extends State<SuperAdminJobPostListScree
 
                 SizedBox(height: Utils.scrHeight * .02),
 
-                Text("${widget.companyModel.name} Jobs Post",
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                // Recently Posted For User
+                Text("${widget.companyModel.name} Job Post",
+                    style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
                 SizedBox(height: Utils.scrHeight * .02),
 
                 Expanded(
@@ -118,10 +123,7 @@ class _SuperAdminJobPostListScreenState extends State<SuperAdminJobPostListScree
                 ),
               ],
             ),
-          )
-              : const Center(
-            child: Text('No Job Post Available'),
-          );
+          ) : Utils.noDataFound();
         },
       ),
     );

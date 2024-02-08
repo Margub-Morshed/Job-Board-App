@@ -59,6 +59,33 @@ class ProfileService {
     }
   }
 
+  static Future<void> updateSuperAdminProfilePicture(String field, dynamic model,String role,File file) async {
+
+    try{
+      //getting image file extension
+      final ext = file.path.split('.').last;
+      log('Extension: $ext');
+
+      //storage file ref with path
+      final ref = Utils.firestorage.ref().child('pictures/$field/${model.id}.$ext');
+
+      //uploading image
+      await ref
+          .putFile(file, SettableMetadata(contentType: 'image/$ext'))
+          .then((p0) {
+        log('Data Transferred: ${p0.bytesTransferred / 1000} kb');
+      });
+
+      //updating image in firestore database
+      model.userAvatar = await ref.getDownloadURL();
+      SessionManager.superAdminModel!.userAvatar = model.userAvatar;
+      await Utils.getRefPathBasedOnRole(role).doc(model.id).update({'user_avatar': model.userAvatar});
+    }catch(e){
+      print("Error updating profile: $e");
+      throw e;
+    }
+  }
+
   static Future<void> updateJobSeekerProfilePicture(String field, dynamic model,String role,File file) async {
 
     try{
