@@ -267,7 +267,7 @@ class _CompanyJobPostFilterState extends State<CompanyJobPostFilter> {
         borderRadius: BorderRadius.circular(12),
         onTap: widget.onTap,
         child: SizedBox(
-          height: 120,
+          height: Utils.scrHeight * .2,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: BackdropFilter(

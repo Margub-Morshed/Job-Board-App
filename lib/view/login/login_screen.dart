@@ -110,9 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
             .then((value) {
           if (value != null) {
             SessionManager.setUserModel(value);
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const JobSeekerHomeScreen();
-            }));
+            Utils.navigateTo(context, const JobSeekerHomeScreen());
           } else {
             Utils.showSnackBar(context, "Error Occurred At: Login Screen");
           }

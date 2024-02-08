@@ -102,12 +102,17 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
           }
         });
       },
+      style: const ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(Color(0xff5872de)),
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: Utils.scrHeight * .015),
         child: Text(
           'Log In',
           style: TextStyle(
-              fontSize: Utils.scrHeight * .022, fontWeight: FontWeight.bold),
+              color: Colors.white,
+              fontSize: Utils.scrHeight * .022,
+              fontWeight: FontWeight.w400),
         ),
       ),
     );

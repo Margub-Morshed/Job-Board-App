@@ -92,9 +92,7 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
             .then((value) {
           if (value != null) {
             SessionManager.setCompanyModel(value);
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return  const CompanyAdminHomeScreen();
-            }));
+            Utils.navigateTo(context, const CompanyAdminHomeScreen());
           } else {
             Utils.showSnackBar(context, "Error Occurred At: Company Login Screen");
           }
@@ -145,7 +143,7 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
             contentPadding:
             const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             border: const OutlineInputBorder(borderSide: BorderSide(width: 5)),
-            hintText: '******',
+            hintText: '* * * * * *',
             hintStyle: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,

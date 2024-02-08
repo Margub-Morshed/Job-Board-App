@@ -157,7 +157,7 @@ class _AppliedJobPostState extends State<AppliedJobPost> {
         child: Stack(
           children: [
             SizedBox(
-              height: 150,
+              height: Utils.scrHeight * .2,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: BackdropFilter(
