@@ -50,8 +50,9 @@ class ProfileService {
       });
 
       //updating image in firestore database
-      model.coverImage = await ref.getDownloadURL();
-      await Utils.getRefPathBasedOnRole(role).doc(model.id).update({'logo_image': model.coverImage});
+      model.logoImage = await ref.getDownloadURL();
+      SessionManager.companyModel!.logoImage = model.logoImage;
+      await Utils.getRefPathBasedOnRole(role).doc(model.id).update({'logo_image': model.logoImage});
     }catch(e){
       print("Error updating profile: $e");
       throw e;

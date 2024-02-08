@@ -113,7 +113,10 @@ class _CompanyAdminFilterScreenState extends State<CompanyAdminFilterScreen> {
                         itemCount: filteredJobPosts.length,
                         itemBuilder: (context, index) {
                           JobPostModel jobPost = filteredJobPosts[index];
-                          return CompanyCard(jobPostModel: jobPost);
+                          final hero_tag = "${jobPost.id}_hero_tag";
+                          return CompanyJobPostFilter(jobPostModel: jobPost,
+                            onTap: () => Utils.navigateTo(context, CompanyJobPostDetailsScreen(jobPostModel: jobPost, tag: hero_tag)),
+                          );
                         },
                       ),
                     ),
@@ -219,6 +222,134 @@ class _CompanyAdminFilterScreenState extends State<CompanyAdminFilterScreen> {
   }
 }
 
+
+class CompanyJobPostFilter extends StatefulWidget {
+  const CompanyJobPostFilter({super.key, required this.jobPostModel, this.onTap});
+
+  final VoidCallback? onTap;
+
+  final JobPostModel jobPostModel;
+
+  @override
+  State<CompanyJobPostFilter> createState() => _CompanyJobPostFilterState();
+}
+
+class _CompanyJobPostFilterState extends State<CompanyJobPostFilter> {
+  late ValueNotifier<bool> isAlreadySelected;
+
+  @override
+  void initState() {
+    super.initState();
+    isAlreadySelected = ValueNotifier<bool>(false);
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    final tag = "${widget.jobPostModel.id}_hero_tag";
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        // Card Elevation
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(.2),
+            blurRadius: 10,
+            spreadRadius: -8,
+            offset: const Offset(-6, 4),
+          ),
+        ],
+      ),
+      child: InkWell(
+        // Card Outer Border Radius
+        borderRadius: BorderRadius.circular(12),
+        onTap: widget.onTap,
+        child: SizedBox(
+          height: 120,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                padding: const EdgeInsets.only(right: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  children: [
+                    // Left Side Image Part
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12)),
+                      child: Hero(
+                        tag: tag,
+                        transitionOnUserGestures: true,
+                        child: CachedNetworkImage(
+                          imageUrl: widget.jobPostModel.image ??
+                              Utils.flutterDefaultImg,
+                          width: 120,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+
+                    // Right Side Information Part
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(widget.jobPostModel.jobTitle,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500)),
+                          SizedBox(height: Utils.scrHeight * .003),
+                          SizedBox(
+                            width: 220,
+                            child: Text(
+                              'Job Type: ${widget.jobPostModel.jobType}',
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          SizedBox(height: Utils.scrHeight * .003),
+                          Text(
+                            'Deadline: ${widget.jobPostModel.applicationDeadline}',
+                            style: const TextStyle(
+                              color: Colors.grey,
+                                fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+
+  @override
+  void dispose() {
+    isAlreadySelected.dispose();
+    super.dispose();
+  }
+}
+
 class CompanyCard extends StatelessWidget {
   const CompanyCard({Key? key, required this.jobPostModel}) : super(key: key);
 
@@ -279,9 +410,6 @@ class CompanyCard extends StatelessWidget {
                     email: jobPostModel.email,
                     teamSize: 20,
                     address: jobPostModel.address),
-                trailing: const Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: Icon(Icons.arrow_forward_ios)),
               ),
             ),
           ),

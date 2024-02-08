@@ -65,28 +65,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             const SizedBox(height: 16),
 
             // Input Your Password
-            Row(
-              children: [
-                const Text(
-                  'PASSWORD',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xff1E1F20)),
-                ),
-                const Spacer(),
-                TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Forgot Password',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                          color: Color(0xff1E1F20),
-                          decoration: TextDecoration.underline),
-                    ))
-              ],
+            const Text(
+              'PASSWORD',
+              style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xff1E1F20)),
             ),
+            const SizedBox(height: 8),
             _passwordTextFiled(_passwordController),
             const SizedBox(height: 16),
 
@@ -239,9 +225,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             border: const OutlineInputBorder(borderSide: BorderSide(width: 5)),
             hintText: hint,
             hintStyle: const TextStyle(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
                 fontSize: 16,
-                color: Color(0xff1E1F20))),
+                color: Colors.grey)),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Please enter your user name.';
@@ -252,7 +238,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   TextFormField _emailTextFiled(TextEditingController controller,
-      {String hint = 'Enter Email'}) {
+      {String hint = 'example@gmail.com'}) {
     return TextFormField(
         controller: controller,
         keyboardType: TextInputType.emailAddress,
@@ -263,9 +249,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             border: const OutlineInputBorder(borderSide: BorderSide(width: 5)),
             hintText: hint,
             hintStyle: const TextStyle(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
                 fontSize: 16,
-                color: Color(0xff1E1F20))),
+                color: Colors.grey)),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Please enter your email address.';
@@ -286,11 +272,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           border: const OutlineInputBorder(borderSide: BorderSide(width: 5)),
-          hintText: 'Enter Password',
+          hintText: '* * * * * *',
           hintStyle: const TextStyle(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
               fontSize: 16,
-              color: Color(0xff1E1F20)),
+              color: Colors.grey),
           suffixIcon: IconButton(
               onPressed: () {
                 setState(() {
@@ -324,11 +310,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           border: const OutlineInputBorder(borderSide: BorderSide(width: 5)),
-          hintText: 'Enter Confirm Password',
+          hintText: '* * * * * *',
           hintStyle: const TextStyle(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
               fontSize: 16,
-              color: Color(0xff1E1F20)),
+              color: Colors.grey),
           suffixIcon: IconButton(
               onPressed: () {
                 setState(() {
@@ -415,7 +401,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 color: Color(0xff1E1F20))),
         const SizedBox(height: 8.0),
         _buildTextField(
-            _companyEmailController, 'Enter Company Email'),
+            _companyEmailController, 'companyltd@gmail.com'),
       ];
 
   Widget _buildTextField(

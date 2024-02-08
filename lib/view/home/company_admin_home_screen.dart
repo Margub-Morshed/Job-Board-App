@@ -31,10 +31,6 @@ class _CompanyAdminHomeScreenState extends State<CompanyAdminHomeScreen> {
       'title': 'Add Jop Post',
       'image': 'assets/icons/team.png',
     },
-    'Settings': {
-      'title': 'Settings',
-      'image': 'assets/icons/setting.png',
-    },
   };
   double xOffset = 0;
   double yOffset = 0;

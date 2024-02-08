@@ -60,22 +60,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   height: 20,
                 ),
                 NewRow(
-                  text: 'Saved',
+                  text: 'Company List',
                   icon: Icons.bookmark_border,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                NewRow(
-                  text: 'Favorites',
-                  icon: Icons.favorite_border,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                NewRow(
-                  text: 'Settings',
-                  icon: Icons.error_outline,
                 ),
                 SizedBox(
                   height: 20,
