@@ -35,7 +35,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
             transform: Matrix4.translationValues(xOffset, yOffset, 0)
               ..scale(isDrawerOpen ? 0.85 : 1.00)
               ..rotateZ(isDrawerOpen ? -50 : 0),
-            duration: const Duration(milliseconds: 400),
+            duration: const Duration(milliseconds: 100),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: isDrawerOpen

@@ -16,10 +16,12 @@ class SuperAdminApplicantListScreen extends StatefulWidget {
   final JobPostModel jobPostModel;
 
   @override
-  State<SuperAdminApplicantListScreen> createState() => _SuperAdminApplicantListScreenState();
+  State<SuperAdminApplicantListScreen> createState() =>
+      _SuperAdminApplicantListScreenState();
 }
 
-class _SuperAdminApplicantListScreenState extends State<SuperAdminApplicantListScreen> {
+class _SuperAdminApplicantListScreenState
+    extends State<SuperAdminApplicantListScreen> {
   List<String> applicationStatus = [
     'All',
     'Pending',
@@ -79,45 +81,45 @@ class _SuperAdminApplicantListScreenState extends State<SuperAdminApplicantListS
                   allApplications = snapshot.data ?? [];
 
                   List<ApplicationModel> filteredApplications =
-                  filterApplicationsByStatus(allApplications);
+                      filterApplicationsByStatus(allApplications);
 
                   return filteredApplications.isNotEmpty
                       ? ListView.builder(
-                    itemCount: filteredApplications.length,
-                    itemBuilder: (context, index) {
-                      ApplicationModel application =
-                      filteredApplications[index];
-                      return StreamBuilder<List<UserModel>>(
-                        stream: ApplicationService.getUserInfo(
-                          application.userId,
-                        ),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-
-                          if (snapshot.hasError) {
-                            return Center(
-                              child: Text(
-                                'Error: ${snapshot.error}',
+                          itemCount: filteredApplications.length,
+                          itemBuilder: (context, index) {
+                            ApplicationModel application =
+                                filteredApplications[index];
+                            return StreamBuilder<List<UserModel>>(
+                              stream: ApplicationService.getUserInfo(
+                                application.userId,
                               ),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+
+                                if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text(
+                                      'Error: ${snapshot.error}',
+                                    ),
+                                  );
+                                }
+                                List<UserModel> userInfo = snapshot.data ?? [];
+                                return ApplicationListCard(
+                                  userModel: userInfo[0],
+                                  applicationModel: application,
+                                );
+                              },
                             );
-                          }
-                          List<UserModel> userInfo = snapshot.data ?? [];
-                          return ApplicationListCard(
-                            userModel: userInfo[0],
-                            applicationModel: application,
-                          );
-                        },
-                      );
-                    },
-                  )
+                          },
+                        )
                       : Center(
-                    child: Utils.noDataFound(),
-                  );
+                          child: Utils.noDataFound(),
+                        );
                 },
               ),
             ),
@@ -170,12 +172,15 @@ class ApplicationListCard extends StatelessWidget {
         onTap: () {
           Utils.navigateTo(
               context,
-              SuperAdminApplicationDetailsScreen(tag: "${applicationModel.id}_hero_tag",applicationModel: applicationModel , userModel: userModel));
+              SuperAdminApplicationDetailsScreen(
+                  tag: "${applicationModel.id}_hero_tag",
+                  applicationModel: applicationModel,
+                  userModel: userModel));
         },
         child: Stack(
           children: [
             SizedBox(
-              height: 150,
+              height: Utils.scrHeight * .2,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Card(
@@ -207,8 +212,7 @@ class ApplicationListCard extends StatelessWidget {
                               Text(
                                 userModel.name!,
                                 style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
+                                    fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               ProfileDetails(
                                 email: userModel.email,
@@ -228,7 +232,7 @@ class ApplicationListCard extends StatelessWidget {
               right: Utils.scrHeight * 0.025,
               child: Container(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
                 decoration: BoxDecoration(
                     border: Border.all(
                         width: 1,

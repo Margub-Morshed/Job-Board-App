@@ -30,8 +30,7 @@ class _SuperAdminJobPostListScreenState extends State<SuperAdminJobPostListScree
         title: const Text('Job Post'),
       ),
       body: StreamBuilder<List<JobPostModel>>(
-        stream:
-        JobService.getJobPostsByCompanyId(widget.companyModel.id),
+        stream: JobService.getJobPostsByCompanyId(widget.companyModel.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -48,23 +47,25 @@ class _SuperAdminJobPostListScreenState extends State<SuperAdminJobPostListScree
           List<JobPostModel> jobPosts = snapshot.data ?? [];
 
           // Use a common list to store displayed job posts
-          List<JobPostModel> displayedJobPosts =
-          _searchController.text.isNotEmpty
+          List<JobPostModel> displayedJobPosts = _searchController.text.isNotEmpty
               ? _searchList.isNotEmpty
               ? _searchList
               : []
               : jobPosts;
 
-          return displayedJobPosts.isNotEmpty ? Padding(
+          return displayedJobPosts.isNotEmpty
+              ? Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Search Bar
-                CustomSearchBar(searchList: _searchList, jobPosts: jobPosts, searchNotifier: _searchNotifier, searchController: _searchController),
-
-                SizedBox(height: Utils.scrHeight * .02),
-
+                CustomSearchBar(
+                  searchList: _searchList,
+                  jobPosts: jobPosts,
+                  searchNotifier: _searchNotifier,
+                  searchController: _searchController,
+                ),
 
                 SizedBox(height: Utils.scrHeight * .02),
 
@@ -74,7 +75,6 @@ class _SuperAdminJobPostListScreenState extends State<SuperAdminJobPostListScree
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
                 SizedBox(height: Utils.scrHeight * .02),
 
-                // Recent Job Post Section
                 Expanded(
                   child: ValueListenableBuilder<bool>(
                     valueListenable: _searchNotifier,
@@ -88,13 +88,11 @@ class _SuperAdminJobPostListScreenState extends State<SuperAdminJobPostListScree
                             jobPostModel: jobPost,
                             onTap: () {
                               final tag = "${jobPost.id}_hero_tag";
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(
-                                builder: (context) =>
-                                    SuperAdminJobPostDetailsScreen(
-                                      jobPostModel: jobPost,
-                                      tag: tag,
-                                    ),
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => SuperAdminJobPostDetailsScreen(
+                                  jobPostModel: jobPost,
+                                  tag: tag,
+                                ),
                               ));
                             },
                           );
@@ -105,19 +103,16 @@ class _SuperAdminJobPostListScreenState extends State<SuperAdminJobPostListScree
                           : ListView.builder(
                         itemCount: displayedJobPosts.length,
                         itemBuilder: (context, index) {
-                          JobPostModel jobPost =
-                          displayedJobPosts[index];
+                          JobPostModel jobPost = displayedJobPosts[index];
                           return CompanyAdminRecentJobPost(
                             jobPostModel: jobPost,
                             onTap: () {
                               final tag = "${jobPost.id}_hero_tag";
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(
-                                builder: (context) =>
-                                    SuperAdminJobPostDetailsScreen(
-                                      jobPostModel: jobPost,
-                                      tag: tag,
-                                    ),
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => SuperAdminJobPostDetailsScreen(
+                                  jobPostModel: jobPost,
+                                  tag: tag,
+                                ),
                               ));
                             },
                           );
@@ -135,20 +130,19 @@ class _SuperAdminJobPostListScreenState extends State<SuperAdminJobPostListScree
   }
 }
 
-
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({
-    super.key,
-    required List<JobPostModel> searchList,
+    Key? key,
+    required this.searchList,
     required this.jobPosts,
-    required ValueNotifier<bool> searchNotifier,
-    required TextEditingController searchController,
-  }) : _searchList = searchList, _searchNotifier = searchNotifier, _searchController = searchController;
+    required this.searchNotifier,
+    required this.searchController,
+  }) : super(key: key);
 
-  final List<JobPostModel> _searchList;
+  final List<JobPostModel> searchList;
   final List<JobPostModel> jobPosts;
-  final ValueNotifier<bool> _searchNotifier;
-  final TextEditingController _searchController;
+  final ValueNotifier<bool> searchNotifier;
+  final TextEditingController searchController;
 
   @override
   Widget build(BuildContext context) {
@@ -161,39 +155,24 @@ class CustomSearchBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,
             ),
-            child: Builder(
-              builder: (BuildContext context) {
-                return TextField(
-                  onChanged: (val) {
-                    _searchList.clear();
-                    _searchList.addAll(jobPosts
-                        .where((jobPost) =>
-                    jobPost.jobTitle
-                        .toLowerCase()
-                        .contains(val.toLowerCase()) ||
-                        jobPost.email
-                            .toLowerCase()
-                            .contains(val.toLowerCase()) ||
-                        jobPost.jobType
-                            .toLowerCase()
-                            .contains(val.toLowerCase()))
-                        .toList());
-                    // Notify listeners without using setState
-                    _searchNotifier.value = !_searchNotifier.value;
-                  },
-                  controller: _searchController,
-                  decoration: const InputDecoration(
-                    contentPadding:
-                    EdgeInsets.symmetric(vertical: 2),
-                    hintText: 'Search',
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none),
-                    prefixIcon: Icon(Icons.search),
-                  ),
-                );
+            child: TextField(
+              onChanged: (val) {
+                searchList.clear();
+                searchList.addAll(jobPosts.where((jobPost) =>
+                jobPost.jobTitle.toLowerCase().contains(val.toLowerCase()) ||
+                    jobPost.email.toLowerCase().contains(val.toLowerCase()) ||
+                    jobPost.jobType.toLowerCase().contains(val.toLowerCase())).toList());
+                // Notify listeners without using setState
+                searchNotifier.value = !searchNotifier.value;
               },
+              controller: searchController,
+              decoration: const InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 2),
+                hintText: 'Search',
+                enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
+                focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
+                prefixIcon: Icon(Icons.search),
+              ),
             ),
           ),
         ),
@@ -206,15 +185,13 @@ class CustomSearchBar extends StatelessWidget {
             width: Utils.scrHeight * .050,
             height: Utils.scrHeight * .048,
             decoration: BoxDecoration(
-              borderRadius:
-              BorderRadius.circular(Utils.scrHeight * .01),
+              borderRadius: BorderRadius.circular(Utils.scrHeight * .01),
               color: const Color(0xff5872de),
             ),
             child: SizedBox(
               height: Utils.scrHeight * .01,
               width: Utils.scrHeight * .01,
-              child: const Icon(Icons.filter_list_alt,
-                  color: Colors.white),
+              child: const Icon(Icons.filter_list_alt, color: Colors.white),
             ),
           ),
         )
