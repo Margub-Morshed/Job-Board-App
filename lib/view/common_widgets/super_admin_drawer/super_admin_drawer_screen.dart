@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:job_board_app/view/company_list/company_list_screen.dart';
+import 'package:job_board_app/view/super_admin_job_post_list/super_admin_job_post_screen.dart';
 
 import '../../../services/auth/auth_service.dart';
 import '../../../services/session/session_services.dart';
@@ -50,20 +52,33 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ),
               ],
             ),
-            const Column(
+            Column(
               children: <Widget>[
-                NewRow(
+                const NewRow(
                   text: 'Profile',
                   icon: Icons.person_outline,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 NewRow(
+                  onTap: (){
+                    Utils.navigateTo(context, const CompanyListScreen());
+                  },
                   text: 'Company List',
                   icon: Icons.bookmark_border,
                 ),
-                SizedBox(
+                const SizedBox(
+                  height: 20,
+                ),
+                NewRow(
+                  onTap: (){
+                    Utils.navigateTo(context, const SuperAdminJobPostScreen());
+                  },
+                  text: 'All Job Post',
+                  icon: Icons.post_add,
+                ),
+                const SizedBox(
                   height: 20,
                 ),
               ],

@@ -48,7 +48,7 @@ class _CompanyAdminRecentJobPostState extends State<CompanyAdminRecentJobPost> {
         borderRadius: BorderRadius.circular(12),
         onTap: widget.onTap,
         child: SizedBox(
-          height: 120,
+          height: 140,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: BackdropFilter(

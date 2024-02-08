@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:job_board_app/services/session/session_services.dart';
 import 'package:job_board_app/view/common_widgets/company_admin_drawer/company_admin_custom_drawer.dart';
 import 'package:job_board_app/view/common_widgets/company_admin_drawer/company_admin_drawer_screen.dart';
+import 'package:job_board_app/view/profile/company_admin_profile_screen.dart';
 import 'package:svg_flutter/svg.dart';
 import '../../services/auth/auth_service.dart';
 import '../../utils/utils.dart';
@@ -128,6 +129,9 @@ class _CompanyAdminHomeScreenState extends State<CompanyAdminHomeScreen> {
                                 } else if (index == 1) {
                                   Utils.navigateTo(
                                       context, const InputScreen());
+                                }else if (index == 2) {
+                                  Utils.navigateTo(
+                                      context, CompanyAdminProfileScreen(role: "Company Admin", companyModel: SessionManager.companyModel,));
                                 } else {
                                   null;
                                 }

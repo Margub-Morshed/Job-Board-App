@@ -14,7 +14,7 @@ class ProfileService {
       if (model.id != null) {
         if(role == "Job Seeker") {
           SessionManager.setUserModel(model);
-        } else if (role == "Job Seeker") {
+        } else if (role == "Company Admin") {
           SessionManager.setCompanyModel(model);
         } else {
           SessionManager.setSuperAdminModel(model);

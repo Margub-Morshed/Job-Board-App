@@ -49,6 +49,7 @@ class _SuperAdminJobPostDetailsScreenState extends State<SuperAdminJobPostDetail
                       imageUrl: widget.jobPostModel.image ??
                           Utils.flutterDefaultImg,
                       width: double.infinity,
+                      height: Utils.scrHeight * .25,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -91,11 +92,11 @@ class _SuperAdminJobPostDetailsScreenState extends State<SuperAdminJobPostDetail
                     )
                   ],
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Other Job Details
                 Text('Type: ${widget.jobPostModel.jobType}'),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 Row(
                   children: [
@@ -114,7 +115,7 @@ class _SuperAdminJobPostDetailsScreenState extends State<SuperAdminJobPostDetail
                   ],
                 ),
 
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Application Deadline
                 Text(
@@ -127,7 +128,7 @@ class _SuperAdminJobPostDetailsScreenState extends State<SuperAdminJobPostDetail
                   "Description",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 Container(
                   padding:
@@ -138,7 +139,7 @@ class _SuperAdminJobPostDetailsScreenState extends State<SuperAdminJobPostDetail
                   child: Text(
                     widget.jobPostModel.description,
                     style: const TextStyle(
-                        fontSize: 15, color: Colors.black54, height: 1.8),
+                        fontSize: 15, color: Colors.black54, height: 2.2),
                     textAlign: TextAlign.justify,
                   ),
                 ),
