@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/view/company_details/company_details_screen.dart';
@@ -56,8 +57,6 @@ class CompanyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hero_tag = "${company.id}_hero_tag";
-
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       decoration: BoxDecoration(
@@ -89,29 +88,43 @@ class CompanyCard extends StatelessWidget {
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(16),
+              child: SizedBox(
+                height: 140,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: ProfileImage(
+                        imageUrl: company.logoImage,
+                        imageName: "${company.id}_hero_tag",
+                      ),
+                    ),
 
-                // Left Side Image
-                leading: Padding(
-                  padding: const EdgeInsets.only(right: 6.0),
-                  // Right Side Padding
-                  child: ProfileImage(
-                      imageUrl: company.logoImage,
-                      imageName: "${company.id}_hero_tag"),
+                    const SizedBox(width: 10),
+                    // Right Side Information
+                    Expanded(
+                      flex: 6, // Adjust flex as needed
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            company.name,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ), // Add some spacing
+                          ProfileDetails(
+                            email: company.email,
+                            teamSize: company.teamSize,
+                            address: company.address,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-
-                // Right Side Information
-                title: Text(company.name,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
-                subtitle: ProfileDetails(
-                    email: company.email,
-                    teamSize: company.teamSize,
-                    address: company.address),
-                trailing: const Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: Icon(Icons.arrow_forward_ios)),
               ),
             ),
           ),
@@ -130,24 +143,20 @@ class ProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      transitionOnUserGestures: true,
-      tag: imageName.toString(),
-      child: Container(
-        width: 100,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.2),
-              blurRadius: 10,
-              spreadRadius: -2,
-              offset: const Offset(-10, 4),
-            ),
-          ],
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(imageUrl ?? ''),
+    return Container(
+      margin: const EdgeInsets.all(2),
+      height: double.infinity,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12)),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Hero(
+          transitionOnUserGestures: true,
+          tag: imageName.toString(),
+          child: CachedNetworkImage(
+            imageUrl: imageUrl ?? Utils.flutterDefaultImg,
+            fit: BoxFit.fill,
+            height: double.infinity,
           ),
         ),
       ),

@@ -67,33 +67,30 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                   margin: const EdgeInsets.symmetric(horizontal: 12),
                   child: isDrawerOpen
                       ? GestureDetector(
-                    child: Image.asset(
-                      'assets/icons/close_drawer.png',
-                      height: 16,
-                      width: 16,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        xOffset = 0;
-                        yOffset = 0;
-                        isDrawerOpen = false;
-                      });
-                    },
-                  )
+                          child: Image.asset('assets/icons/close_drawer.png',
+                              height: 16, width: 16),
+                          onTap: () {
+                            setState(() {
+                              xOffset = 0;
+                              yOffset = 0;
+                              isDrawerOpen = false;
+                            });
+                          },
+                        )
                       : GestureDetector(
-                    child: Image.asset(
-                      'assets/icons/drawer.png',
-                      height: 16,
-                      width: 16,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        xOffset = 320;
-                        yOffset = 80;
-                        isDrawerOpen = true;
-                      });
-                    },
-                  ),
+                          child: Image.asset(
+                            'assets/icons/drawer.png',
+                            height: 16,
+                            width: 16,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              xOffset = 320;
+                              yOffset = 80;
+                              isDrawerOpen = true;
+                            });
+                          },
+                        ),
                 ),
               ),
               // drawer:  DrawerScreen(),
