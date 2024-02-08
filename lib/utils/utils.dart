@@ -121,7 +121,7 @@ class Utils {
   }
 
   static Widget noDataFound() => Center(
-    child: Image.asset("assets/images/no_result.jpeg",
+    child: Image.asset("assets/images/no_result.png",
         fit: BoxFit.cover, height: scrHeight * .5, width: scrHeight * .5),
   );
 }
