@@ -312,7 +312,7 @@ class _CompanyJobPostFilterState extends State<CompanyJobPostFilter> {
                                   fontWeight: FontWeight.w500)),
                           SizedBox(height: Utils.scrHeight * .003),
                           SizedBox(
-                            width: 220,
+                            width: Utils.scrHeight * .2,
                             child: Text(
                               'Job Type: ${widget.jobPostModel.jobType}',
                               style: const TextStyle(
@@ -322,11 +322,14 @@ class _CompanyJobPostFilterState extends State<CompanyJobPostFilter> {
                             ),
                           ),
                           SizedBox(height: Utils.scrHeight * .003),
-                          Text(
-                            'Deadline: ${widget.jobPostModel.applicationDeadline}',
-                            style: const TextStyle(
-                              color: Colors.grey,
-                                fontSize: 14, fontWeight: FontWeight.w500),
+                          SizedBox(
+                            width: Utils.scrHeight * .2,
+                            child: Text(
+                              'Deadline: ${widget.jobPostModel.applicationDeadline}',
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                  fontSize: 14, fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ],
                       ),
