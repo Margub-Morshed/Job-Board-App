@@ -128,6 +128,9 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
   Widget _buildJobPostButton() {
     return ElevatedButton(
       onPressed: () => _pushData(),
+      style: const ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(Color(0xff5872de)),
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(
             vertical: Utils.scrHeight * .02,
@@ -135,8 +138,9 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
         child: Text(
           'Confirm',
           style: TextStyle(
+            color: Colors.white,
             fontSize: Utils.scrHeight * .022,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w400,
           ),
         ),
       ),
