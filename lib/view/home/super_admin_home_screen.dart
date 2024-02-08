@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../services/session/session_services.dart';
 import '../../utils/utils.dart';
 import '../common_widgets/super_admin_drawer/super_admin_drawer_screen.dart';
 import '../company_list/company_list_screen.dart';
+import '../profile/super_admin_profile_screen.dart';
 import '../super_admin_job_post_list/super_admin_job_post_screen.dart';
 
 class SuperAdminHomeScreen extends StatefulWidget {
@@ -109,6 +111,8 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                           } else if (index == 1) {
                             Utils.navigateTo(
                                 context, const SuperAdminJobPostScreen());
+                          }else if (index == 2) {
+                              Utils.navigateTo(context, SuperAdminProfileScreen(role: "Super Admin", superAdminModel: SessionManager.superAdminModel,));
                           } else {
                             null;
                           }
