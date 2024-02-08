@@ -53,7 +53,7 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
             transform: Matrix4.translationValues(xOffset, yOffset, 0)
               ..scale(isDrawerOpen ? 0.85 : 1.00)
               ..rotateZ(isDrawerOpen ? -50 : 0),
-            duration: Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 400),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: isDrawerOpen

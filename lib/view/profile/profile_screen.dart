@@ -138,7 +138,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 child: CachedNetworkImage(
                   imageUrl: (widget.role == "Company Admin")
                       ? model.logoImage!
-                      : model.userAvatar!,
+                      : model.userAvatar ?? model.logoImage ?? Utils.flutterDefaultImg,
                   fit: BoxFit.cover,
                   width: Utils.scrHeight * .2,
                   height: Utils.scrHeight * .2,
@@ -164,76 +164,76 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildCoverImage(dynamic model) {
     final image =
-        (widget.role == "Company Admin") ? model.logoImage : model.userAvatar;
+        (widget.role == "Company Admin") ? model.logoImage : model.userAvatar ?? model.logoImage;
 
     return SizedBox(
       height: Utils.scrHeight * .2,
       child: Stack(
         children: [
-          _coverImage != null
-              ? SizedBox(
-                  height: Utils.scrHeight * .15,
-                  width: double.infinity,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(Utils.scrHeight * .02),
-                    child: Image.file(File(_coverImage!), fit: BoxFit.cover),
-                  ),
-                )
-              : Container(
-                  height: Utils.scrHeight * .15,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.deepPurple,
-                    borderRadius: BorderRadius.circular(Utils.scrHeight * .02),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(Utils.scrHeight * .02),
-                    child: model.coverImage != null
-                        ? Image.network(model.coverImage!, fit: BoxFit.cover)
-                        : Image.asset('assets/images/profile.png'),
-                  ),
-                ),
-          Positioned(
-            bottom: Utils.scrHeight * 0.02,
-            right: -Utils.scrHeight * 0.01,
-            child: MaterialButton(
-              elevation: 1,
-              onPressed: () {
-                _showBottomSheet("cover_image", _coverImage);
-              },
-              shape: const CircleBorder(),
-              color: Colors.white.withOpacity(0.6),
-              child: Icon(Icons.camera_enhance_rounded,
-                  color: Colors.deepPurple, size: Utils.scrHeight * .024),
-            ),
-          ),
+          // _coverImage != null
+          //     ? SizedBox(
+          //         height: Utils.scrHeight * .15,
+          //         width: double.infinity,
+          //         child: ClipRRect(
+          //           borderRadius: BorderRadius.circular(Utils.scrHeight * .02),
+          //           child: Image.file(File(_coverImage!), fit: BoxFit.cover),
+          //         ),
+          //       )
+          //     : Container(
+          //         height: Utils.scrHeight * .15,
+          //         width: double.infinity,
+          //         decoration: BoxDecoration(
+          //           color: const Color(0xff5872de),
+          //           borderRadius: BorderRadius.circular(Utils.scrHeight * .02),
+          //         ),
+          //         child: ClipRRect(
+          //           borderRadius: BorderRadius.circular(Utils.scrHeight * .02),
+          //           child: model.coverImage != null
+          //               ? CachedNetworkImage(
+          //                   imageUrl: model.coverImage!, fit: BoxFit.cover)
+          //               : Image.asset('assets/images/profile.png'),
+          //         ),
+          //       ),
+          // Positioned(
+          //   bottom: Utils.scrHeight * 0.02,
+          //   right: -Utils.scrHeight * 0.01,
+          //   child: MaterialButton(
+          //     elevation: 1,
+          //     onPressed: () {
+          //       _showBottomSheet("cover_image", _coverImage);
+          //     },
+          //     shape: const CircleBorder(),
+          //     color: Colors.white.withOpacity(0.6),
+          //     child: Icon(Icons.camera_enhance_rounded,
+          //         color: const Color(0xff5872de), size: Utils.scrHeight * .024),
+          //   ),
+          // ),
 
           // Profile Image
-          Positioned(
-            bottom: Utils.scrHeight * 0.005,
-            left: Utils.scrHeight * 0.025,
+          Center(
             child: _profileImage != null
                 ?
-                //local image
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(Utils.scrHeight * .15),
-                    child: Image.file(File(_profileImage!),
-                        width: Utils.scrHeight * .13,
-                        height: Utils.scrHeight * .13,
-                        fit: BoxFit.cover))
+            //local image
+            ClipRRect(
+                borderRadius: BorderRadius.circular(Utils.scrHeight * .15),
+                child: Image.file(File(_profileImage!),
+                    width: Utils.scrHeight * .13,
+                    height: Utils.scrHeight * .13,
+                    fit: BoxFit.cover))
                 : ClipOval(
-                    child: (image != null)
-                        ? Image.network(image,
-                            fit: BoxFit.cover,
-                            width: Utils.scrHeight * .13,
-                            height: Utils.scrHeight * .13)
-                        : Image.asset('assets/images/profile.png'),
-                  ),
+              child: (image != null)
+                  ? CachedNetworkImage(
+                  imageUrl: image,
+                  fit: BoxFit.cover,
+                  width: Utils.scrHeight * .18,
+                  height: Utils.scrHeight * .18)
+                  : Image.asset('assets/images/profile.png'),
+            ),
           ),
           // Profile Image Update Button
           Positioned(
-            bottom: Utils.scrHeight * 0.002,
-            left: Utils.scrHeight * 0.08,
+            bottom: Utils.scrHeight * 0.0005,
+            right: Utils.scrHeight * 0.112,
             child: MaterialButton(
               padding: EdgeInsets.zero,
               elevation: 1,
@@ -244,7 +244,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               shape: const CircleBorder(),
               color: Colors.white.withOpacity(0.6),
               child: Icon(Icons.camera_enhance_rounded,
-                  color: Colors.deepPurple, size: Utils.scrHeight * .024),
+                  color: const Color(0xff5872de), size: Utils.scrHeight * .024),
             ),
           ),
         ],
@@ -266,12 +266,18 @@ class ProfileScreenState extends State<ProfileScreen> {
   Widget _buildUpdateButton() {
     return ElevatedButton(
       onPressed: _updateProfile,
+      style: const ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(Color(0xff5872de)),
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(
             vertical: Utils.scrHeight * .02,
             horizontal: Utils.scrHeight * .025),
         child: Text('Update Profile',
-            style: TextStyle(fontSize: Utils.scrHeight * .02)),
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: Utils.scrHeight * .02,
+                fontWeight: FontWeight.w400)),
       ),
     );
   }
@@ -341,7 +347,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         model = setUpdatedUserModel(widget.userModel!);
       }
 
-      await ProfileService.updateProfilePicture(
+      await ProfileService.updateJobSeekerProfilePicture(
           field, model, widget.role, File(imagePath));
 
       Utils.showSnackBar(context, 'Profile updated successfully ✓');
@@ -463,10 +469,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                           Navigator.pop(context);
                         }
                       },
-                      child: const Icon(
-                        Icons.image_outlined,
-                        size: 80,
-                      )),
+                      child: const Center(
+                          child: Icon(Icons.image_outlined, size: 80))),
 
                   //take picture from camera button
                   ElevatedButton(
@@ -495,10 +499,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                           Navigator.pop(context);
                         }
                       },
-                      child: const Icon(
-                        Icons.camera_alt,
-                        size: 80,
-                      )),
+                      child: const Center(
+                          child: Icon(Icons.camera_alt, size: 80))),
                 ],
               ),
               const SizedBox(height: 20),

@@ -166,6 +166,7 @@ class _JobPostFavoriteState extends State<JobPostFavorite> {
                               Text(
                                 'Job Type: ${widget.jobPostModel.jobType}',
                                 style: const TextStyle(
+                                  color: Colors.grey,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -176,6 +177,7 @@ class _JobPostFavoriteState extends State<JobPostFavorite> {
                                 child: Text(
                                   'Deadline: ${widget.jobPostModel.applicationDeadline}',
                                   style: const TextStyle(
+                                    color: Colors.grey,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                   ),

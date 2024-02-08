@@ -24,8 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Job Board',
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-          scrolledUnderElevation: 0
-        ),
+            scrolledUnderElevation: 0),
         scaffoldBackgroundColor: const Color(0xfff6f6f6),
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff5872de)),
         useMaterial3: true,
@@ -34,4 +33,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

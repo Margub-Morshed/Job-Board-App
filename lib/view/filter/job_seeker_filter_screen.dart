@@ -515,6 +515,7 @@ class _JobPostFilterState extends State<JobPostFilter> {
                                 child: Text(
                                   'Job Type: ${widget.jobPostModel.jobType}',
                                   style: const TextStyle(
+                                    color: Colors.grey,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500),
                                 ),
@@ -523,6 +524,7 @@ class _JobPostFilterState extends State<JobPostFilter> {
                               Text(
                                 'Deadline: ${widget.jobPostModel.applicationDeadline}',
                                 style: const TextStyle(
+                                    color: Colors.grey,
                                     fontSize: 14, fontWeight: FontWeight.w500),
                               ),
                             ],
@@ -546,9 +548,12 @@ class _JobPostFilterState extends State<JobPostFilter> {
                         await _toggleFavorite();
                       },
                       child: Icon(
-                        Icons.favorite,
-                        color:
-                            isAlreadySelected.value ? Colors.blue : Colors.grey,
+                        isAlreadySelected.value
+                            ? Icons.favorite
+                            : Icons.favorite_border_outlined,
+                        color: isAlreadySelected.value
+                            ? const Color(0xff5872de)
+                            : Colors.black54,
                       ),
                     );
                   }),

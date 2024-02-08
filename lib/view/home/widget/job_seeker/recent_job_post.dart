@@ -153,7 +153,7 @@ class _RecentJobPostState extends State<RecentJobPost> {
                             ? Icons.favorite
                             : Icons.favorite_border_outlined,
                         color:
-                        isAlreadySelected.value ? Colors.blue : Colors.black54,
+                        isAlreadySelected.value ? const Color(0xff5872de) : Colors.black54,
                       ),
                     );
                   }),
