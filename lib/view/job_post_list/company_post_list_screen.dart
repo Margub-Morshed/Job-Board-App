@@ -20,7 +20,7 @@ class CompanyPostListScreen extends StatefulWidget {
 
 class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
   final TextEditingController _searchController = TextEditingController();
-  List<JobPostModel> _searchList = [];
+  final List<JobPostModel> _searchList = [];
   final ValueNotifier<bool> _searchNotifier = ValueNotifier<bool>(false);
 
   @override
@@ -28,7 +28,7 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: const Text('All Jobs Post'),
+        title: const Text('My Job Post'),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),

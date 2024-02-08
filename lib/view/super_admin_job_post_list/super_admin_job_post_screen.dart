@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';import 'package:job_board_app/view/filter
 import '../../model/job_post_model.dart';
 import '../../services/job_post/job_post_service.dart';
 import '../../utils/utils.dart';
+import '../filter/company_admin_filter_screen.dart';
 import '../home/widget/company_admin/admin_recent_job_post.dart';
 import '../home/widget/job_seeker/recent_job_post.dart';
 import '../home/widget/job_seeker/recommended_post.dart';
@@ -57,96 +58,12 @@ class _SuperAdminJobPostScreenState extends State<SuperAdminJobPostScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Search Bar
-                CustomSearchBar(
-                  searchController: _searchController,
-                  searchNotifier: _searchNotifier,
-                  jobPosts: jobPosts,
-                  searchList: _searchList,
-                ),
+                CustomSearchBar(searchList: _searchList, jobPosts: jobPosts, searchNotifier: _searchNotifier, searchController: _searchController),
                 SizedBox(height: Utils.scrHeight * .02),
 
-                // Recommended Post For User
-                const Text("Recommended For You",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                    )),
-                SizedBox(height: Utils.scrHeight * .02),
-
-                // Recommended For You Part
-                ValueListenableBuilder<bool>(
-                  valueListenable: _searchNotifier,
-                  builder: (BuildContext context, bool value, Widget? child) {
-                    return _searchList.isNotEmpty
-                        ? SizedBox(
-                      height: Utils.scrHeight * .195,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: _searchList.length,
-                        itemBuilder: (context, index) {
-                          JobPostModel jobPost = _searchList[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: RecommendedPost(
-                              image: jobPost.image ??
-                                  "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
-                              jobTitle: jobPost.jobTitle,
-                              jobShortDec: jobPost.description,
-                              onTap: () {
-                                final tag =
-                                    "${jobPost.id}_hero_tag_recommended";
-                                Utils.navigateTo(
-                                  context,
-                                  SuperAdminJobPostDetailsScreen(
-                                    jobPostModel: jobPost,
-                                    tag: tag,
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                        : _searchController.text.isNotEmpty
-                        ? const Text("No matching jobs found")
-                        : SizedBox(
-                      height: Utils.scrHeight * .195,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: jobPosts.length,
-                        itemBuilder: (context, index) {
-                          JobPostModel jobPost = jobPosts[index];
-                          return Padding(
-                            padding:
-                            const EdgeInsets.only(right: 8.0),
-                            child: RecommendedPost(
-                              image: jobPost.image ??
-                                  "https://cdn-images-1.medium.com/v2/resize:fit:1200/1*5-aoK8IBmXve5whBQM90GA.png",
-                              jobTitle: jobPost.jobTitle,
-                              jobShortDec: jobPost.description,
-                              onTap: () {
-                                final tag =
-                                    "${jobPost.id}_hero_tag_recommended";
-                                Utils.navigateTo(
-                                  context,
-                                  SuperAdminJobPostDetailsScreen(
-                                    jobPostModel: jobPost,
-                                    tag: tag,
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(height: Utils.scrHeight * .02),
 
                 // Recent Post For User
-                const Text("Recently Posted",
+                const Text("All Jobs Post",
                     style:
                     TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
                 SizedBox(height: Utils.scrHeight * .02),
@@ -206,78 +123,89 @@ class _SuperAdminJobPostScreenState extends State<SuperAdminJobPostScreen> {
 
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({
-    Key? key,
-    required this.searchController,
-    required this.searchNotifier,
+    super.key,
+    required List<JobPostModel> searchList,
     required this.jobPosts,
-    required this.searchList,
-  }) : super(key: key);
+    required ValueNotifier<bool> searchNotifier,
+    required TextEditingController searchController,
+  }) : _searchList = searchList, _searchNotifier = searchNotifier, _searchController = searchController;
 
-  final TextEditingController searchController;
-  final ValueNotifier<bool> searchNotifier;
+  final List<JobPostModel> _searchList;
   final List<JobPostModel> jobPosts;
-  final List<JobPostModel> searchList;
+  final ValueNotifier<bool> _searchNotifier;
+  final TextEditingController _searchController;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
           child: Container(
             height: Utils.scrHeight * .055,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.white),
-            child: TextField(
-              controller: searchController,
-              onChanged: (val) {
-                searchList.clear();
-                searchList.addAll(jobPosts
-                    .where((jobPost) =>
-                jobPost.jobTitle
-                    .toLowerCase()
-                    .contains(val.toLowerCase()) ||
-                    jobPost.email
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            child: Builder(
+              builder: (BuildContext context) {
+                return TextField(
+                  onChanged: (val) {
+                    _searchList.clear();
+                    _searchList.addAll(jobPosts
+                        .where((jobPost) =>
+                    jobPost.jobTitle
                         .toLowerCase()
                         .contains(val.toLowerCase()) ||
-                    jobPost.jobType
-                        .toLowerCase()
-                        .contains(val.toLowerCase()))
-                    .toList());
-                // Notify listeners without using setState
-                searchNotifier.value = !searchNotifier.value;
+                        jobPost.email
+                            .toLowerCase()
+                            .contains(val.toLowerCase()) ||
+                        jobPost.jobType
+                            .toLowerCase()
+                            .contains(val.toLowerCase()))
+                        .toList());
+                    // Notify listeners without using setState
+                    _searchNotifier.value = !_searchNotifier.value;
+                  },
+                  controller: _searchController,
+                  decoration: const InputDecoration(
+                    contentPadding:
+                    EdgeInsets.symmetric(vertical: 2),
+                    hintText: 'Search',
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none),
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                );
               },
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 4),
-                hintText: 'Search Jobs...',
-                enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
-                focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
-                prefixIcon: Icon(Icons.search),
-              ),
             ),
           ),
         ),
         SizedBox(width: Utils.scrHeight * .02),
-
-        // Filter Button
         GestureDetector(
           onTap: () {
-            Utils.navigateTo(context, const JobSeekerFilterScreen());
+            Utils.navigateTo(context, const CompanyAdminFilterScreen());
           },
           child: Container(
             width: Utils.scrHeight * .050,
-            height: Utils.scrHeight * .055,
+            height: Utils.scrHeight * .048,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Utils.scrHeight * .01),
-                color: const Color(0xff5872de)),
+              borderRadius:
+              BorderRadius.circular(Utils.scrHeight * .01),
+              color: const Color(0xff5872de),
+            ),
             child: SizedBox(
               height: Utils.scrHeight * .01,
               width: Utils.scrHeight * .01,
-              child: const Icon(Icons.filter_list_alt, color: Colors.white),
+              child: const Icon(Icons.filter_list_alt,
+                  color: Colors.white),
             ),
           ),
-        ),
+        )
       ],
     );
   }
 }
+
+

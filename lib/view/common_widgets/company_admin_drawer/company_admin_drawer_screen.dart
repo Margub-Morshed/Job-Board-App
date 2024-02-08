@@ -73,7 +73,7 @@ class _CompanyAdminDrawerScreenState extends State<CompanyAdminDrawerScreen> {
                   onTap: () {
                     Utils.navigateTo(context, const CompanyPostListScreen());
                   },
-                  text: 'Jobs',
+                  text: 'My Jobs',
                   icon: Icons.bookmark_border,
                 ),
                 const SizedBox(

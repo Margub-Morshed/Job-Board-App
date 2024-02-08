@@ -51,7 +51,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                       child: CachedNetworkImage(
                         imageUrl: widget.company.logoImage!,
                         width: double.infinity,
-                        // height: Utils.scrHeight * .180,
+                        height: Utils.scrHeight * .25,
                         fit: BoxFit.cover,
                       )),
                 ),
@@ -125,24 +125,24 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
                 Text(
                   'Email: ${widget.company.email}',
                   style: const TextStyle(color: Colors.black),
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
                 Text(
                   'Mobile: ${widget.company.phone}',
                   style: const TextStyle(color: Colors.black),
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Divider
                 const Divider(
                   color: Colors.grey,
                   thickness: 1,
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 //Company Description
                 const Text("Description",
@@ -150,7 +150,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                     )),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
                 Container(
                   padding:
                   const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -161,13 +161,14 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                       "Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming  Read More. . .",
                       style: TextStyle(
                         fontSize: 14,
+                        height: 2.2
                       )),
                 ),
                 SizedBox(height: Utils.scrHeight * .03),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                        const SuperAdminJobPostScreen(),));
+                         SuperAdminJobPostListScreen(companyModel: widget.company,),));
                   },
                   child: Container(
                     alignment: Alignment.center,

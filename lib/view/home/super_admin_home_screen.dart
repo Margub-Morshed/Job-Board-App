@@ -25,21 +25,9 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
       'title': 'Job Post',
       'image': 'assets/icons/post.png',
     },
-    'Category': {
-      'title': 'Category',
-      'image': 'assets/icons/menu.png',
-    },
-    'Skill': {
-      'title': 'Skill',
-      'image': 'assets/icons/skill.png',
-    },
-    'City': {
-      'title': 'City',
-      'image': 'assets/icons/city.png',
-    },
-    'Settings': {
-      'title': 'Settings',
-      'image': 'assets/icons/setting.png',
+    'Profile': {
+      'title': 'profile',
+      'image': 'assets/icons/team.png',
     },
   };
 

@@ -109,9 +109,6 @@ class CompanyCard extends StatelessWidget {
                     email: company.email,
                     teamSize: company.teamSize,
                     address: company.address),
-                trailing: const Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: Icon(Icons.arrow_forward_ios)),
               ),
             ),
           ),
