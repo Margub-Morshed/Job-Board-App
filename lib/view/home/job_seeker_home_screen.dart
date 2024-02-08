@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:job_board_app/view/common_widgets/job_seeker_drawer/job_seeker_custom_drawer.dart';
 import 'package:job_board_app/view/common_widgets/job_seeker_drawer/job_seeker_drawer_screen.dart';
 import 'package:job_board_app/view/filter/job_seeker_filter_screen.dart';
 import 'package:job_board_app/view/job_post_details/job_post_details_screen.dart';
@@ -36,7 +35,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
             transform: Matrix4.translationValues(xOffset, yOffset, 0)
               ..scale(isDrawerOpen ? 0.85 : 1.00)
               ..rotateZ(isDrawerOpen ? -50 : 0),
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 400),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: isDrawerOpen
@@ -46,6 +45,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
             child: Scaffold(
               appBar: AppBar(
                   title: const Text('Jobs'),
+                  centerTitle: true,
                   leading: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 12),
                     child: isDrawerOpen

@@ -85,16 +85,20 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                   vertical: Utils.scrHeight * .02),
               children: [
                 // Job Post Image
-                Hero(
-                  tag: widget.tag,
-                  transitionOnUserGestures: true,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(Utils.scrHeight * .02),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          widget.jobPostModel.image ?? Utils.flutterDefaultImg,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
+                SizedBox(
+                  height: Utils.scrHeight * .25,
+                  child: Hero(
+                    tag: widget.tag,
+                    transitionOnUserGestures: true,
+                    child: ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(Utils.scrHeight * .02),
+                      child: CachedNetworkImage(
+                        imageUrl: widget.jobPostModel.image ??
+                            Utils.flutterDefaultImg,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -106,19 +110,21 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.w700),
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
-                Text('Company Name: ${widget.jobPostModel.createdBy}',
+                SizedBox(height: Utils.scrHeight * .02),
+                Text(
+                  'Company Name: ${widget.jobPostModel.createdBy}',
                   style: const TextStyle(
-                      fontSize: 16,),
+                    fontSize: 16,
+                  ),
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Other Job Details
                 Text(
                   'Type: ${widget.jobPostModel.jobType}',
                   style: const TextStyle(fontSize: 16),
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Application Deadline
                 Text(
@@ -126,7 +132,7 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                   style: const TextStyle(fontSize: 16),
                 ),
 
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 Row(
                   children: [
@@ -147,7 +153,7 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Application Deadline
                 Text(
@@ -155,14 +161,14 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                   style: const TextStyle(fontSize: 16),
                 ),
 
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 // Job Description
                 const Text(
                   "Description",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
-                SizedBox(height: Utils.scrHeight * .01),
+                SizedBox(height: Utils.scrHeight * .02),
 
                 Container(
                   padding:
@@ -173,7 +179,7 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                   child: Text(
                     widget.jobPostModel.description,
                     style: const TextStyle(
-                        fontSize: 15, color: Colors.black54, height: 1.8),
+                        fontSize: 15, color: Colors.black54, height: 2.2),
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -203,7 +209,7 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
                     height: Utils.scrHeight * .055,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: Color(hasUserApplied ? 0xff7a8df2 : 0xff5872de),
+                      color: Color(hasUserApplied ? 0xffbfd6ff : 0xff5872de),
                     ),
                     child: hasUserApplied
                         ? const Text(
@@ -270,13 +276,13 @@ class _JobPostDetailsScreenState extends State<JobPostDetailsScreen> {
             onTap: () async {
               await _toggleFavorite();
             },
-
             child: Icon(
               isAlreadySelected.value
                   ? Icons.favorite
                   : Icons.favorite_border_outlined,
-              color:
-              isAlreadySelected.value ? Colors.blue : Colors.black54,
+              color: isAlreadySelected.value
+                  ? const Color(0xff5872de)
+                  : Colors.black54,
             ),
           ),
         );

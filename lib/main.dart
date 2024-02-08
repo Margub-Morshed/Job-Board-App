@@ -23,12 +23,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Job Board',
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+            elevation: 0, // Adjust the elevation of app bars
+            scrolledUnderElevation: 0),
         scaffoldBackgroundColor: const Color(0xfff6f6f6),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff5872de)),
         useMaterial3: true,
       ),
       home: const LoginScreen(),
     );
   }
 }
-

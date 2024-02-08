@@ -62,28 +62,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
 
                 // Input Your Password
-                Row(
+                const Row(
                   children: [
-                    const Text(
+                    Text(
                       'PASSWORD',
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: Color(0xff1E1F20)),
                     ),
-                    const Spacer(),
-                    TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Forgot Password',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Color(0xff1E1F20),
-                              decoration: TextDecoration.underline),
-                        ))
+                    Spacer(),
                   ],
                 ),
+                const SizedBox(height: 8),
                 buildPasswordSection(),
                 const SizedBox(height: 26),
 
@@ -117,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 "Job Seeker",
                 context)
             .then((value) {
-            if (value != null) {
+          if (value != null) {
             SessionManager.setUserModel(value);
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return const JobSeekerHomeScreen();
@@ -127,12 +118,16 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         });
       },
+      style: const ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(Color(0xff5872de)),
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: Utils.scrHeight * .015),
         child: Text(
           'Log In',
           style: TextStyle(
-              fontSize: Utils.scrHeight * .022, fontWeight: FontWeight.bold),
+            color: Colors.white,
+              fontSize: Utils.scrHeight * .022, fontWeight: FontWeight.w400),
         ),
       ),
     );
@@ -239,11 +234,9 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: const InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             border: OutlineInputBorder(borderSide: BorderSide(width: 5)),
-            hintText: 'Email',
+            hintText: 'example@gmail.com',
             hintStyle: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-                color: Color(0xff1E1F20))),
+                fontWeight: FontWeight.w600, fontSize: 16, color: Colors.grey)),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Please enter your email address.';
@@ -264,11 +257,9 @@ class _LoginScreenState extends State<LoginScreen> {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             border: const OutlineInputBorder(borderSide: BorderSide(width: 5)),
-            hintText: 'Password',
+            hintText: '* * * * * *',
             hintStyle: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-                color: Color(0xff1E1F20)),
+                fontWeight: FontWeight.w600, fontSize: 16, color: Colors.grey),
             suffixIcon: IconButton(
                 onPressed: () {
                   setState(() {

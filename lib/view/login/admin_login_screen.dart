@@ -59,28 +59,14 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 const SizedBox(height: 24),
 
                 // Input Your Password
-                Row(
-                  children: [
-                    const Text(
-                      'PASSWORD',
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xff1E1F20)),
-                    ),
-                    const Spacer(),
-                    TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Forgot Password',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Color(0xff1E1F20),
-                              decoration: TextDecoration.underline),
-                        ))
-                  ],
+                const Text(
+                  'PASSWORD',
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff1E1F20)),
                 ),
+                const SizedBox(height: 8),
                 buildPasswordSection(),
                 const SizedBox(height: 26),
 
@@ -135,11 +121,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
         decoration: const InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             border: OutlineInputBorder(borderSide: BorderSide(width: 5)),
-            hintText: 'Email',
+            hintText: 'example@gmail.com',
             hintStyle: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-                color: Color(0xff1E1F20))),
+                fontWeight: FontWeight.w600, fontSize: 16, color: Colors.grey)),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Please enter your email address.';
@@ -160,11 +144,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             border: const OutlineInputBorder(borderSide: BorderSide(width: 5)),
-            hintText: 'Password',
+            hintText: '* * * * * *',
             hintStyle: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-                color: Color(0xff1E1F20)),
+                fontWeight: FontWeight.w600, fontSize: 16, color: Colors.grey),
             suffixIcon: IconButton(
                 onPressed: () {
                   setState(() {

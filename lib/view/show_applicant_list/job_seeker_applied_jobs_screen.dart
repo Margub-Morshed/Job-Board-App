@@ -207,6 +207,7 @@ class _AppliedJobPostState extends State<AppliedJobPost> {
                                 child: Text(
                                   'Job Type: ${widget.jobPostModel.jobType}',
                                   style: const TextStyle(
+                                      color: Colors.grey,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500),
                                 ),
@@ -215,6 +216,7 @@ class _AppliedJobPostState extends State<AppliedJobPost> {
                               Text(
                                 'Deadline: ${widget.jobPostModel.applicationDeadline}',
                                 style: const TextStyle(
+                                    color: Colors.grey,
                                     fontSize: 14, fontWeight: FontWeight.w500),
                               ),
                             ],
