@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:job_board_app/view/home/job_seeker_home_screen.dart';
 import 'package:job_board_app/view/profile/profile_screen.dart';
 
 import '../../../services/auth/auth_service.dart';
@@ -56,6 +57,16 @@ class _JobSeekerDrawerScreenState extends State<JobSeekerDrawerScreen> {
             ),
             Column(
               children: <Widget>[
+                NewRow(
+                  onTap: (){
+                    Utils.navigateTo(context, JobSeekerHomeScreen());
+                  },
+                  text: 'Home',
+                  icon: Icons.home,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 NewRow(
                   onTap: () {
                     Utils.navigateTo(

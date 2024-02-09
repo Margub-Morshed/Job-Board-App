@@ -10,6 +10,7 @@ class JobService {
       FirebaseFirestore.instance.collection('job_posts');
   static String downloadRef = "";
 
+
   Future<void> addPost(JobPostModel jobPost) async {
     try {
       // Generate a new document with a unique ID

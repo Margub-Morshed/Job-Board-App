@@ -1,15 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:job_board_app/view/home/company_admin_home_screen.dart';
+import 'package:job_board_app/view/input/input_screen.dart';
 import 'package:job_board_app/view/job_post_list/company_post_list_screen.dart';
-import 'package:job_board_app/view/profile/profile_screen.dart';
-
 import '../../../services/auth/auth_service.dart';
 import '../../../services/session/session_services.dart';
 import '../../../utils/utils.dart';
-import '../../favorites/job_seeker_favorites.dart';
 import '../../login/login_screen.dart';
 import '../../profile/company_admin_profile_screen.dart';
-import '../../show_applicant_list/job_seeker_applied_jobs_screen.dart';
+import '../../show_all_applications/company_admin_all_application_screen.dart';
 
 class CompanyAdminDrawerScreen extends StatefulWidget {
   const CompanyAdminDrawerScreen({super.key});
@@ -49,7 +48,7 @@ class _CompanyAdminDrawerScreenState extends State<CompanyAdminDrawerScreen> {
                   width: 10,
                 ),
                 Text(
-                  SessionManager.companyModel!.name!,
+                  SessionManager.companyModel!.name,
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22,
@@ -61,10 +60,30 @@ class _CompanyAdminDrawerScreenState extends State<CompanyAdminDrawerScreen> {
               children: <Widget>[
                 NewRow(
                   onTap: (){
+                    Utils.navigateTo(context, const CompanyAdminHomeScreen());
+                  },
+                  text: 'Home',
+                  icon: Icons.home,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                NewRow(
+                  onTap: (){
                     Utils.navigateTo(context, CompanyAdminProfileScreen(role: "Company Admin",companyModel: SessionManager.companyModel,));
                   },
                   text: 'Profile',
                   icon: Icons.person_outline,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                NewRow(
+                  onTap: (){
+                    Utils.navigateTo(context, const InputScreen());
+                  },
+                  text: 'Create Job Post',
+                  icon: Icons.add,
                 ),
                 const SizedBox(
                   height: 20,
@@ -75,6 +94,15 @@ class _CompanyAdminDrawerScreenState extends State<CompanyAdminDrawerScreen> {
                   },
                   text: 'My Jobs',
                   icon: Icons.bookmark_border,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                NewRow(
+                  onTap: () {
+                    Utils.navigateTo(context, const CompanyAdminAllApplicationScreen());                  },
+                  text: 'ALl Applications',
+                  icon: Icons.document_scanner_outlined,
                 ),
                 const SizedBox(
                   height: 20,

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/view/company_list/company_list_screen.dart';
+import 'package:job_board_app/view/home/super_admin_home_screen.dart';
 import 'package:job_board_app/view/super_admin_job_post_list/super_admin_job_post_screen.dart';
 
 import '../../../services/auth/auth_service.dart';
@@ -8,6 +9,7 @@ import '../../../services/session/session_services.dart';
 import '../../../utils/utils.dart';
 import '../../login/login_screen.dart';
 import '../../profile/super_admin_profile_screen.dart';
+import '../../show_all_applications/super_admin_all_application_list_screen.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -55,6 +57,16 @@ class _DrawerScreenState extends State<DrawerScreen> {
             ),
             Column(
               children: <Widget>[
+                NewRow(
+                  onTap: (){
+                    Utils.navigateTo(context, const SuperAdminHomeScreen());
+                  },
+                  text: 'Home',
+                  icon: Icons.home,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                  NewRow(
                   onTap: (){
                     Utils.navigateTo(context, SuperAdminProfileScreen(role: "Super Admin", superAdminModel: SessionManager.superAdminModel,));
@@ -81,6 +93,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   },
                   text: 'All Job Post',
                   icon: Icons.post_add,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                NewRow(
+                  onTap: (){
+                    Utils.navigateTo(context, const SuperAdminAllApplicationScreen());                  },
+                  text: 'All Applications',
+                  icon: Icons.document_scanner,
                 ),
                 const SizedBox(
                   height: 20,

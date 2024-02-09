@@ -198,7 +198,7 @@ class ApplicationListCard extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 16.0),
                           // Right Side Padding
                           child: ProfileImage(
-                            imageUrl: userModel.coverImage,
+                            imageUrl: userModel.userAvatar,
                             imageName: "${applicationModel.id}_hero_tag",
                           ),
                         ),

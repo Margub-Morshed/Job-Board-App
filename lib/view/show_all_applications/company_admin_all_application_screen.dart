@@ -2,23 +2,21 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/model/application_model.dart';
-import 'package:job_board_app/model/job_post_model.dart';
 import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/services/application/application_service.dart';
+import 'package:job_board_app/services/session/session_services.dart';
+import 'package:job_board_app/view/show_applicant_list/super_admin_application_details_screen.dart';
 import '../../utils/utils.dart';
 import '../filter/company_admin_filter_screen.dart';
-import 'company_applications_details_screen.dart';
+import '../show_applicant_list/company_applications_details_screen.dart';
 
-class ShowApplicantList extends StatefulWidget {
-  const ShowApplicantList({super.key, required this.jobPostModel});
-
-  final JobPostModel jobPostModel;
-
+class CompanyAdminAllApplicationScreen extends StatefulWidget {
+  const CompanyAdminAllApplicationScreen({super.key,});
   @override
-  State<ShowApplicantList> createState() => _ShowApplicantListState();
+  State<CompanyAdminAllApplicationScreen> createState() => _CompanyAdminAllApplicationScreenState();
 }
 
-class _ShowApplicantListState extends State<ShowApplicantList> {
+class _CompanyAdminAllApplicationScreenState extends State<CompanyAdminAllApplicationScreen> {
   List<String> applicationStatus = [
     'All',
     'Pending',
@@ -59,9 +57,8 @@ class _ShowApplicantListState extends State<ShowApplicantList> {
             ),
             Expanded(
               child: StreamBuilder<List<ApplicationModel>>(
-                stream: ApplicationService.getApplicationsByPostId(
-                  widget.jobPostModel.id,
-                ),
+                // stream:  ApplicationService.getAllApplications(),
+                stream:  ApplicationService.getAllApplications(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
@@ -78,45 +75,45 @@ class _ShowApplicantListState extends State<ShowApplicantList> {
                   allApplications = snapshot.data ?? [];
 
                   List<ApplicationModel> filteredApplications =
-                      filterApplicationsByStatus(allApplications);
+                  filterApplicationsByStatus(allApplications);
 
                   return filteredApplications.isNotEmpty
                       ? ListView.builder(
-                          itemCount: filteredApplications.length,
-                          itemBuilder: (context, index) {
-                            ApplicationModel application =
-                                filteredApplications[index];
-                            return StreamBuilder<List<UserModel>>(
-                              stream: ApplicationService.getUserInfo(
-                                application.userId,
-                              ),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-
-                                if (snapshot.hasError) {
-                                  return Center(
-                                    child: Text(
-                                      'Error: ${snapshot.error}',
-                                    ),
-                                  );
-                                }
-                                List<UserModel> userInfo = snapshot.data ?? [];
-                                return ApplicationListCard(
-                                  userModel: userInfo[0],
-                                  applicationModel: application,
-                                );
-                              },
+                    itemCount: filteredApplications.length,
+                    itemBuilder: (context, index) {
+                      ApplicationModel application =
+                      filteredApplications[index];
+                      return StreamBuilder<List<UserModel>>(
+                        stream: ApplicationService.getUserInfo(
+                          application.userId,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
                             );
-                          },
-                        )
+                          }
+
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text(
+                                'Error: ${snapshot.error}',
+                              ),
+                            );
+                          }
+                          List<UserModel> userInfo = snapshot.data ?? [];
+                          return ApplicationListCard(
+                            userModel: userInfo[0],
+                            applicationModel: application,
+                          );
+                        },
+                      );
+                    },
+                  )
                       : Center(
-                          child: Utils.noDataFound(),
-                        );
+                    child: Utils.noDataFound(),
+                  );
                 },
               ),
             ),
@@ -167,12 +164,12 @@ class ApplicationListCard extends StatelessWidget {
         // Card Outer Border Radius
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          Utils.navigateTo(
-              context,
-              CompanyApplicationDetailsScreen(
-                  tag: "${applicationModel.id}_hero_tag",
-                  applicationModel: applicationModel,
-                  userModel: userModel));
+            Utils.navigateTo(
+                context,
+                CompanyApplicationDetailsScreen(
+                    tag: "${applicationModel.id}_hero_tag",
+                    applicationModel: applicationModel,
+                    userModel: userModel));
         },
         child: Stack(
           children: [
@@ -230,7 +227,7 @@ class ApplicationListCard extends StatelessWidget {
               right: Utils.scrHeight * 0.025,
               child: Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
                 decoration: BoxDecoration(
                     border: Border.all(
                         width: 1,
