@@ -67,7 +67,7 @@ class _CompanyApplicationDetailsScreenState
                       borderRadius:
                           BorderRadius.circular(Utils.scrHeight * .02),
                       child: CachedNetworkImage(
-                          imageUrl: widget.userModel.coverImage!,
+                          imageUrl: widget.userModel.userAvatar!,
                           width: double.infinity,
                           height: Utils.scrHeight * .180,
                           fit: BoxFit.cover)),

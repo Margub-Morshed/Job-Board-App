@@ -10,6 +10,8 @@ import '../common_widgets/drawer/custom_drawer.dart';
 import '../input/input_screen.dart';
 import '../job_post_list/company_post_list_screen.dart';
 import '../login/login_screen.dart';
+import '../show_all_applications/company_admin_all_application_screen.dart';
+import '../show_all_applications/super_admin_all_application_list_screen.dart';
 
 class CompanyAdminHomeScreen extends StatefulWidget {
   const CompanyAdminHomeScreen({super.key});
@@ -31,6 +33,10 @@ class _CompanyAdminHomeScreenState extends State<CompanyAdminHomeScreen> {
     'Company Profile': {
       'title': 'Add Jop Post',
       'image': 'assets/icons/team.png',
+    },
+    'Applications': {
+      'title': 'Applications',
+      'image': 'assets/icons/cv.png',
     },
   };
   double xOffset = 0;
@@ -132,6 +138,8 @@ class _CompanyAdminHomeScreenState extends State<CompanyAdminHomeScreen> {
                                 }else if (index == 2) {
                                   Utils.navigateTo(
                                       context, CompanyAdminProfileScreen(role: "Company Admin", companyModel: SessionManager.companyModel,));
+                                }else if (index == 3) {
+                                  Utils.navigateTo(context, const CompanyAdminAllApplicationScreen());
                                 } else {
                                   null;
                                 }
