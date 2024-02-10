@@ -53,7 +53,7 @@ class ApplicationService {
       return query.snapshots().map((snapshot) {
         return snapshot.docs
             .map((doc) => ApplicationModel.fromDocumentSnapshot(doc))
-            .toList();
+            .toList().reversed.toList();
       });
     } catch (e) {
       print('Error retrieving applications stream by post ID: $e');
@@ -81,6 +81,28 @@ class ApplicationService {
       return snapshot.docs
           .map((doc) => ApplicationModel.fromDocumentSnapshot(doc))
           .toList();
+    });
+  }
+  // Stream method to get applications for a specific user
+  static Stream<List<ApplicationModel>> getApplicationsForCompanyAdmin(String companyId) {
+    return Utils.applicationsRef
+        .where('company_id', isEqualTo: companyId)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => ApplicationModel.fromDocumentSnapshot(doc))
+          .toList().reversed.toList();
+    });
+  }
+
+  // Stream method to get all applications for company and super admin
+  static Stream<List<ApplicationModel>> getAllApplications() {
+    return Utils.applicationsRef
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => ApplicationModel.fromDocumentSnapshot(doc))
+          .toList().reversed.toList();
     });
   }
 

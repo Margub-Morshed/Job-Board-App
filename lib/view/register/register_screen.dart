@@ -24,6 +24,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _companyEmailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isObscure = true;
+  bool isObscureConfirm = true;
 
   final List<String> userRoles = ["Company Admin", "Job Seeker"];
   String selectedRole = "Job Seeker";
@@ -238,7 +239,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   TextFormField _emailTextFiled(TextEditingController controller,
-      {String hint = 'example@gmail.com'}) {
+      {String hint = 'example@email.com'}) {
     return TextFormField(
         controller: controller,
         keyboardType: TextInputType.emailAddress,
@@ -284,7 +285,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 });
               },
               icon: Icon(
-                  isObscure
+                  !isObscure
                       ? Icons.visibility_off_outlined
                       : Icons.remove_red_eye_outlined,
                   color: const Color(0xff1E1F20),
@@ -304,7 +305,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return TextFormField(
       controller: controller,
       keyboardType: TextInputType.text,
-      obscureText: isObscure,
+      obscureText: isObscureConfirm,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
           contentPadding:
@@ -318,11 +319,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           suffixIcon: IconButton(
               onPressed: () {
                 setState(() {
-                  isObscure = !isObscure;
+                  isObscureConfirm = !isObscureConfirm;
                 });
               },
               icon: Icon(
-                  isObscure
+                  !isObscureConfirm
                       ? Icons.visibility_off_outlined
                       : Icons.remove_red_eye_outlined,
                   color: const Color(0xff1E1F20),
@@ -401,7 +402,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 color: Color(0xff1E1F20))),
         const SizedBox(height: 8.0),
         _buildTextField(
-            _companyEmailController, 'companyltd@gmail.com'),
+            _companyEmailController, 'companyltd@email.com'),
       ];
 
   Widget _buildTextField(
