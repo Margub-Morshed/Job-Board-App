@@ -232,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: const InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             border: OutlineInputBorder(borderSide: BorderSide(width: 5)),
-            hintText: 'example@gmail.com',
+            hintText: 'example@email.com',
             hintStyle: TextStyle(
                 fontWeight: FontWeight.w600, fontSize: 16, color: Colors.grey)),
         validator: (value) {
@@ -265,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   });
                 },
                 icon: Icon(
-                    isObscure
+                    !isObscure
                         ? Icons.visibility_off_outlined
                         : Icons.remove_red_eye_outlined,
                     color: const Color(0xff1E1F20),
