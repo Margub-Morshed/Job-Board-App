@@ -20,12 +20,12 @@ Experience Job Board App, thoughtfully designed using the robust clean architect
 
 ## Screenshots
 
-|                        Guest Mode Home                         | Guest Mode Home | Login | Authenticated User Home |
-|:--------------------------------------------------------------:| :-------------: | :---: | :---------------------: |
+|                          Login Screen                          |                     Job Seeker Home Screen                     |                          Menu Drawer                           |                 Company Admin Dashboard Screen                 |
+|:--------------------------------------------------------------:|:--------------------------------------------------------------:|:--------------------------------------------------------------:|:--------------------------------------------------------------:|
 | <img src="assets/screenshots/1.png" height="400" width="auto"> | <img src="assets/screenshots/2.png" height="400" width="auto"> | <img src="assets/screenshots/3.png" height="400" width="auto"> | <img src="assets/screenshots/4.png" height="400" width="auto"> |
 
-| Authenticated User Home | Profile | Profile Logout | Support Call |
-| :---------------------: | :-----: | :------------: | :----------: |
+|                    Applied Jobs List Screen                    |                  Super Admin Dashboard Screen                  |                      Company List Screen                       |                         Filter Screen                          |
+|:--------------------------------------------------------------:|:--------------------------------------------------------------:|:--------------------------------------------------------------:|:--------------------------------------------------------------:|
 | <img src="assets/screenshots/5.png" height="400" width="auto"> | <img src="assets/screenshots/6.png" height="400" width="auto"> | <img src="assets/screenshots/7.png" height="400" width="auto"> | <img src="assets/screenshots/8.png" height="400" width="auto"> |
 
 ## Installation
