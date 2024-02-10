@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/services/job_post/job_post_service.dart';
+import 'package:job_board_app/utils/utils.dart';
 import '../../model/job_post_model.dart';
 
 
@@ -38,7 +39,10 @@ class JobPostChart extends StatelessWidget {
       stream: jobService.getPostsStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return SizedBox(
+            height: Utils.scrHeight * .2,
+            width: Utils.scrHeight * .2,
+              child: Center(child: const CircularProgressIndicator()));
         }
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
@@ -52,7 +56,7 @@ class JobPostChart extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Applications",
+                "Post Created LinerChart",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 20),
@@ -219,170 +223,3 @@ class CustomCard extends StatelessWidget {
   }
 }
 
-// class JobPostChart extends StatelessWidget {
-//   JobPostChart({super.key});
-//
-//   final List<FlSpot> spots = const [
-//     // FlSpot(0, 6),
-//     // FlSpot(10, 10),
-//     // FlSpot(20, 60),
-//     FlSpot(1.68, 21.04),
-//     FlSpot(2.84, 26.23),
-//     FlSpot(5.19, 19.82),
-//     FlSpot(6.01, 24.49),
-//     FlSpot(7.81, 19.82),
-//     FlSpot(9.49, 23.50),
-//     FlSpot(12.26, 19.57),
-//     FlSpot(15.63, 20.90),
-//     FlSpot(20.39, 39.20),
-//     FlSpot(23.69, 75.62),
-//     FlSpot(25.69, 75.62),
-//   ];
-//
-//   final leftTitle = {
-//     0: '0',
-//     20: '2K',
-//     40: '4K',
-//     60: '6K',
-//     80: '8K',
-//     100: '10K'
-//   };
-//   final bottomTitle = {
-//     0: 'Jan',
-//     10: 'Feb',
-//     20: 'Mar',
-//     30: 'Apr',
-//     40: 'May',
-//     50: 'Jun',
-//     60: 'Jul',
-//     70: 'Aug',
-//     80: 'Sep',
-//     90: 'Oct',
-//     100: 'Nov',
-//     110: 'Dec',
-//   };
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return CustomCard(
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           const Text(
-//             "Application Submitted",
-//             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-//           ),
-//           const SizedBox(
-//             height: 20,
-//           ),
-//           AspectRatio(
-//             aspectRatio: 9 / 4 ,
-//             child: LineChart(
-//               LineChartData(
-//                 lineTouchData: const LineTouchData(
-//                   handleBuiltInTouches: true,
-//                 ),
-//                 gridData: const FlGridData(show: false),
-//                 titlesData: FlTitlesData(
-//                   bottomTitles: AxisTitles(
-//                     sideTitles: SideTitles(
-//                       showTitles: true,
-//                       reservedSize: 32,
-//                       interval: 1,
-//                       getTitlesWidget: (double value, TitleMeta meta) {
-//                         return bottomTitle[value.toInt()] != null
-//                             ? SideTitleWidget(
-//                           axisSide: meta.axisSide,
-//                           space: 10,
-//                           child: Text(
-//                               bottomTitle[value.toInt()].toString(),
-//                               style: TextStyle(
-//                                   fontSize:  9,
-//                                   color: Colors.grey[400])),
-//                         )
-//                             : const SizedBox();
-//                       },
-//                     ),
-//                   ),
-//                   rightTitles: const AxisTitles(
-//                     sideTitles: SideTitles(showTitles: false),
-//                   ),
-//                   topTitles: const AxisTitles(
-//                     sideTitles: SideTitles(showTitles: false),
-//                   ),
-//                   leftTitles: AxisTitles(
-//                     sideTitles: SideTitles(
-//                       getTitlesWidget: (double value, TitleMeta meta) {
-//                         return leftTitle[value.toInt()] != null
-//                             ? Text(leftTitle[value.toInt()].toString(),
-//                             style: const TextStyle(
-//                                 fontSize: 9,
-//                                 color: Colors.grey))
-//                             : const SizedBox();
-//                       },
-//                       showTitles: true,
-//                       interval: 1,
-//                       reservedSize: 40,
-//                     ),
-//                   ),
-//                 ),
-//                 borderData: FlBorderData(show: false),
-//                 lineBarsData: [
-//                   LineChartBarData(
-//                       isCurved: true,
-//                       curveSmoothness: 0,
-//                       color: Theme.of(context).primaryColor,
-//                       barWidth: 2.5,
-//                       isStrokeCapRound: true,
-//                       belowBarData: BarAreaData(
-//                         gradient: LinearGradient(
-//                           begin: Alignment.topCenter,
-//                           end: Alignment.bottomCenter,
-//                           colors: [
-//                             Theme.of(context).primaryColor.withOpacity(0.5),
-//                             Colors.transparent
-//                           ],
-//                         ),
-//                         show: true,
-//                         color: Theme.of(context).primaryColor.withOpacity(0.5),
-//                       ),
-//                       dotData: FlDotData(show: false),
-//                       spots: spots
-//                   )
-//                 ],
-//                 minX: 0,
-//                 maxX: 120,
-//                 maxY: 105,
-//                 minY: -5,
-//               ),
-//               // swapAnimationDuration: const Duration(milliseconds: 250),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-//
-// class CustomCard extends StatelessWidget {
-//   final Widget child;
-//   final Color? color;
-//   final EdgeInsetsGeometry? padding;
-//
-//   const CustomCard({super.key, this.color,this.padding, required this.child});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//         decoration: const BoxDecoration(
-//           borderRadius: BorderRadius.all(
-//             Radius.circular(8.0),
-//           ),
-//           color: Colors.white,
-//         ),
-//         child: Padding(
-//           padding:padding?? const EdgeInsets.all(12.0),
-//           child: child,
-//         ));
-//   }
-// }

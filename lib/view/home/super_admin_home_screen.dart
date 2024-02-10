@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../services/session/session_services.dart';
 import '../../utils/utils.dart';
 import '../analytics_chart/analytics_chart.dart';
@@ -98,7 +100,57 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                     vertical: Utils.scrHeight * .02,
                   ),
                   children: [
-                    Expanded(
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Welcome Back',style:
+                            TextStyle(fontSize: Utils.scrHeight * .018, fontWeight: FontWeight.w400),
+                            ),
+                            Text(
+                              '${SessionManager.superAdminModel!.name} 👋',
+                              style:
+                              TextStyle(fontSize: Utils.scrHeight * .03, fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              DateFormat('dd MMM, yyyy, hh:mm a').format(DateTime.now()),
+                              style:
+                              TextStyle(fontSize: Utils.scrHeight * .016, fontWeight: FontWeight.w400),
+
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: Utils.scrHeight * .08,),
+                        Container(
+                          width: Utils.scrHeight * .1,
+                          height: Utils.scrHeight * .1,
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(Utils.scrHeight * .05),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(Utils.scrHeight * .05),
+                            child: CachedNetworkImage(
+                              imageUrl: SessionManager.superAdminModel!.userAvatar,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: Utils.scrHeight * .02),
+                    Padding(
+                        padding: EdgeInsets.only(top: Utils.scrHeight * .02),
+                        child: BarGraphCard()),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: Utils.scrHeight * .02,
+                      ),
+                      child: JobPostChart(),
+                    ),
+                    SizedBox(
+                      height: Utils.scrHeight * .44,
                       child: GridView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -131,24 +183,14 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                                             SessionManager.superAdminModel,
                                       ));
                                 } else if (index == 3) {
-                                  Utils.navigateTo(
-                                      context, SuperAdminAllApplicationScreen());
+                                  Utils.navigateTo(context,
+                                      const SuperAdminAllApplicationScreen());
                                 } else {
                                   null;
                                 }
                               });
                         },
                       ),
-                    ),
-                    Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: Utils.scrHeight * .02),
-                        child: BarGraphCard()),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: Utils.scrHeight * .02,
-                      ),
-                      child: JobPostChart(),
                     ),
                   ],
                 ),

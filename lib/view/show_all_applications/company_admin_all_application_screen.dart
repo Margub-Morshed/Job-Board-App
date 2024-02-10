@@ -38,8 +38,7 @@ class _CompanyAdminAllApplicationScreenState extends State<CompanyAdminAllApplic
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: Utils.scrHeight * .015),
-              child: Row(
+              padding: EdgeInsets.symmetric(horizontal: Utils.scrHeight * .015,vertical: Utils.scrHeight * .018,),              child: Row(
                 children: [
                   Expanded(
                     child: CustomDropDown(

@@ -1,4 +1,4 @@
-package com.example.job_board_app
+package com.softvence.job_board_app
 
 import io.flutter.embedding.android.FlutterActivity
 

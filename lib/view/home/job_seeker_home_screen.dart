@@ -18,7 +18,7 @@ class JobSeekerHomeScreen extends StatefulWidget {
 class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
   final JobService jobService = JobService();
   final TextEditingController _searchController = TextEditingController();
-  List<JobPostModel> _searchList = [];
+  final List<JobPostModel> _searchList = [];
   final ValueNotifier<bool> _searchNotifier = ValueNotifier<bool>(false);
   double xOffset = 0;
   double yOffset = 0;
