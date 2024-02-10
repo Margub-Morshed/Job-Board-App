@@ -1,13 +1,8 @@
-
-
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
-
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/services/job_post/job_post_service.dart';
 import '../../model/job_post_model.dart';
+
 
 class JobPostChart extends StatelessWidget {
   JobPostChart({Key? key});
@@ -16,15 +11,14 @@ class JobPostChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final JobService jobService = JobService();
 
-
     final leftTitle = {
-    0: '0',
-    20: '10',
-    40: '20',
-    60: '20',
-    80: '40',
-    100: '50'
-  };
+      00: '0',
+      20: '10',
+      40: '20',
+      60: '30',
+      80: '40',
+      100: '50'
+    };
     final Map<String, String> bottomTitle = {
       '00': 'Jan',
       '10': 'Feb',
@@ -58,7 +52,7 @@ class JobPostChart extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Application",
+                "Applications",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 20),
@@ -71,48 +65,39 @@ class JobPostChart extends StatelessWidget {
                     ),
                     gridData: const FlGridData(show: false),
                     titlesData: FlTitlesData(
-
                       bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 32,
-                      interval: 1,
-                      getTitlesWidget: ( value,  meta) {
-                        return SideTitleWidget(
-                          axisSide: meta.axisSide,
-                          space: 10,
-                          child: Text(
-                              bottomTitle[value.toInt().toString().padLeft(2, '0')] ?? '',
-                              style: TextStyle(
-                                  fontSize:  9,
-                                  color: Colors.grey[400])),
-                        );
-                      },
-                    ),
-                  ),
-                      // bottomTitles: AxisTitles(
-                      //   sideTitles: SideTitles(
-                      //     showTitles: true,
-                      //     reservedSize: 32,
-                      //     interval: 1,
-                      //     getTitlesWidget: (value, meta) {
-                      //       return Text(bottomTitle[value.toInt().toString().padLeft(2, '0')] ?? '');
-                      //     },
-                      //   )
-                      // ),
-                      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                      leftTitles:  AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,
+                          reservedSize: 32,
                           interval: 1,
-                          reservedSize: 40,
-                          getTitlesWidget: (value, meta){
-                            return Text(leftTitle[value.toInt()] ?? '');
-                          }
-
-                        )
+                          getTitlesWidget: (value, meta) {
+                            return SideTitleWidget(
+                              axisSide: meta.axisSide,
+                              space: 10,
+                              child: Text(
+                                  bottomTitle[value
+                                          .toInt()
+                                          .toString()
+                                          .padLeft(2, '0')] ??
+                                      '',
+                                  style: TextStyle(
+                                      fontSize: 9, color: Colors.grey[400])),
+                            );
+                          },
+                        ),
                       ),
+                      rightTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false)),
+                      topTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false)),
+                      leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                              showTitles: true,
+                              interval: 1,
+                              reservedSize: 40,
+                              getTitlesWidget: (value, meta) {
+                                return Text(leftTitle[value.toInt()] ?? '');
+                              })),
                     ),
                     borderData: FlBorderData(show: false),
                     lineBarsData: [
@@ -127,16 +112,13 @@ class JobPostChart extends StatelessWidget {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Theme.of(context)
-                                  .primaryColor
-                                  .withOpacity(0.5),
+                              Theme.of(context).primaryColor.withOpacity(0.5),
                               Colors.transparent
                             ],
                           ),
                           show: true,
-                          color: Theme.of(context)
-                              .primaryColor
-                              .withOpacity(0.5),
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.5),
                         ),
                         dotData: FlDotData(show: false),
                         spots: spots,
@@ -177,12 +159,15 @@ class JobPostChart extends StatelessWidget {
   DateTime _parseDateString(String dateString) {
     // Parse dateString manually
     // Example date string format: "9-Feb-2024, 5:27 PM"
-    final List<String> parts = dateString.split(', '); // Split by ', ' to separate date and time
-    final List<String> dateParts = parts[0].split('-'); // Split date part by '-'
+    final List<String> parts =
+        dateString.split(', '); // Split by ', ' to separate date and time
+    final List<String> dateParts =
+        parts[0].split('-'); // Split date part by '-'
     final int day = int.parse(dateParts[0]);
     final int month = _parseMonth(dateParts[1]); // Parse month abbreviation
     final int year = int.parse(dateParts[2]);
-    final List<String> timeParts = parts[1].split(':'); // Split time part by ':'
+    final List<String> timeParts =
+        parts[1].split(':'); // Split time part by ':'
     int hour = int.parse(timeParts[0]);
     if (parts[1].contains('PM')) {
       hour += 12; // Convert to 24-hour format if PM
@@ -233,10 +218,6 @@ class CustomCard extends StatelessWidget {
     );
   }
 }
-
-
-
-
 
 // class JobPostChart extends StatelessWidget {
 //   JobPostChart({super.key});
@@ -382,7 +363,6 @@ class CustomCard extends StatelessWidget {
 //     );
 //   }
 // }
-
 
 //
 // class CustomCard extends StatelessWidget {
