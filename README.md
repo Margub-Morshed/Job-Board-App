@@ -22,11 +22,11 @@ Experience Job Board App, thoughtfully designed using the robust clean architect
 
 | Guest Mode Home | Guest Mode Home | Login | Authenticated User Home |
 | :-------------: | :-------------: | :---: | :---------------------: |
-| <img src="assets/images/1.jpg" height="400" width="auto"> | <img src="assets/images/2.jpg" height="400" width="auto"> | <img src="assets/images/3.jpg" height="400" width="auto"> | <img src="assets/images/4.jpg" height="400" width="auto"> |
+| <img src="assets/screenshots/1.jpg" height="400" width="auto"> | <img src="assets/screenshots/2.jpg" height="400" width="auto"> | <img src="assets/screenshots/3.jpg" height="400" width="auto"> | <img src="assets/screenshots/4.jpg" height="400" width="auto"> |
 
 | Authenticated User Home | Profile | Profile Logout | Support Call |
 | :---------------------: | :-----: | :------------: | :----------: |
-| <img src="assets/images/5.jpg" height="400" width="auto"> | <img src="assets/images/6.jpg" height="400" width="auto"> | <img src="assets/images/7.jpg" height="400" width="auto"> | <img src="assets/images/8.jpg" height="400" width="auto"> |
+| <img src="assets/screenshots/5.jpg" height="400" width="auto"> | <img src="assets/screenshots/6.jpg" height="400" width="auto"> | <img src="assets/screenshots/7.jpg" height="400" width="auto"> | <img src="assets/screenshots/8.jpg" height="400" width="auto"> |
 
 ## Installation
 1. Clone the repository: `git clone https://github.com/Margub-Morshed/Job-Board-App.git`
