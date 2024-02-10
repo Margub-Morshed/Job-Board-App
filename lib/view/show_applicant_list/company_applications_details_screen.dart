@@ -35,17 +35,27 @@ class _CompanyApplicationDetailsScreenState
     super.initState();
   }
 
+  DateTime millisecondsToUtc(int millisecondsSinceEpoch) {
+    // Convert milliseconds to microseconds
+    int microsecondsSinceEpoch = millisecondsSinceEpoch * 1000;
+    // Create DateTime object with UTC timezone
+    DateTime utcDateTime = DateTime.fromMicrosecondsSinceEpoch(
+        microsecondsSinceEpoch, isUtc: false);
+    return utcDateTime;
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
-    // Parse the milliseconds string to an integer
+
+    print('createdAt ${widget.applicationModel.createdAt}');
+
     int milliseconds = int.parse(widget.applicationModel.createdAt);
-
-    // Convert milliseconds to a DateTime object
-    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(milliseconds);
-
-    // Format DateTime as "d-MMM-yyyy, h:mm a"
-    String formattedDateTime =
-        DateFormat("d-MMM-yyyy, h:mm a").format(dateTime);
+    print('milliseconds $milliseconds');
+    DateTime utcTime = millisecondsToUtc(milliseconds);
+    print("UTC Time: ${DateFormat('dd-MMM-yyyy, HH:mm a').format(utcTime)}");
 
     return Scaffold(
       appBar: AppBar(title: const Text("Application Details")),
@@ -116,7 +126,7 @@ class _CompanyApplicationDetailsScreenState
                     style:
                         const TextStyle(color: Colors.black87, fontSize: 16)),
                 SizedBox(height: Utils.scrHeight * .02),
-                Text('Applied on: $formattedDateTime',
+                Text('Applied on: ${DateFormat('dd-MMM-yyyy HH:mm a').format(utcTime)}',
                     style: const TextStyle(color: Colors.black, fontSize: 16)),
                 SizedBox(height: Utils.scrHeight * .02),
 

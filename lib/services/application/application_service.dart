@@ -80,7 +80,7 @@ class ApplicationService {
         .map((snapshot) {
       return snapshot.docs
           .map((doc) => ApplicationModel.fromDocumentSnapshot(doc))
-          .toList().reversed.toList();
+          .toList();
     });
   }
   // Stream method to get applications for a specific user

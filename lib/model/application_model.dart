@@ -19,7 +19,7 @@ class ApplicationModel {
     required this.cv,
     required this.status,
     String? createdAt,
-  }) : createdAt = DateTime.now().millisecondsSinceEpoch.toString();
+  })  : createdAt = createdAt ?? DateTime.now().millisecondsSinceEpoch.toString();
 
   factory ApplicationModel.fromMap(Map<String, dynamic> data) {
     return ApplicationModel(

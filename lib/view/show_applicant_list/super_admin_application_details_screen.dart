@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:job_board_app/model/application_model.dart';
 import 'package:job_board_app/model/user_model.dart';
-import 'package:job_board_app/services/application/application_service.dart';
 import 'package:job_board_app/services/session/session_services.dart';
 import '../../model/company_model.dart';
 import '../../utils/utils.dart';
@@ -29,8 +29,21 @@ class _SuperAdminApplicationDetailsScreenState extends State<SuperAdminApplicati
     super.initState();
   }
 
+  DateTime millisecondsToUtc(int millisecondsSinceEpoch) {
+    // Convert milliseconds to microseconds
+    int microsecondsSinceEpoch = millisecondsSinceEpoch * 1000;
+    // Create DateTime object with UTC timezone
+    DateTime utcDateTime = DateTime.fromMicrosecondsSinceEpoch(
+        microsecondsSinceEpoch, isUtc: false);
+    return utcDateTime;
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    int milliseconds = int.parse(widget.applicationModel.createdAt);
+    print('milliseconds $milliseconds');
+    DateTime utcTime = millisecondsToUtc(milliseconds);
     return Scaffold(
       appBar: AppBar(title: const Text("Application Details")),
       body: Column(
@@ -102,6 +115,9 @@ class _SuperAdminApplicationDetailsScreenState extends State<SuperAdminApplicati
                   'Phone Number: ${widget.userModel.phoneNumber}',
                   style: const TextStyle(color: Colors.black,fontSize: 16),
                 ),
+                SizedBox(height: Utils.scrHeight * .02),
+                Text('Applied on: ${DateFormat('dd-MMM-yyyy HH:mm a').format(utcTime)}',
+                    style: const TextStyle(color: Colors.black, fontSize: 16)),
                 SizedBox(height: Utils.scrHeight * .02),
 
                 // Divider

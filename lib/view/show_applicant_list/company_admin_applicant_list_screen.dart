@@ -77,6 +77,7 @@ class _ShowApplicantListState extends State<ShowApplicantList> {
 
                   allApplications = snapshot.data ?? [];
 
+
                   List<ApplicationModel> filteredApplications =
                       filterApplicationsByStatus(allApplications);
 
@@ -86,6 +87,7 @@ class _ShowApplicantListState extends State<ShowApplicantList> {
                           itemBuilder: (context, index) {
                             ApplicationModel application =
                                 filteredApplications[index];
+                            print('application' + application.createdAt);
                             return StreamBuilder<List<UserModel>>(
                               stream: ApplicationService.getUserInfo(
                                 application.userId,

@@ -38,7 +38,7 @@ class _SuperAdminAllApplicationScreenState extends State<SuperAdminAllApplicatio
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: Utils.scrHeight * .015),
+              padding: EdgeInsets.symmetric(horizontal: Utils.scrHeight * .015,vertical: Utils.scrHeight * .018,),
               child: Row(
                 children: [
                   Expanded(
