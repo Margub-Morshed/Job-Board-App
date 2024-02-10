@@ -126,7 +126,7 @@ class _CompanyApplicationDetailsScreenState
                     style:
                         const TextStyle(color: Colors.black87, fontSize: 16)),
                 SizedBox(height: Utils.scrHeight * .02),
-                Text('Applied on: ${DateFormat('dd-MMM-yyyy HH:mm a').format(utcTime)}',
+                Text('Applied on: ${DateFormat('dd-MMM-yyyy hh:mm a').format(utcTime)}',
                     style: const TextStyle(color: Colors.black, fontSize: 16)),
                 SizedBox(height: Utils.scrHeight * .02),
 
