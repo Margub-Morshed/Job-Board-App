@@ -6,6 +6,7 @@ import 'package:job_board_app/model/application_model.dart';
 import 'package:job_board_app/model/job_post_model.dart';
 import 'package:job_board_app/services/application/application_service.dart';
 import 'package:job_board_app/services/session/session_services.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../utils/utils.dart';
 import '../common_widgets/custom_textfield.dart';
@@ -39,6 +40,8 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
   String? _path;
 
   String? downloadRef = '';
+
+  bool isUploading = false;
 
   // the function for open pdf from storage
 
@@ -129,7 +132,16 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
                   maxLines: 3, controller: massageController, label: "Massage"),
 
               const SizedBox(height: 30),
-              DottedContainer(onTap: () => _openFileExplorer(),fileName: _fileName,),
+              DottedContainer(onTap: () async{
+                Map<Permission, PermissionStatus> statuses = await [
+                Permission.storage,
+                    Permission.camera,
+                ].request();
+                if(statuses[Permission.storage]!.isGranted || statuses[Permission.camera]!.isGranted){
+                _openFileExplorer();
+                } else {
+
+                }}, fileName: _fileName,isLoading: isUploading,),
 
               const SizedBox(height: 30),
               _buildJobPostButton(),
@@ -145,6 +157,7 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
 
   void _openFileExplorer() async {
     try {
+      isUploading = true;
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['pdf'],
@@ -158,9 +171,12 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
           print('filename $_fileName');
           print('filepath $_path');
         });
-        setState(() async{
           downloadRef = await ApplicationService.uploadApplicationCV(File(_path!));
+        print(downloadRef);
+        setState(() {
+          isUploading = false;
         });
+        Utils.showSnackBar(context, 'Cv Uploded');
       } else {
         // User canceled the picker
       }

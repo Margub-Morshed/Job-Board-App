@@ -1,7 +1,6 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';
 import 'package:job_board_app/model/application_model.dart';
 import 'package:job_board_app/model/user_model.dart';
@@ -222,7 +221,7 @@ class _CompanyApplicationDetailsScreenState
 
   void startDownloading() async {
      String url = widget.applicationModel.cv;
-     String fileName = "CV_${widget.userModel.username}.pdf";
+     String fileName = "CV_${widget.userModel.username}_${widget.applicationModel.id}.pdf";
 
     String path = await _getFilePath(fileName);
 
@@ -252,7 +251,9 @@ class _CompanyApplicationDetailsScreenState
 
   Future<String> _getFilePath(String filename) async {
     final dir = await getExternalStorageDirectory();
+    print('directory : $dir');
     return "${dir!.path}/$filename";
+
   }
 
   Container _massageContainer() {
