@@ -1,12 +1,18 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';
 import 'package:job_board_app/model/application_model.dart';
 import 'package:job_board_app/model/user_model.dart';
 import 'package:job_board_app/services/application/application_service.dart';
 import 'package:job_board_app/services/session/session_services.dart';
+import 'package:job_board_app/view/pdf_viewer/pdf_viewer_screen.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../model/company_model.dart';
 import '../../utils/utils.dart';
+import 'package:dio/dio.dart';
+
 
 class CompanyApplicationDetailsScreen extends StatefulWidget {
   final String tag;
@@ -28,6 +34,7 @@ class _CompanyApplicationDetailsScreenState
     extends State<CompanyApplicationDetailsScreen> {
   late String selectedStatus;
   CompanyModel? company = SessionManager.companyModel;
+  Dio dio = Dio();
 
   @override
   void initState() {
@@ -40,16 +47,13 @@ class _CompanyApplicationDetailsScreenState
     int microsecondsSinceEpoch = millisecondsSinceEpoch * 1000;
     // Create DateTime object with UTC timezone
     DateTime utcDateTime = DateTime.fromMicrosecondsSinceEpoch(
-        microsecondsSinceEpoch, isUtc: false);
+        microsecondsSinceEpoch,
+        isUtc: false);
     return utcDateTime;
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-
     print('createdAt ${widget.applicationModel.createdAt}');
 
     int milliseconds = int.parse(widget.applicationModel.createdAt);
@@ -126,7 +130,8 @@ class _CompanyApplicationDetailsScreenState
                     style:
                         const TextStyle(color: Colors.black87, fontSize: 16)),
                 SizedBox(height: Utils.scrHeight * .02),
-                Text('Applied on: ${DateFormat('dd-MMM-yyyy hh:mm a').format(utcTime)}',
+                Text(
+                    'Applied on: ${DateFormat('dd-MMM-yyyy hh:mm a').format(utcTime)}',
                     style: const TextStyle(color: Colors.black, fontSize: 16)),
                 SizedBox(height: Utils.scrHeight * .02),
 
@@ -141,19 +146,9 @@ class _CompanyApplicationDetailsScreenState
                       fontWeight: FontWeight.w700,
                     )),
                 SizedBox(height: Utils.scrHeight * .02),
-                Container(
-                  padding:
-                  const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.white),
-                  child: Text(
-                    widget.applicationModel.message,
-                    style: const TextStyle(
-                        fontSize: 15, color: Colors.black54, height: 2.2),
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
+                _massageContainer(),
+                SizedBox(height: Utils.scrHeight * .02),
+                _CVButton(context)
               ],
             ),
           ),
@@ -161,6 +156,115 @@ class _CompanyApplicationDetailsScreenState
           // BottomBar for change Company Status
           _bottomBar(context),
         ],
+      ),
+    );
+  }
+
+  Row _CVButton(BuildContext context) {
+    return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      if(widget.applicationModel.cv.isEmpty){
+                        Utils.showSnackBar(context, 'CV Not Found');
+                      }else{
+                      Utils.navigateTo(context, PdfViewerScreen(pdfUrl: widget.applicationModel.cv, userName : widget.userModel.name));
+                      }
+                    },
+                    style: const ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Color(0xff5872de)),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: Utils.scrHeight * .005,
+                          horizontal: Utils.scrHeight * .01),
+                      child: Text(
+                        'View Cv',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: Utils.scrHeight * .020,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async{
+                      if(widget.applicationModel.cv.isEmpty){
+                        Utils.showSnackBar(context, 'CV Not Found');
+                      }else{
+                        startDownloading();
+                      }
+                    },
+                    style: const ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Color(0xff5872de)),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: Utils.scrHeight * .005,
+                          horizontal: Utils.scrHeight * .01),
+                      child: Text(
+                        'DownLoad Cv',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: Utils.scrHeight * .020,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+  }
+
+  void startDownloading() async {
+     String url = widget.applicationModel.cv;
+     String fileName = "CV_${widget.userModel.username}.pdf";
+
+    String path = await _getFilePath(fileName);
+
+    print('path $path');
+
+    await dio.download(
+      url,
+      path,
+      // onReceiveProgress: (recivedBytes, totalBytes) {
+      //   setState(() {
+      //     progress = (recivedBytes / totalBytes).clamp(0.0, 1.0);
+      //   });
+      //   print(progress);
+      // }
+      // ,
+      deleteOnError: true,
+    ).then((_) async {
+      // Save the image to the gallery
+      // final result = await ImageGallerySaver.saveFile(path);
+      // print('Image saved to gallery: $result');
+      Utils.showSnackBar(context, 'Downloaded Successfully');
+      // Close the dialog
+      // Navigator.pop(context);
+    });
+  }
+
+
+  Future<String> _getFilePath(String filename) async {
+    final dir = await getExternalStorageDirectory();
+    return "${dir!.path}/$filename";
+  }
+
+  Container _massageContainer() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12), color: Colors.white),
+      child: Text(
+        widget.applicationModel.message,
+        style:
+            const TextStyle(fontSize: 15, color: Colors.black54, height: 2.2),
+        textAlign: TextAlign.justify,
       ),
     );
   }

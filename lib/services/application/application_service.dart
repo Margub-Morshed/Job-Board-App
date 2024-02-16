@@ -1,4 +1,8 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:job_board_app/model/user_model.dart';
 import '../../model/application_model.dart';
 import '../../utils/utils.dart';
@@ -13,6 +17,7 @@ class ApplicationService {
     try {
       // Generate a new document with a unique ID
       applicantModel.id = Utils.generateUniqueId();
+      applicantModel.cv = downloadRef;
 
       await applicationCollection
           .doc(applicantModel.id)
@@ -83,6 +88,7 @@ class ApplicationService {
           .toList();
     });
   }
+
   // Stream method to get applications for a specific user
   static Stream<List<ApplicationModel>> getApplicationsForCompanyAdmin(String companyId) {
     return Utils.applicationsRef
@@ -134,4 +140,33 @@ class ApplicationService {
       print('Error updating company status: $e');
     }
   }
+
+
+  static Future<String> uploadApplicationCV(File file) async {
+    try {
+      //getting image file extension
+      final ext = file.path.split('.').last;
+      log('Extension: $ext');
+
+      //storage file ref with path
+      final ref = Utils.firestorage.ref().child(
+          'CV//${DateTime.now().millisecondsSinceEpoch.toString()}.$ext');
+
+      //uploading image
+      await ref
+          .putFile(file)
+          .then((p0) {
+        log('Data Transferred: ${p0.bytesTransferred / 1000} kb');
+      });
+
+      //updating image in firestore database
+      downloadRef = await ref.getDownloadURL();
+      return downloadRef;
+    } catch (e) {
+      print("Error updating profile: $e");
+      throw e;
+    }
+  }
+
+
 }

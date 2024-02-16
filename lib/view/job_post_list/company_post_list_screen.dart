@@ -26,24 +26,7 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        title: const Text('My Job Post'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(onPressed: (){
-              Utils.navigateTo(context, const InputScreen());
-            }, icon: const Icon(Icons.add, color: Color(0xff5872de),size: 30,)),
-          )
-        ],
-        leading: IconButton(
-          onPressed: () {
-            Utils.navigateReplaceTo(context, const CompanyAdminHomeScreen());
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
-      ),
+      appBar: _appBar(context),
       body: StreamBuilder<List<JobPostModel>>(
         stream:
             JobService.getJobPostsByCompanyId(SessionManager.companyModel!.id),
@@ -76,133 +59,162 @@ class _CompanyPostListScreenState extends State<CompanyPostListScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Search Bar
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: Utils.scrHeight * .055,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        child: Builder(
-                          builder: (BuildContext context) {
-                            return TextField(
-                              onChanged: (val) {
-                                _searchList.clear();
-                                _searchList.addAll(jobPosts
-                                    .where((jobPost) =>
-                                        jobPost.jobTitle
-                                            .toLowerCase()
-                                            .contains(val.toLowerCase()) ||
-                                        jobPost.email
-                                            .toLowerCase()
-                                            .contains(val.toLowerCase()) ||
-                                        jobPost.jobType
-                                            .toLowerCase()
-                                            .contains(val.toLowerCase()))
-                                    .toList());
-                                // Notify listeners without using setState
-                                _searchNotifier.value = !_searchNotifier.value;
-                              },
-                              controller: _searchController,
-                              decoration: const InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 2),
-                                hintText: 'Search',
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
-                                prefixIcon: Icon(Icons.search),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: Utils.scrHeight * .02),
-                    GestureDetector(
-                      onTap: () {
-                        Utils.navigateTo(context, const CompanyAdminFilterScreen());
-                      },
-                      child: Container(
-                        width: Utils.scrHeight * .050,
-                        height: Utils.scrHeight * .048,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(Utils.scrHeight * .01),
-                          color: const Color(0xff5872de),
-                        ),
-                        child: SizedBox(
-                          height: Utils.scrHeight * .01,
-                          width: Utils.scrHeight * .01,
-                          child: const Icon(Icons.filter_list_alt,
-                              color: Colors.white),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                _searchBar(jobPosts, context),
 
                 SizedBox(height: Utils.scrHeight * .02),
 
                 // Recent Job Post Section
-                Expanded(
-                  child: ValueListenableBuilder<bool>(
-                    valueListenable: _searchNotifier,
-                    builder: (context, _, __) {
-                      return _searchList.isNotEmpty
-                          ? ListView.builder(
-                              itemCount: _searchList.length,
-                              itemBuilder: (context, index) {
-                                JobPostModel jobPost = _searchList[index];
-                                return CompanyAdminRecentJobPost(
-                                  jobPostModel: jobPost,
-                                    onTap: () {
-                                      final tag = "${jobPost.id}_hero_tag";
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) =>
-                                            CompanyJobPostDetailsScreen(
-                                              jobPostModel: jobPost,
-                                              tag: tag,
-                                            ),
-                                      ));
-                                    }
-                                );
-                              },
-                            )
-                          : _searchController.text.isNotEmpty
-                              ? const Text("No matching jobs found")
-                              : ListView.builder(
-                                  itemCount: displayedJobPosts.length,
-                                  itemBuilder: (context, index) {
-                                    JobPostModel jobPost =
-                                        displayedJobPosts[index];
-                                    return CompanyAdminRecentJobPost(
-                                      jobPostModel: jobPost,
-                                        onTap: () {
-                                          final tag = "${jobPost.id}_hero_tag";
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                            builder: (context) =>
-                                                CompanyJobPostDetailsScreen(
-                                                  jobPostModel: jobPost,
-                                                  tag: tag,
-                                                ),
-                                          ));
-                                        }
-                                    );
-                                  },
-                                );
-                    },
-                  ),
-                ),
+                _jobPostCard(displayedJobPosts),
               ],
             ),
           );
         },
+      ),
+    );
+  }
+
+  Expanded _jobPostCard(List<JobPostModel> displayedJobPosts) {
+    return Expanded(
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: _searchNotifier,
+                  builder: (context, _, __) {
+                    return _searchList.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: _searchList.length,
+                            itemBuilder: (context, index) {
+                              JobPostModel jobPost = _searchList[index];
+                              return CompanyAdminRecentJobPost(
+                                jobPostModel: jobPost,
+                                  onTap: () {
+                                    final tag = "${jobPost.id}_hero_tag";
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          CompanyJobPostDetailsScreen(
+                                            jobPostModel: jobPost,
+                                            tag: tag,
+                                          ),
+                                    ));
+                                  }
+                              );
+                            },
+                          )
+                        : _searchController.text.isNotEmpty
+                            ? const Text("No matching jobs found")
+                            : ListView.builder(
+                                itemCount: displayedJobPosts.length,
+                                itemBuilder: (context, index) {
+                                  JobPostModel jobPost =
+                                      displayedJobPosts[index];
+                                  return CompanyAdminRecentJobPost(
+                                    jobPostModel: jobPost,
+                                      onTap: () {
+                                        final tag = "${jobPost.id}_hero_tag";
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) =>
+                                              CompanyJobPostDetailsScreen(
+                                                jobPostModel: jobPost,
+                                                tag: tag,
+                                              ),
+                                        ));
+                                      }
+                                  );
+                                },
+                              );
+                  },
+                ),
+              );
+  }
+
+  Row _searchBar(List<JobPostModel> jobPosts, BuildContext context) {
+    return Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: Utils.scrHeight * .055,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      child: Builder(
+                        builder: (BuildContext context) {
+                          return TextField(
+                            onChanged: (val) {
+                              _searchList.clear();
+                              _searchList.addAll(jobPosts
+                                  .where((jobPost) =>
+                                      jobPost.jobTitle
+                                          .toLowerCase()
+                                          .contains(val.toLowerCase()) ||
+                                      jobPost.email
+                                          .toLowerCase()
+                                          .contains(val.toLowerCase()) ||
+                                      jobPost.jobType
+                                          .toLowerCase()
+                                          .contains(val.toLowerCase()))
+                                  .toList());
+                              // Notify listeners without using setState
+                              _searchNotifier.value = !_searchNotifier.value;
+                            },
+                            controller: _searchController,
+                            decoration: const InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 2),
+                              hintText: 'Search',
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              prefixIcon: Icon(Icons.search),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: Utils.scrHeight * .02),
+                  GestureDetector(
+                    onTap: () {
+                      Utils.navigateTo(context, const CompanyAdminFilterScreen());
+                    },
+                    child: Container(
+                      width: Utils.scrHeight * .050,
+                      height: Utils.scrHeight * .048,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(Utils.scrHeight * .01),
+                        color: const Color(0xff5872de),
+                      ),
+                      child: SizedBox(
+                        height: Utils.scrHeight * .01,
+                        width: Utils.scrHeight * .01,
+                        child: const Icon(Icons.filter_list_alt,
+                            color: Colors.white),
+                      ),
+                    ),
+                  )
+                ],
+              );
+  }
+
+  AppBar _appBar(BuildContext context) {
+    return AppBar(
+      scrolledUnderElevation: 0,
+      title: const Text('My Job Post'),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: IconButton(onPressed: (){
+            Utils.navigateTo(context, const InputScreen());
+          }, icon: const Icon(Icons.add, color: Color(0xff5872de),size: 30,)),
+        )
+      ],
+      leading: IconButton(
+        onPressed: () {
+          Utils.navigateReplaceTo(context, const CompanyAdminHomeScreen());
+        },
+        icon: const Icon(Icons.arrow_back),
       ),
     );
   }
