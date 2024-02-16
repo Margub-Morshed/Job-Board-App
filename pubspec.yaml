@@ -46,6 +46,13 @@ dependencies:
   glassmorphism: ^3.0.0
   svg_flutter:
   fl_chart:
+  image_gallery_saver: ^2.0.3
+  path_provider:
+  dotted_border: ^2.0.0+3
+  permission_handler:
+  file_picker: ^6.1.1
+  syncfusion_flutter_pdfviewer: ^24.2.6
+  dio:
 
 dev_dependencies:
   flutter_test:

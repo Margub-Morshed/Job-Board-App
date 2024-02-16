@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/model/application_model.dart';
 import 'package:job_board_app/model/job_post_model.dart';
@@ -6,6 +9,7 @@ import 'package:job_board_app/services/session/session_services.dart';
 
 import '../../utils/utils.dart';
 import '../common_widgets/custom_textfield.dart';
+import '../common_widgets/dotted_container.dart';
 import '../home/job_seeker_home_screen.dart';
 
 class ApplicationScreen extends StatefulWidget {
@@ -30,6 +34,15 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
   final TextEditingController salaryController = TextEditingController();
   final TextEditingController massageController = TextEditingController();
 
+  String? _fileName;
+
+  String? _path;
+
+  String? downloadRef = '';
+
+  // the function for open pdf from storage
+
+
   @override
   void initState() {
     jobTitleController.text = widget.jobPostModel.jobTitle;
@@ -43,6 +56,7 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
     ApplicationModel applicantModel = createApplicationModel();
     print("application: " + applicantModel.toString());
 
+
     await fireStoreService.addApplication(applicantModel).then((value) =>
         Utils.showSnackBar(context, 'Application Submit Successfully'));
     Utils.navigateTo(context, const JobSeekerHomeScreen());
@@ -55,7 +69,7 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
       jobPost: widget.jobPostModel.id,
       message: massageController.text,
       expectedSalary: salaryController.text,
-      cv: '',
+      cv: downloadRef.toString(),
       status: 'Pending',
     );
   }
@@ -115,6 +129,9 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
                   maxLines: 3, controller: massageController, label: "Massage"),
 
               const SizedBox(height: 30),
+              DottedContainer(onTap: () => _openFileExplorer(),fileName: _fileName,),
+
+              const SizedBox(height: 30),
               _buildJobPostButton(),
 
               const SizedBox(height: 30),
@@ -123,6 +140,33 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
         ),
       ),
     );
+  }
+
+
+  void _openFileExplorer() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
+      );
+
+      if (result != null) {
+        setState(() {
+          // pick the file and save the path
+          _fileName = result.files.single.name;
+          _path = result.files.single.path;
+          print('filename $_fileName');
+          print('filepath $_path');
+        });
+        setState(() async{
+          downloadRef = await ApplicationService.uploadApplicationCV(File(_path!));
+        });
+      } else {
+        // User canceled the picker
+      }
+    } catch (e) {
+      print("Error while picking the file: $e");
+    }
   }
 
   Widget _buildJobPostButton() {
