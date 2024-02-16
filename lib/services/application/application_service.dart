@@ -17,7 +17,6 @@ class ApplicationService {
     try {
       // Generate a new document with a unique ID
       applicantModel.id = Utils.generateUniqueId();
-      applicantModel.cv = downloadRef;
 
       await applicationCollection
           .doc(applicantModel.id)

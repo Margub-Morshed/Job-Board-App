@@ -12,8 +12,9 @@ import '../../utils/utils.dart';
 class DottedContainer extends StatelessWidget {
   final VoidCallback? onTap;
   final String? fileName;
+  final bool? isLoading;
 
-  const DottedContainer({Key? key, this.onTap, this.fileName}) : super(key: key);
+  const DottedContainer({Key? key, this.onTap, this.fileName, this.isLoading = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class DottedContainer extends StatelessWidget {
                   borderRadius:
                   BorderRadius.circular(Utils.scrHeight * .012), // Inner Radius
                 ),
-                child: Row(
+                child: isLoading! ? const Center(child: CircularProgressIndicator()) : Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
