@@ -5,6 +5,7 @@ import 'package:job_board_app/view/home/super_admin_home_screen.dart';
 import 'package:job_board_app/view/super_admin_job_post_list/super_admin_job_post_screen.dart';
 
 import '../../../services/auth/auth_service.dart';
+import '../../../services/login_session/login_session.dart';
 import '../../../services/session/session_services.dart';
 import '../../../utils/utils.dart';
 import '../../login/login_screen.dart';
@@ -111,6 +112,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
             InkWell(
               onTap: (){
                 AuthService.signOut().then((value) {
+                  LoginSession.clearSessionData();
                   Utils.navigateReplaceTo(context, const LoginScreen());
                   Utils.showSnackBar(context, 'Successfully Log OUt');
                 });

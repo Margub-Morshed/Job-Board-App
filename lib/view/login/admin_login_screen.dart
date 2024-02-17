@@ -19,6 +19,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isObscure = true;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +88,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
         backgroundColor: MaterialStatePropertyAll(Color(0xff5872de)),
       ),
       onPressed: () async {
+        setState(() {
+          isLoading = true;
+        });
         User? user = await AuthService.adminSignInWithEmailAndPassword(
                 _emailController.text.trim(),
                 _passwordController.text.trim(),
@@ -94,6 +98,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
             .then((value) {
           if (value != null) {
             SessionManager.setSuperAdminModel(value);
+            setState(() {
+              isLoading = false;
+            });
             print(value.toString());
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
@@ -103,17 +110,17 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
           } else {
             Utils.showSnackBar(context, "Admin Login Screen Problem Occurred!");
           }
+          return null;
         });
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: Utils.scrHeight * .015),
-        child: Text(
+        child: !isLoading ? Text(
           'Log In',
           style: TextStyle(
               color: Colors.white,
-              fontSize: Utils.scrHeight * .022,
-              fontWeight: FontWeight.w400),
-        ),
+              fontSize: Utils.scrHeight * .022, fontWeight: FontWeight.w400),
+        ) : const Center(child: CircularProgressIndicator(color: Colors.white,),),
       ),
     );
   }

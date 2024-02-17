@@ -65,57 +65,61 @@ class _SuperAdminJobPostScreenState extends State<SuperAdminJobPostScreen> {
                     style:
                     TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
                 SizedBox(height: Utils.scrHeight * .02),
-                Expanded(
-                  child: ValueListenableBuilder<bool>(
-                    valueListenable: _searchNotifier,
-                    builder: (context, _, __) {
-                      return _searchList.isNotEmpty
-                          ? ListView.builder(
-                        itemCount: _searchList.length,
-                        itemBuilder: (context, index) {
-                          JobPostModel jobPost = _searchList[index];
-                          return CompanyAdminRecentJobPost(
-                            jobPostModel: jobPost,
-                            onTap: () {
-                              final tag = "${jobPost.id}_hero_tag";
-                              Utils.navigateTo(
-                                context,
-                                SuperAdminJobPostDetailsScreen(
-                                    jobPostModel: jobPost, tag: tag),
-                              );
-                            },
-                          );
-                        },
-                      )
-                          : _searchController.text.isNotEmpty
-                          ? const Text("No matching jobs found")
-                          : ListView.builder(
-                        itemCount: displayedJobPosts.length,
-                        itemBuilder: (context, index) {
-                          JobPostModel jobPost =
-                          displayedJobPosts[index];
-                          return CompanyAdminRecentJobPost(
-                            jobPostModel: jobPost,
-                            onTap: () {
-                              final tag = "${jobPost.id}_hero_tag";
-                              Utils.navigateTo(
-                                context,
-                                SuperAdminJobPostDetailsScreen(
-                                    jobPostModel: jobPost, tag: tag),
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
+                _jobPostCard(displayedJobPosts),
               ],
             ),
           );
         },
       ),
     );
+  }
+
+  Expanded _jobPostCard(List<JobPostModel> displayedJobPosts) {
+    return Expanded(
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: _searchNotifier,
+                  builder: (context, _, __) {
+                    return _searchList.isNotEmpty
+                        ? ListView.builder(
+                      itemCount: _searchList.length,
+                      itemBuilder: (context, index) {
+                        JobPostModel jobPost = _searchList[index];
+                        return CompanyAdminRecentJobPost(
+                          jobPostModel: jobPost,
+                          onTap: () {
+                            final tag = "${jobPost.id}_hero_tag";
+                            Utils.navigateTo(
+                              context,
+                              SuperAdminJobPostDetailsScreen(
+                                  jobPostModel: jobPost, tag: tag),
+                            );
+                          },
+                        );
+                      },
+                    )
+                        : _searchController.text.isNotEmpty
+                        ? const Text("No matching jobs found")
+                        : ListView.builder(
+                      itemCount: displayedJobPosts.length,
+                      itemBuilder: (context, index) {
+                        JobPostModel jobPost =
+                        displayedJobPosts[index];
+                        return CompanyAdminRecentJobPost(
+                          jobPostModel: jobPost,
+                          onTap: () {
+                            final tag = "${jobPost.id}_hero_tag";
+                            Utils.navigateTo(
+                              context,
+                              SuperAdminJobPostDetailsScreen(
+                                  jobPostModel: jobPost, tag: tag),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              );
   }
 }
 

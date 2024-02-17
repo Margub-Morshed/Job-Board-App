@@ -2,8 +2,6 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:job_board_app/model/job_post_model.dart';
-import 'package:job_board_app/services/session/session_services.dart';
-import '../../../../services/favorite/favorite_service.dart';
 import '../../../../utils/utils.dart';
 
 class CompanyAdminRecentJobPost extends StatefulWidget {
@@ -69,9 +67,14 @@ class _CompanyAdminRecentJobPostState extends State<CompanyAdminRecentJobPost> {
                       child: Hero(
                         tag: tag,
                         transitionOnUserGestures: true,
-                        child: CachedNetworkImage(
+                        child: (widget.jobPostModel.image != '' || widget.jobPostModel.image!.isNotEmpty)? CachedNetworkImage(
                           imageUrl: widget.jobPostModel.image ??
                               Utils.flutterDefaultImg,
+                          width: 120,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        ) : CachedNetworkImage(
+                          imageUrl: Utils.flutterDefaultImg,
                           width: 120,
                           height: double.infinity,
                           fit: BoxFit.cover,

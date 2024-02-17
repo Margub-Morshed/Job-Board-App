@@ -153,8 +153,12 @@ class ProfileImage extends StatelessWidget {
         child: Hero(
           transitionOnUserGestures: true,
           tag: imageName.toString(),
-          child: CachedNetworkImage(
+          child: (imageUrl!.isNotEmpty || imageUrl != '') ? CachedNetworkImage(
             imageUrl: imageUrl ?? Utils.flutterDefaultImg,
+            fit: BoxFit.fill,
+            height: double.infinity,
+          ) : CachedNetworkImage(
+            imageUrl: Utils.flutterDefaultImg,
             fit: BoxFit.fill,
             height: double.infinity,
           ),

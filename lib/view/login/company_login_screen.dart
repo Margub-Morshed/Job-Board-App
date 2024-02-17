@@ -18,6 +18,7 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isObscure = true;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +86,9 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
       style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Color(0xff5872de)),
       ),
       onPressed: () async {
+        setState(() {
+          isLoading = true;
+        });
         User? user = await AuthService.companySignInWithEmailAndPassword(
             _emailController.text.trim(),
             _passwordController.text.trim(),
@@ -92,20 +96,26 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
             .then((value) {
           if (value != null) {
             SessionManager.setCompanyModel(value);
+            setState(() {
+              isLoading = false;
+            });
             Utils.navigateTo(context, const CompanyAdminHomeScreen());
           } else {
+            setState(() {
+              isLoading = false;
+            });
             Utils.showSnackBar(context, "Error Occurred At: Company Login Screen");
           }
         });
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: Utils.scrHeight * .015),
-        child: Text(
+        child: !isLoading ? Text(
           'Log In',
           style: TextStyle(
-            color: Colors.white,
+              color: Colors.white,
               fontSize: Utils.scrHeight * .022, fontWeight: FontWeight.w400),
-        ),
+        ) : const Center(child: CircularProgressIndicator(color: Colors.white,),),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:job_board_app/model/user_model.dart';
 
 import '../../model/company_model.dart';
 import '../../model/super_admin_model.dart';
+import '../login_session/login_session.dart';
 
 class SessionManager {
   static CompanyModel? _companyModel; // Change this to Company if needed
@@ -20,14 +21,20 @@ class SessionManager {
 
   static setCompanyModel(CompanyModel companyModel) {
     _companyModel = companyModel;
+    LoginSession.saveSessionData(companyModel.role);
+    print(LoginSession.getRole());
   }
 
   static setUserModel(UserModel userModel) {
     _userModel = userModel;
+    LoginSession.saveSessionData(userModel.role);
+    print(LoginSession.getRole());
   }
 
   static setSuperAdminModel(SuperAdminModel superAdminModel) {
     _superAdminModel = superAdminModel;
+    LoginSession.saveSessionData(superAdminModel.role);
+    print(LoginSession.getRole());
   }
 
   static void resetCompanyModel() {

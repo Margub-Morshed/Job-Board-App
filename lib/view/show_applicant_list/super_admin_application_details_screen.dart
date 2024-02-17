@@ -68,8 +68,13 @@ class _SuperAdminApplicationDetailsScreenState extends State<SuperAdminApplicati
                   transitionOnUserGestures: true,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(Utils.scrHeight * .02),
-                      child: CachedNetworkImage(
+                      child: (widget.userModel.userAvatar!.isNotEmpty || widget.userModel.userAvatar == null) ? CachedNetworkImage(
                         imageUrl: widget.userModel.userAvatar!,
+                        width: double.infinity,
+                        height: Utils.scrHeight * .180,
+                        fit: BoxFit.cover,
+                      ) : CachedNetworkImage(
+                        imageUrl: Utils.flutterDefaultImg,
                         width: double.infinity,
                         height: Utils.scrHeight * .180,
                         fit: BoxFit.cover,
