@@ -35,6 +35,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     super.initState();
   }
 
+  void clearUserTextFiled(){
+    _emailController.clear();
+    _passwordController.clear();
+    _confirmPassController.clear();
+    _userNameController.clear();
+    _fullNameController.clear();
+  }
+  void clearCompanyTextFiled(){
+    _companyEmailController.clear();
+    _passwordController.clear();
+    _confirmPassController.clear();
+    _companyNameController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,8 +137,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
           if (selectedRole == userRoles.last) {
             model = _createUserModel();
+            clearUserTextFiled();
           } else if (selectedRole == userRoles.first) {
             model = _createCompanyModel();
+            clearCompanyTextFiled();
           }
 
           await AuthService.signUpWithEmailAndPassword(
@@ -347,6 +363,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _confirmPassController.dispose();
     _fullNameController.dispose();
     _companyEmailController.dispose();
+    _companyNameController.dispose();
     super.dispose();
   }
 
