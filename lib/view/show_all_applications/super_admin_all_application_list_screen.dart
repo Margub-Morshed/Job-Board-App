@@ -292,8 +292,13 @@ class ProfileImage extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
-          child: CachedNetworkImage(
-            imageUrl: imageUrl ?? '',
+          child: (imageUrl!.isNotEmpty || imageUrl == null) ? CachedNetworkImage(
+            imageUrl:  imageUrl ?? Utils.flutterDefaultImg,
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: 100,
+          ) : CachedNetworkImage(
+            imageUrl: Utils.flutterDefaultImg,
             fit: BoxFit.cover,
             height: double.infinity,
             width: 100,

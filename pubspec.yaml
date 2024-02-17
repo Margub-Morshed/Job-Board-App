@@ -53,6 +53,7 @@ dependencies:
   file_picker: ^6.1.1
   syncfusion_flutter_pdfviewer: ^24.2.6
   dio:
+  shared_preferences: 
 
 dev_dependencies:
   flutter_test:

@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isObscure = true;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +103,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
+        setState(() {
+          isLoading = true;
+        });
         User? user = await AuthService.signInWithEmailAndPassword(
                 _emailController.text.trim(),
                 _passwordController.text.trim(),
@@ -109,11 +113,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 context)
             .then((value) {
           if (value != null) {
+            setState(() {
+              isLoading = false;
+            });
             SessionManager.setUserModel(value);
             Utils.navigateTo(context, const JobSeekerHomeScreen());
           } else {
+            setState(() {
+              isLoading = false;
+            });
             Utils.showSnackBar(context, "Error Occurred At: Login Screen");
           }
+          return null;
         });
       },
       style: const ButtonStyle(
@@ -121,12 +132,12 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: Utils.scrHeight * .015),
-        child: Text(
+        child: !isLoading ? Text(
           'Log In',
           style: TextStyle(
             color: Colors.white,
               fontSize: Utils.scrHeight * .022, fontWeight: FontWeight.w400),
-        ),
+        ) : const Center(child: CircularProgressIndicator(color: Colors.white,),),
       ),
     );
   }

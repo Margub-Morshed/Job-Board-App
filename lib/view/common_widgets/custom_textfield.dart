@@ -33,12 +33,13 @@ class CustomTextField extends StatelessWidget {
           label: Text(
             label,
             style: const TextStyle(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
                 fontSize: 16,
-                color: Color(0xff1E1F20)),
+                color: Color(0xff1E1F20)
+            ),
           ),
           hintStyle: const TextStyle(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
               fontSize: 16,
               color: Color(0xff1E1F20))),
     );

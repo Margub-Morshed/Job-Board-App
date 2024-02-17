@@ -48,8 +48,13 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                   child: ClipRRect(
                       borderRadius:
                           BorderRadius.circular(Utils.scrHeight * .02),
-                      child: CachedNetworkImage(
+                      child: (widget.company.logoImage!.isNotEmpty || widget.company.logoImage != '') ? CachedNetworkImage(
                         imageUrl: widget.company.logoImage!,
+                        width: double.infinity,
+                        height: Utils.scrHeight * .25,
+                        fit: BoxFit.cover,
+                      ) : CachedNetworkImage(
+                        imageUrl: Utils.flutterDefaultImg,
                         width: double.infinity,
                         height: Utils.scrHeight * .25,
                         fit: BoxFit.cover,

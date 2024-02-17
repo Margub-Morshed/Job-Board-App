@@ -46,13 +46,19 @@ class _CompanyJobPostDetailsScreenState extends State<CompanyJobPostDetailsScree
                   child: ClipRRect(
                       borderRadius:
                       BorderRadius.circular(Utils.scrHeight * .02),
-                      child: CachedNetworkImage(
+                      child: (widget.jobPostModel.image != '' || widget.jobPostModel.image!.isNotEmpty) ? CachedNetworkImage(
                         imageUrl: widget.jobPostModel.image ??
                             Utils.flutterDefaultImg,
                         width: double.infinity,
                         height: Utils.scrHeight * .25,
                         fit: BoxFit.cover,
-                      )),
+                      ) : CachedNetworkImage(
+                        imageUrl: Utils.flutterDefaultImg,
+                        width: double.infinity,
+                        height: Utils.scrHeight * .25,
+                        fit: BoxFit.cover,
+                      )
+                  ),
                 ),
                 SizedBox(height: Utils.scrHeight * .02),
 

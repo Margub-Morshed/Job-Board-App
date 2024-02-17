@@ -43,8 +43,8 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
 
   bool isUploading = false;
 
-  // the function for open pdf from storage
 
+  // the function for open pdf from storage
 
   @override
   void initState() {
@@ -58,7 +58,6 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
   void _pushData() async {
     ApplicationModel applicantModel = createApplicationModel();
     print("application: " + applicantModel.toString());
-
 
     await fireStoreService.addApplication(applicantModel).then((value) =>
         Utils.showSnackBar(context, 'Application Submit Successfully'));
@@ -132,16 +131,20 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
                   maxLines: 3, controller: massageController, label: "Massage"),
 
               const SizedBox(height: 30),
-              DottedContainer(onTap: () async{
-                Map<Permission, PermissionStatus> statuses = await [
-                Permission.storage,
+              DottedContainer(
+                onTap: () async {
+                  Map<Permission, PermissionStatus> statuses = await [
+                    Permission.storage,
                     Permission.camera,
-                ].request();
-                if(statuses[Permission.storage]!.isGranted || statuses[Permission.camera]!.isGranted){
-                _openFileExplorer();
-                } else {
-
-                }}, fileName: _fileName,isLoading: isUploading,),
+                  ].request();
+                  if (statuses[Permission.storage]!.isGranted ||
+                      statuses[Permission.camera]!.isGranted) {
+                    _openFileExplorer();
+                  } else {}
+                },
+                fileName: _fileName,
+                isLoading: isUploading,
+              ),
 
               const SizedBox(height: 30),
               _buildJobPostButton(),
@@ -153,7 +156,6 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
       ),
     );
   }
-
 
   void _openFileExplorer() async {
     try {
@@ -171,7 +173,8 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
           print('filename $_fileName');
           print('filepath $_path');
         });
-          downloadRef = await ApplicationService.uploadApplicationCV(File(_path!));
+        downloadRef =
+            await ApplicationService.uploadApplicationCV(File(_path!));
         print(downloadRef);
         setState(() {
           isUploading = false;
@@ -187,7 +190,53 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
 
   Widget _buildJobPostButton() {
     return ElevatedButton(
-      onPressed: () => _pushData(),
+      onPressed: () {
+        if (downloadRef!.isNotEmpty) {
+          _pushData();
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text(
+                  'Unable To Submit Application',
+                  style: TextStyle(fontSize: 18),
+                ),
+                content: Container(
+                  height: 100,
+                  child: const Column(
+                    children: [
+                      Icon(Icons.warning,color: Colors.red,size: 50,),
+                      Text(
+                          'Please ensure that you include a Curriculum Vitae (CV).')
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(0xff5872de)),
+                    child: TextButton(
+                      child: const Text(
+                        'OK',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+          // Utils.showSnackBar(context, "Please ensure that you include a Curriculum Vitae (CV) as part of your application submission.");
+        }
+      },
       style: const ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(Color(0xff5872de)),
       ),
