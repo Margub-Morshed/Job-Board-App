@@ -6,21 +6,22 @@ import 'package:job_board_app/view/common_widgets/job_seeker_drawer/job_seeker_d
 import 'package:job_board_app/view/filter/job_seeker_filter_screen.dart';
 import 'package:job_board_app/view/home/new_widget/new_recent_job_post.dart';
 import 'package:job_board_app/view/job_post_details/job_post_details_screen.dart';
-import '../../model/job_post_model.dart';
-import '../../services/job_post/job_post_service.dart';
-import '../../utils/constants.dart';
-import '../../utils/utils.dart';
-import '../job_post_details/new_screen/new_job_post_details_screen.dart';
-import 'widget/job_seeker/recommended_post.dart';
+import '../../../model/job_post_model.dart';
+import '../../../services/job_post/job_post_service.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/utils.dart';
+import '../../job_post_details/new_screen/new_job_post_details_screen.dart';
+import '../widget/job_seeker/recommended_post.dart';
 
-class JobSeekerHomeScreen extends StatefulWidget {
-  const JobSeekerHomeScreen({Key? key}) : super(key: key);
+
+class NewJobSeekerHomeScreen extends StatefulWidget {
+  const NewJobSeekerHomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<JobSeekerHomeScreen> createState() => _JobSeekerHomeScreenState();
+  State<NewJobSeekerHomeScreen> createState() => _NewJobSeekerHomeScreenState();
 }
 
-class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
+class _NewJobSeekerHomeScreenState extends State<NewJobSeekerHomeScreen> {
   final JobService jobService = JobService();
   final TextEditingController _searchController = TextEditingController();
   final List<JobPostModel> _searchList = [];
@@ -342,43 +343,6 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
     );
   }
 
-  AppBar _buildAppBar() {
-    return AppBar(
-                title: const Text('Jobs'),
-                centerTitle: true,
-                leading: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 12),
-                  child: isDrawerOpen
-                      ? GestureDetector(
-                          child: Image.asset(
-                            'assets/icons/close_drawer.png',
-                            height: 16,
-                            width: 16,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              xOffset = 0;
-                              yOffset = 0;
-                              isDrawerOpen = false;
-                            });
-                          },
-                        )
-                      : GestureDetector(
-                          child: Image.asset(
-                            'assets/icons/drawer.png',
-                            height: 16,
-                            width: 16,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              xOffset = 320;
-                              yOffset = 80;
-                              isDrawerOpen = true;
-                            });
-                          },
-                        ),
-                ));
-  }
 }
 
 class CustomSearchBar extends StatelessWidget {

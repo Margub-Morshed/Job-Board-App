@@ -124,4 +124,5 @@ class Utils {
     child: Image.asset("assets/images/no_result.png",
         fit: BoxFit.cover, height: scrHeight * .5, width: scrHeight * .5),
   );
+
 }

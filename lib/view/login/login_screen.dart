@@ -8,6 +8,7 @@ import 'package:job_board_app/view/register/register_screen.dart';
 import '../../services/auth/auth_service.dart';
 import '../../utils/validation.dart';
 import '../home/job_seeker_home_screen.dart';
+import '../home/new_widget/new_job_seeker_home_screen.dart';
 import 'admin_login_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -88,8 +89,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // Go to company login page to create account
                 buildLoginAsCompanySection(),
-
-                // Go to admin login page to create account
+                //
+                // // Go to admin login page to create account
                 buildLoginAsAdminSection(),
                 const SizedBox(height: 26),
               ],
@@ -117,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
               isLoading = false;
             });
             SessionManager.setUserModel(value);
-            Utils.navigateTo(context, const JobSeekerHomeScreen());
+            Utils.navigateTo(context, const NewJobSeekerHomeScreen());
           } else {
             setState(() {
               isLoading = false;
