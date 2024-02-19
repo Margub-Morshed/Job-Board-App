@@ -6,6 +6,7 @@ import 'package:job_board_app/view/home/company_admin_home_screen.dart';
 import 'package:job_board_app/view/home/job_seeker_home_screen.dart';
 import 'package:job_board_app/view/home/super_admin_home_screen.dart';
 import 'package:job_board_app/view/login/login_screen.dart';
+import 'package:job_board_app/view/onboarding/onboarding_screen.dart';
 
 class SplashServices {
   void navigate(BuildContext context) async {
@@ -24,7 +25,7 @@ class SplashServices {
       //   print(LoginSession.isLoggedIn());
       //   Utils.navigateTo(context, const LoginScreen());
       // }
-      Utils.navigateTo(context, const LoginScreen());
+      Utils.navigateReplaceTo(context, const OnboardingScreen());
     });
   }
 
