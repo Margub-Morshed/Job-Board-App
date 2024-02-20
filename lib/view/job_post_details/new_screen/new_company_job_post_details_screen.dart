@@ -83,7 +83,7 @@ class _NewJobPostDetailsScreenState extends State<NewJobPostDetailsScreen> {
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(Utils.scrHeight * .05),
                             bottomRight:
-                                Radius.circular(Utils.scrHeight * .05))),
+                            Radius.circular(Utils.scrHeight * .05))),
                     height: Utils.scrHeight * .15,
                     child: Padding(
                       padding: EdgeInsets.only(
@@ -296,29 +296,29 @@ class _NewJobPostDetailsScreenState extends State<NewJobPostDetailsScreen> {
                             ),
                             child: hasUserApplied
                                 ? const Text(
-                                    "Already Applied",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
-                                    ),
-                                  )
+                              "Already Applied",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
+                            )
                                 : const Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Apply Here",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(width: 10),
-                                      Icon(Icons.arrow_forward,
-                                          color: Colors.white)
-                                    ],
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Apply Here",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
                                   ),
+                                ),
+                                SizedBox(width: 10),
+                                Icon(Icons.arrow_forward,
+                                    color: Colors.white)
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(height: Utils.scrHeight * .01),
@@ -335,14 +335,14 @@ class _NewJobPostDetailsScreenState extends State<NewJobPostDetailsScreen> {
                 right: Utils.scrHeight * .15,
                 left: Utils.scrHeight * .15,
                 child: // Job Post Image
-                    ClipOval(
-                      child: CachedNetworkImage(
-                          imageUrl: widget.jobPostModel.image ??
-                              Utils.flutterDefaultImg,
-                          fit: BoxFit.cover,
-                          width: Utils.scrHeight * .14,
-                          height: Utils.scrHeight * .16),
-                    ),
+                ClipOval(
+                  child: CachedNetworkImage(
+                      imageUrl: widget.jobPostModel.image ??
+                          Utils.flutterDefaultImg,
+                      fit: BoxFit.cover,
+                      width: Utils.scrHeight * .14,
+                      height: Utils.scrHeight * .16),
+                ),
               )
             ],
           )
@@ -369,7 +369,7 @@ class _NewJobPostDetailsScreenState extends State<NewJobPostDetailsScreen> {
   Future<void> _toggleFavorite() async {
     // Check if the post is already in the user's favorites
     bool isAlreadyFavorite =
-        await FavoriteService.checkIfFavorite(userId, jobId);
+    await FavoriteService.checkIfFavorite(userId, jobId);
 
     // Toggle isSelected when the button is tapped
     isAlreadySelected.value = !isAlreadySelected.value;
