@@ -5,7 +5,6 @@ import 'package:job_board_app/services/session/session_services.dart';
 import 'package:job_board_app/view/common_widgets/job_seeker_drawer/job_seeker_drawer_screen.dart';
 import 'package:job_board_app/view/filter/job_seeker_filter_screen.dart';
 import 'package:job_board_app/view/home/new_widget/new_recent_job_post.dart';
-import 'package:job_board_app/view/job_post_details/job_post_details_screen.dart';
 import '../../model/job_post_model.dart';
 import '../../services/job_post/job_post_service.dart';
 import '../../utils/constants.dart';
@@ -222,7 +221,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
                                                         "${jobPost.id}_hero_tag_recommended";
                                                     Utils.navigateTo(
                                                       context,
-                                                      JobPostDetailsScreen(
+                                                      NewJobPostDetailsScreen(
                                                         jobPostModel: jobPost,
                                                         tag: tag,
                                                       ),
@@ -257,7 +256,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
                                                             "${jobPost.id}_hero_tag_recommended";
                                                         Utils.navigateTo(
                                                           context,
-                                                          JobPostDetailsScreen(
+                                                          NewJobPostDetailsScreen(
                                                             jobPostModel: jobPost,
                                                             tag: tag,
                                                           ),
@@ -294,7 +293,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
                                                       "${jobPost.id}_hero_tag";
                                                   Utils.navigateTo(
                                                     context,
-                                                    JobPostDetailsScreen(
+                                                    NewJobPostDetailsScreen(
                                                         jobPostModel: jobPost,
                                                         tag: tag),
                                                   );
